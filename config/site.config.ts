@@ -110,6 +110,7 @@ export type SiteConfig = {
       primaryCtaLabel: string;
       secondaryCtaLabel: string;
       backgroundImage?: string | null;
+      backgroundImages?: string[];
       backgroundVideo?: string | null;
     };
     services: {
@@ -167,10 +168,10 @@ export const siteConfig: SiteConfig = {
     "whatsapp": "+441234567890",
     "email": "info@abcdriveways.co.uk",
     "address": {
-      "street": "123 High Street",
+      "street": "377 Oxford Rd",
       "city": "Reading",
       "county": "Berkshire",
-      "postcode": "RG1 1AA",
+      "postcode": "RG30 1HA",
       "country": "United Kingdom"
     },
     "openingHours": {
@@ -386,6 +387,10 @@ export const siteConfig: SiteConfig = {
       "primaryCtaLabel": "Call us now",
       "secondaryCtaLabel": "Get Free Quote",
       "backgroundImage": "/images/uploads/hero-image-1769195858156-flux-2048x1024.png",
+      "backgroundImages": [
+        "/images/uploads/hero-image-1769195858156-flux-2048x1024.png",
+        "/images/uploads/hero-image-1-1769246951325-marshalls-registered.png"
+      ],
       "backgroundVideo": null
     },
     "services": {
@@ -428,7 +433,8 @@ export const siteConfig: SiteConfig = {
           "image": "/images/uploads/gallery-0-1769179599577-flux-2048x1024.png"
         },
         {
-          "label": "Resin bound finish"
+          "label": "Resin bound finish",
+          "image": "/images/uploads/gallery-1-1769329185598-marshalls-registered.png"
         },
         {
           "label": "Tarmac driveway"

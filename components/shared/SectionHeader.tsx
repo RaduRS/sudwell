@@ -10,13 +10,13 @@ export function SectionHeader({
   description,
 }: SectionHeaderProps) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {eyebrow ? (
-        <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/30 bg-(--color-secondary)/10 px-3 py-1 text-xs font-semibold tracking-wide text-(--color-secondary)">
+        <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--color-secondary)">
           {eyebrow}
         </div>
       ) : null}
-      <h2 className="text-3xl font-semibold tracking-tight text-(--color-foreground) sm:text-4xl">
+      <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-(--color-foreground) sm:text-4xl lg:text-5xl">
         {title}
       </h2>
       {description ? (

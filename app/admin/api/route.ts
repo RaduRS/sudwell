@@ -29,7 +29,9 @@ const saveFile = async (file: File, prefix: string) => {
 const replaceConfigFile = async (nextConfig: SiteConfig) => {
   const configPath = path.join(process.cwd(), "config", "site.config.ts");
   const currentFile = await fs.readFile(configPath, "utf8");
-  const startIndex = currentFile.indexOf("export const siteConfig: SiteConfig = ");
+  const startIndex = currentFile.indexOf(
+    "export const siteConfig: SiteConfig = ",
+  );
   const endIndex = currentFile.lastIndexOf("};");
   if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
     throw new Error("Config file structure not found.");
@@ -46,7 +48,10 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const configRaw = formData.get("config");
     if (typeof configRaw !== "string") {
-      return NextResponse.json({ error: "Missing config payload." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing config payload." },
+        { status: 400 },
+      );
     }
 
     const parsedConfig = JSON.parse(configRaw) as SiteConfig;
@@ -54,17 +59,6 @@ export async function POST(request: Request) {
     const companyLogo = formData.get("companyLogo");
     if (companyLogo && companyLogo instanceof File && companyLogo.size > 0) {
       parsedConfig.company.logo = await saveFile(companyLogo, "logo");
-    }
-    const heroBackgroundImage = formData.get("heroBackgroundImage");
-    if (
-      heroBackgroundImage &&
-      heroBackgroundImage instanceof File &&
-      heroBackgroundImage.size > 0
-    ) {
-      parsedConfig.home.hero.backgroundImage = await saveFile(
-        heroBackgroundImage,
-        "hero-image",
-      );
     }
     const heroBackgroundVideo = formData.get("heroBackgroundVideo");
     if (
@@ -84,6 +78,18 @@ export async function POST(request: Request) {
       }
       if (!(value instanceof File) || value.size === 0) {
         continue;
+      }
+      if (key.startsWith("heroBackgroundImage-")) {
+        const index = Number(key.replace("heroBackgroundImage-", ""));
+        if (
+          !Number.isNaN(index) &&
+          parsedConfig.home.hero.backgroundImages?.[index] !== undefined
+        ) {
+          parsedConfig.home.hero.backgroundImages[index] = await saveFile(
+            value,
+            `hero-image-${index}`,
+          );
+        }
       }
       if (key.startsWith("accreditationLogo-")) {
         const index = Number(key.replace("accreditationLogo-", ""));
@@ -105,10 +111,18 @@ export async function POST(request: Request) {
       }
     }
 
+    if (parsedConfig.home.hero.backgroundImages?.length) {
+      parsedConfig.home.hero.backgroundImage =
+        parsedConfig.home.hero.backgroundImages[0];
+    }
+
     await replaceConfigFile(parsedConfig);
 
     return NextResponse.json({ ok: true });
   } catch {
-    return NextResponse.json({ error: "Failed to update config." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update config." },
+      { status: 500 },
+    );
   }
 }

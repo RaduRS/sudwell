@@ -9,8 +9,8 @@ export function Reviews() {
     .replace("{count}", siteConfig.proof.reviewCount.toString());
 
   return (
-    <section className="bg-(--color-secondary)/5 py-16 sm:py-20">
-      <Container className="space-y-8">
+    <section className="bg-(--color-secondary)/5 py-16 sm:py-24">
+      <Container className="space-y-10">
         <SectionHeader
           eyebrow={siteConfig.home.reviews.eyebrow}
           title={siteConfig.home.reviews.title}

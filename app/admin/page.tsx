@@ -485,8 +485,9 @@ export default function AdminPage() {
   const [galleryFiles, setGalleryFiles] = useState<Record<number, File | null>>(
     {},
   );
-  const [heroBackgroundImageFile, setHeroBackgroundImageFile] =
-    useState<File | null>(null);
+  const [heroBackgroundImageFiles, setHeroBackgroundImageFiles] = useState<
+    Record<number, File | null>
+  >({});
   const [heroBackgroundVideoFile, setHeroBackgroundVideoFile] =
     useState<File | null>(null);
   const [openSections, setOpenSections] = useState<Record<SectionKey, boolean>>(
@@ -551,12 +552,15 @@ export default function AdminPage() {
     return next;
   }, [galleryFiles]);
 
-  const heroBackgroundImagePreview = useMemo(() => {
-    if (!heroBackgroundImageFile) {
-      return null;
-    }
-    return URL.createObjectURL(heroBackgroundImageFile);
-  }, [heroBackgroundImageFile]);
+  const heroBackgroundImagePreviews = useMemo(() => {
+    const next: Record<number, string> = {};
+    Object.entries(heroBackgroundImageFiles).forEach(([key, file]) => {
+      if (file) {
+        next[Number(key)] = URL.createObjectURL(file);
+      }
+    });
+    return next;
+  }, [heroBackgroundImageFiles]);
 
   const heroBackgroundVideoPreview = useMemo(() => {
     if (!heroBackgroundVideoFile) {
@@ -564,6 +568,18 @@ export default function AdminPage() {
     }
     return URL.createObjectURL(heroBackgroundVideoFile);
   }, [heroBackgroundVideoFile]);
+
+  const [heroBackgroundImages, setHeroBackgroundImages] = useState<string[]>(
+    () => {
+      if (siteConfig.home.hero.backgroundImages?.length) {
+        return [...siteConfig.home.hero.backgroundImages];
+      }
+      if (siteConfig.home.hero.backgroundImage) {
+        return [siteConfig.home.hero.backgroundImage];
+      }
+      return [];
+    },
+  );
 
   const [form, setForm] = useState({
     companyTradingName: siteConfig.company.tradingName,
@@ -623,6 +639,12 @@ export default function AdminPage() {
     homeHeroSecondaryCtaLabel: siteConfig.home.hero.secondaryCtaLabel,
     homeHeroBackgroundImage: siteConfig.home.hero.backgroundImage ?? "",
     homeHeroBackgroundVideo: siteConfig.home.hero.backgroundVideo ?? "",
+    homeHeroBackgroundImages: (
+      siteConfig.home.hero.backgroundImages ??
+      (siteConfig.home.hero.backgroundImage
+        ? [siteConfig.home.hero.backgroundImage]
+        : [])
+    ).join(", "),
     homeServicesEyebrow: siteConfig.home.services.eyebrow,
     homeServicesTitle: siteConfig.home.services.title,
     homeServicesDescription: siteConfig.home.services.description,
@@ -701,13 +723,12 @@ export default function AdminPage() {
   }, [galleryPreviews]);
 
   useEffect(() => {
-    if (!heroBackgroundImagePreview) {
-      return;
-    }
     return () => {
-      URL.revokeObjectURL(heroBackgroundImagePreview);
+      Object.values(heroBackgroundImagePreviews).forEach((url) =>
+        URL.revokeObjectURL(url),
+      );
     };
-  }, [heroBackgroundImagePreview]);
+  }, [heroBackgroundImagePreviews]);
 
   useEffect(() => {
     if (!heroBackgroundVideoPreview) {
@@ -717,6 +738,15 @@ export default function AdminPage() {
       URL.revokeObjectURL(heroBackgroundVideoPreview);
     };
   }, [heroBackgroundVideoPreview]);
+
+  const updateHeroBackgroundImages = (next: string[]) => {
+    setHeroBackgroundImages(next);
+    setForm((prev) => ({
+      ...prev,
+      homeHeroBackgroundImages: next.join(", "),
+      homeHeroBackgroundImage: next[0] ?? "",
+    }));
+  };
 
   const parsedServiceArea = useMemo(() => {
     return parseJson<string[]>(
@@ -916,6 +946,16 @@ export default function AdminPage() {
       return;
     }
 
+    const normalizedHeroBackgroundItems = heroBackgroundImages
+      .map((image, index) => ({
+        image: image.trim(),
+        file: heroBackgroundImageFiles[index] ?? null,
+      }))
+      .filter((item) => item.image || item.file);
+    const normalizedHeroBackgroundImages = normalizedHeroBackgroundItems.map(
+      (item) => item.image,
+    );
+
     const updatedConfig = {
       ...siteConfig,
       company: {
@@ -1036,7 +1076,11 @@ export default function AdminPage() {
           subheading: form.homeHeroSubheading.trim(),
           primaryCtaLabel: form.homeHeroPrimaryCtaLabel.trim(),
           secondaryCtaLabel: form.homeHeroSecondaryCtaLabel.trim(),
-          backgroundImage: form.homeHeroBackgroundImage.trim() || null,
+          backgroundImage:
+            (normalizedHeroBackgroundImages[0] ??
+              form.homeHeroBackgroundImage.trim()) ||
+            null,
+          backgroundImages: normalizedHeroBackgroundImages,
           backgroundVideo: form.homeHeroBackgroundVideo.trim() || null,
         },
         services: {
@@ -1084,12 +1128,15 @@ export default function AdminPage() {
     if (companyLogoFile) {
       payload.append("companyLogo", companyLogoFile);
     }
-    if (heroBackgroundImageFile) {
-      payload.append("heroBackgroundImage", heroBackgroundImageFile);
-    }
     if (heroBackgroundVideoFile) {
       payload.append("heroBackgroundVideo", heroBackgroundVideoFile);
     }
+
+    normalizedHeroBackgroundItems.forEach((item, index) => {
+      if (item.file) {
+        payload.append(`heroBackgroundImage-${index}`, item.file);
+      }
+    });
 
     Object.entries(accreditationFiles).forEach(([index, file]) => {
       if (file) {
@@ -2841,55 +2888,116 @@ export default function AdminPage() {
             </label>
             <div className="space-y-3 text-sm md:col-span-2">
               <span className="font-medium">Hero background</span>
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-4">
                 <div className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-sm font-medium">
-                      Background image
+                      Background images
                     </span>
-                    <IconButton
-                      label="Remove image"
-                      disabled={
-                        !heroBackgroundImagePreview &&
-                        !form.homeHeroBackgroundImage
+                    <button
+                      type="button"
+                      onClick={() =>
+                        updateHeroBackgroundImages([
+                          ...heroBackgroundImages,
+                          "",
+                        ])
                       }
-                      onClick={() => {
-                        setHeroBackgroundImageFile(null);
-                        updateForm("homeHeroBackgroundImage", "");
-                      }}
-                    />
+                      className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                    >
+                      Add image
+                    </button>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
-                      {heroBackgroundImagePreview ||
-                      form.homeHeroBackgroundImage ? (
+                  <div className="space-y-3">
+                    {heroBackgroundImages.length > 0 ? (
+                      heroBackgroundImages.map((image, index) => (
                         <div
-                          role="img"
-                          aria-label="Hero background"
-                          className="h-full w-full bg-cover bg-center bg-no-repeat"
-                          style={{
-                            backgroundImage: `url(${heroBackgroundImagePreview ?? form.homeHeroBackgroundImage})`,
-                          }}
-                        />
-                      ) : (
-                        <span className="text-xs text-foreground/50">
-                          No image
-                        </span>
-                      )}
-                    </div>
-                    <label className="flex-1 space-y-1 text-sm">
-                      <span>Upload image</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(event) =>
-                          setHeroBackgroundImageFile(
-                            event.target.files?.[0] ?? null,
-                          )
-                        }
-                        className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
-                      />
-                    </label>
+                          key={`hero-background-${index}`}
+                          className="space-y-3 rounded-2xl border border-foreground/10 bg-(--color-background) p-4"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-sm font-medium">
+                              Image {index + 1}
+                            </span>
+                            <IconButton
+                              label="Remove image"
+                              onClick={() => {
+                                const nextImages = heroBackgroundImages.filter(
+                                  (_, itemIndex) => itemIndex !== index,
+                                );
+                                updateHeroBackgroundImages(nextImages);
+                                setHeroBackgroundImageFiles((prev) => {
+                                  const next: Record<number, File | null> = {};
+                                  const remainingIndices = heroBackgroundImages
+                                    .map((_, itemIndex) => itemIndex)
+                                    .filter((itemIndex) => itemIndex !== index);
+                                  remainingIndices.forEach(
+                                    (oldIndex, nextIndex) => {
+                                      const file = prev[oldIndex];
+                                      if (file) {
+                                        next[nextIndex] = file;
+                                      }
+                                    },
+                                  );
+                                  return next;
+                                });
+                              }}
+                            />
+                          </div>
+                          <div className="grid gap-3 md:grid-cols-[120px_minmax(0,1fr)]">
+                            <div className="flex h-24 w-full items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
+                              {heroBackgroundImagePreviews[index] || image ? (
+                                <div
+                                  role="img"
+                                  aria-label={`Hero background ${index + 1}`}
+                                  className="h-full w-full bg-cover bg-center bg-no-repeat"
+                                  style={{
+                                    backgroundImage: `url(${heroBackgroundImagePreviews[index] ?? image})`,
+                                  }}
+                                />
+                              ) : (
+                                <span className="text-xs text-foreground/50">
+                                  No image
+                                </span>
+                              )}
+                            </div>
+                            <div className="grid gap-3 md:grid-cols-2">
+                              <label className="space-y-1 text-sm">
+                                <span>Image URL</span>
+                                <input
+                                  value={image}
+                                  onChange={(event) => {
+                                    const nextImages = [
+                                      ...heroBackgroundImages,
+                                    ];
+                                    nextImages[index] = event.target.value;
+                                    updateHeroBackgroundImages(nextImages);
+                                  }}
+                                  className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                                />
+                              </label>
+                              <label className="space-y-1 text-sm">
+                                <span>Upload image</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(event) =>
+                                    setHeroBackgroundImageFiles((prev) => ({
+                                      ...prev,
+                                      [index]: event.target.files?.[0] ?? null,
+                                    }))
+                                  }
+                                  className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                                />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="rounded-2xl border border-dashed border-foreground/20 px-4 py-6 text-center text-xs text-foreground/60">
+                        No background images yet.
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">

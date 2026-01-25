@@ -25,6 +25,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { siteConfig } from "@/config/site.config";
 import "./globals.css";
+import "yet-another-react-lightbox/styles.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

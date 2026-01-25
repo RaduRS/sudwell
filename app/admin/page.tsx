@@ -167,6 +167,12 @@ const requiredLabel = (text: string) => (
   </span>
 );
 
+const pillButtonClassName =
+  "rounded-full border border-foreground/10 bg-(--color-background) px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 disabled:cursor-not-allowed disabled:opacity-60";
+
+const fileInputClassName =
+  "w-full cursor-pointer rounded-lg border border-foreground/10 bg-white px-3 py-2 text-sm file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-(--color-primary) file:px-4 file:py-2 file:text-xs file:font-semibold file:text-white hover:file:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40";
+
 type IconButtonProps = {
   label: string;
   onClick: () => void;
@@ -233,7 +239,7 @@ const CommaSeparatedEditor = ({
         onChange(parseCommaSeparatedList(event.target.value))
       }
       placeholder={placeholder}
-      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2 text-sm"
+      className="w-full rounded-lg border border-foreground/10 bg-white px-3 py-2 text-sm"
     />
   );
 };
@@ -247,7 +253,7 @@ type SectionProps = {
 
 const Section = ({ title, isOpen, onToggle, children }: SectionProps) => {
   return (
-    <div className="space-y-3 rounded-3xl border border-foreground/10 bg-(--color-background) p-5 shadow-sm ring-1 ring-foreground/5">
+    <div className="space-y-3 rounded-3xl border border-foreground/10 bg-foreground/3 p-5 shadow-sm ring-1 ring-foreground/5">
       <button
         type="button"
         onClick={onToggle}
@@ -569,16 +575,33 @@ export default function AdminPage() {
     return URL.createObjectURL(heroBackgroundVideoFile);
   }, [heroBackgroundVideoFile]);
 
-  const [heroBackgroundImages, setHeroBackgroundImages] = useState<string[]>(
-    () => {
-      if (siteConfig.home.hero.backgroundImages?.length) {
-        return [...siteConfig.home.hero.backgroundImages];
-      }
-      if (siteConfig.home.hero.backgroundImage) {
-        return [siteConfig.home.hero.backgroundImage];
-      }
-      return [];
-    },
+  const initialHeroBackgroundImages = (() => {
+    if (siteConfig.home.hero.backgroundImages?.length) {
+      return [...siteConfig.home.hero.backgroundImages];
+    }
+    if (siteConfig.home.hero.backgroundImage) {
+      return [siteConfig.home.hero.backgroundImage];
+    }
+    return [];
+  })();
+
+  const initialGalleryImageSet = new Set(
+    siteConfig.home.gallery.items
+      .map((item) => item.image?.trim() ?? "")
+      .filter(Boolean),
+  );
+
+  const [heroGallerySelection, setHeroGallerySelection] = useState<string[]>(
+    () =>
+      initialHeroBackgroundImages
+        .map((image) => image.trim())
+        .filter((image) => initialGalleryImageSet.has(image)),
+  );
+
+  const [heroOnlyImages, setHeroOnlyImages] = useState<string[]>(() =>
+    initialHeroBackgroundImages
+      .map((image) => image.trim())
+      .filter((image) => image && !initialGalleryImageSet.has(image)),
   );
 
   const [form, setForm] = useState({
@@ -739,13 +762,29 @@ export default function AdminPage() {
     };
   }, [heroBackgroundVideoPreview]);
 
-  const updateHeroBackgroundImages = (next: string[]) => {
-    setHeroBackgroundImages(next);
+  const syncHeroBackgroundFields = (
+    nextGallerySelection: string[],
+    nextHeroOnlyImages: string[],
+  ) => {
+    const combined = [...nextGallerySelection, ...nextHeroOnlyImages]
+      .map((image) => image.trim())
+      .filter(Boolean);
+
     setForm((prev) => ({
       ...prev,
-      homeHeroBackgroundImages: next.join(", "),
-      homeHeroBackgroundImage: next[0] ?? "",
+      homeHeroBackgroundImages: combined.join(", "),
+      homeHeroBackgroundImage: combined[0] ?? "",
     }));
+  };
+
+  const updateHeroGallerySelection = (next: string[]) => {
+    setHeroGallerySelection(next);
+    syncHeroBackgroundFields(next, heroOnlyImages);
+  };
+
+  const updateHeroOnlyImages = (next: string[]) => {
+    setHeroOnlyImages(next);
+    syncHeroBackgroundFields(heroGallerySelection, next);
   };
 
   const parsedServiceArea = useMemo(() => {
@@ -831,14 +870,14 @@ export default function AdminPage() {
   };
 
   const jsonFieldClassName = (key: JsonFieldKey) =>
-    `w-full rounded-lg border bg-transparent px-3 py-2 font-mono text-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 ${
+    `w-full rounded-lg border bg-white px-3 py-2 font-mono text-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 ${
       invalidJsonFields.includes(key)
         ? "border-red-500 ring-1 ring-red-500/30"
         : "border-foreground/10"
     }`;
 
   const requiredFieldClassName = (key: RequiredFieldKey, base: string) =>
-    `${base} ${
+    `${base} bg-white ${
       missingFields.includes(key) ? "border-red-500 ring-1 ring-red-500/30" : ""
     }`;
 
@@ -946,12 +985,16 @@ export default function AdminPage() {
       return;
     }
 
-    const normalizedHeroBackgroundItems = heroBackgroundImages
-      .map((image, index) => ({
+    const normalizedHeroBackgroundItems = [
+      ...heroGallerySelection.map((image) => ({
+        image: image.trim(),
+        file: null,
+      })),
+      ...heroOnlyImages.map((image, index) => ({
         image: image.trim(),
         file: heroBackgroundImageFiles[index] ?? null,
-      }))
-      .filter((item) => item.image || item.file);
+      })),
+    ].filter((item) => item.image || item.file);
     const normalizedHeroBackgroundImages = normalizedHeroBackgroundItems.map(
       (item) => item.image,
     );
@@ -1177,7 +1220,7 @@ export default function AdminPage() {
 
   return (
     <main className="bg-(--color-background) py-10 text-(--color-foreground)">
-      <Container className="space-y-8">
+      <Container className="space-y-8 [&_input]:bg-white [&_select]:bg-white [&_textarea]:bg-white">
         <div className="space-y-2">
           <h1 className="text-3xl font-semibold">Admin Config</h1>
           <p className="text-sm text-foreground/70">
@@ -1252,7 +1295,7 @@ export default function AdminPage() {
                       onChange={(event) =>
                         setCompanyLogoFile(event.target.files?.[0] ?? null)
                       }
-                      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                      className={fileInputClassName}
                     />
                   </label>
                 </div>
@@ -1482,7 +1525,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => toggleRawJson("serviceArea")}
-                className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 {isRawJsonVisible("serviceArea")
                   ? "Hide raw JSON"
@@ -1747,7 +1790,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => toggleRawJson("accreditations")}
-                className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 {isRawJsonVisible("accreditations")
                   ? "Hide raw JSON"
@@ -1841,7 +1884,7 @@ export default function AdminPage() {
                                 [index]: event.target.files?.[0] ?? null,
                               }))
                             }
-                            className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                            className={fileInputClassName}
                           />
                         </label>
                       </div>
@@ -1857,7 +1900,7 @@ export default function AdminPage() {
                     { name: "", logo: "" },
                   ])
                 }
-                className="w-fit rounded-full border border-foreground/10 px-4 py-2 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 Add accreditation
               </button>
@@ -2004,7 +2047,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => toggleRawJson("keywords")}
-                className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 {isRawJsonVisible("keywords")
                   ? "Hide raw JSON"
@@ -2155,7 +2198,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => toggleRawJson("navigation")}
-                className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 {isRawJsonVisible("navigation")
                   ? "Hide raw JSON"
@@ -2220,7 +2263,7 @@ export default function AdminPage() {
                     { href: "", label: "" },
                   ])
                 }
-                className="w-fit rounded-full border border-foreground/10 px-4 py-2 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 Add navigation item
               </button>
@@ -2359,7 +2402,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => toggleRawJson("services")}
-                className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 {isRawJsonVisible("services")
                   ? "Hide raw JSON"
@@ -2443,131 +2486,152 @@ export default function AdminPage() {
                         className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
                       />
                     </label>
-                    <label className="space-y-1 text-sm">
-                      <span>Price range</span>
-                      <input
-                        value={service.priceRange ?? ""}
-                        onChange={(event) => {
-                          const next = replaceAt(parsedServicesList, index, {
-                            ...service,
-                            priceRange: event.target.value || undefined,
-                          });
-                          setJsonValue("services", next);
-                        }}
-                        className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
-                      />
-                    </label>
                   </div>
                   <div className="grid gap-2 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <span className="text-sm font-medium">Features</span>
-                      <CommaSeparatedEditor
-                        items={service.features}
-                        onChange={(nextFeatures) => {
-                          const next = replaceAt(parsedServicesList, index, {
-                            ...service,
-                            features: nextFeatures,
-                          });
-                          setJsonValue("services", next);
-                        }}
-                        placeholder="Feature one, Feature two"
-                      />
-                    </div>
                     <div className="space-y-2">
                       <span className="text-sm font-medium">
                         Gallery images
                       </span>
-                      <div className="space-y-2">
-                        {service.gallery.length > 0 ? (
-                          <div className="space-y-2">
-                            {service.gallery.map((url, urlIndex) => {
-                              const trimmed = url.trim();
-                              return (
-                                <div
-                                  key={`${trimmed}-${urlIndex}`}
-                                  className="flex flex-col gap-2 rounded-2xl border border-foreground/10 bg-(--color-background) p-2"
-                                >
-                                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                    <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
-                                      {trimmed ? (
-                                        <div
-                                          role="img"
-                                          aria-label="Gallery image"
-                                          className="h-full w-full bg-cover bg-center bg-no-repeat"
-                                          style={{
-                                            backgroundImage: `url(${trimmed})`,
-                                          }}
-                                        />
-                                      ) : (
-                                        <span className="text-xs text-foreground/50">
-                                          No image
-                                        </span>
-                                      )}
-                                    </div>
-                                    <input
-                                      value={url}
-                                      onChange={(event) => {
-                                        const nextGallery = replaceAt(
-                                          service.gallery,
-                                          urlIndex,
-                                          event.target.value,
-                                        );
-                                        const next = replaceAt(
-                                          parsedServicesList,
-                                          index,
-                                          {
-                                            ...service,
-                                            gallery: nextGallery,
-                                          },
-                                        );
-                                        setJsonValue("services", next);
-                                      }}
-                                      placeholder="/images/..."
-                                      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2 text-sm sm:flex-1"
-                                    />
-                                    <IconButton
-                                      label="Remove image"
-                                      onClick={() => {
-                                        const nextGallery = removeAt(
-                                          service.gallery,
-                                          urlIndex,
-                                        );
-                                        const next = replaceAt(
-                                          parsedServicesList,
-                                          index,
-                                          {
-                                            ...service,
-                                            gallery: nextGallery,
-                                          },
-                                        );
-                                        setJsonValue("services", next);
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : (
-                          <span className="text-xs text-foreground/60">
-                            No images yet.
-                          </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            event.stopPropagation();
+                      <div className="rounded-2xl border border-foreground/10 bg-(--color-background) p-3">
+                        {(() => {
+                          const normalizedServiceSelection = service.gallery
+                            .map((src) => src.trim())
+                            .filter(Boolean);
+                          const selectedSet = new Set(
+                            normalizedServiceSelection,
+                          );
+
+                          const baseOptions = parsedGalleryItems
+                            .map((item) => ({
+                              src: item.image?.trim() ?? "",
+                              label: item.label,
+                            }))
+                            .filter((option) => option.src);
+
+                          const baseSrcSet = new Set(
+                            baseOptions.map((option) => option.src),
+                          );
+
+                          const legacyOptions = normalizedServiceSelection
+                            .filter((src) => !baseSrcSet.has(src))
+                            .map((src) => ({ src, label: "Existing image" }));
+
+                          const options = [...baseOptions, ...legacyOptions];
+                          const selectedCount = options.filter((option) =>
+                            selectedSet.has(option.src),
+                          ).length;
+
+                          const updateSelection = (
+                            nextSelected: Set<string>,
+                          ) => {
+                            const ordered = options
+                              .filter((option) => nextSelected.has(option.src))
+                              .map((option) => option.src);
                             const next = replaceAt(parsedServicesList, index, {
                               ...service,
-                              gallery: [...service.gallery, ""],
+                              gallery: ordered,
+                            });
+                            setJsonValue("services", next);
+                          };
+
+                          if (options.length === 0) {
+                            return (
+                              <div className="text-xs text-foreground/60">
+                                Upload images in the Gallery section first.
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <div className="space-y-3">
+                              <div className="flex items-center justify-between gap-2">
+                                <div className="text-xs text-foreground/60">
+                                  Selected: {selectedCount}
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => updateSelection(new Set())}
+                                  className={pillButtonClassName}
+                                >
+                                  Clear
+                                </button>
+                              </div>
+                              <div className="grid gap-2 sm:grid-cols-2">
+                                {options.map((option) => {
+                                  const checked = selectedSet.has(option.src);
+                                  return (
+                                    <label
+                                      key={option.src}
+                                      className="flex items-center gap-3 rounded-2xl border border-foreground/10 bg-(--color-background) p-2 text-left text-xs text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        checked={checked}
+                                        onChange={(event) => {
+                                          const nextSelected = new Set(
+                                            selectedSet,
+                                          );
+                                          if (event.target.checked) {
+                                            nextSelected.add(option.src);
+                                          } else {
+                                            nextSelected.delete(option.src);
+                                          }
+                                          updateSelection(nextSelected);
+                                        }}
+                                        className="h-4 w-4 rounded border-foreground/30 text-(--color-primary)"
+                                      />
+                                      <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
+                                        <div
+                                          role="img"
+                                          aria-label={option.label}
+                                          className="h-full w-full bg-cover bg-center bg-no-repeat"
+                                          style={{
+                                            backgroundImage: `url(${option.src})`,
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="min-w-0 flex-1">
+                                        <div className="truncate font-medium">
+                                          {option.label}
+                                        </div>
+                                      </div>
+                                    </label>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="space-y-1 text-sm">
+                        <span>Price range</span>
+                        <input
+                          value={service.priceRange ?? ""}
+                          onChange={(event) => {
+                            const next = replaceAt(parsedServicesList, index, {
+                              ...service,
+                              priceRange: event.target.value || undefined,
                             });
                             setJsonValue("services", next);
                           }}
-                          className="w-fit rounded-full border border-foreground/10 px-4 py-2 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
-                        >
-                          Add image
-                        </button>
+                          className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                        />
+                      </label>
+                      <div className="space-y-2">
+                        <span className="text-sm font-medium">Features</span>
+                        <CommaSeparatedEditor
+                          items={service.features}
+                          onChange={(nextFeatures) => {
+                            const next = replaceAt(parsedServicesList, index, {
+                              ...service,
+                              features: nextFeatures,
+                            });
+                            setJsonValue("services", next);
+                          }}
+                          placeholder="Feature one, Feature two"
+                        />
                       </div>
                     </div>
                   </div>
@@ -2667,7 +2731,7 @@ export default function AdminPage() {
                         });
                         setJsonValue("services", next);
                       }}
-                      className="w-fit rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                      className={pillButtonClassName}
                     >
                       Add FAQ
                     </button>
@@ -2690,7 +2754,7 @@ export default function AdminPage() {
                     },
                   ])
                 }
-                className="w-fit rounded-full border border-foreground/10 px-4 py-2 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 Add service
               </button>
@@ -2722,7 +2786,7 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => toggleRawJson("areas")}
-                className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 {isRawJsonVisible("areas") ? "Hide raw JSON" : "Show raw JSON"}
               </button>
@@ -2802,7 +2866,7 @@ export default function AdminPage() {
                     { slug: "", name: "", postcodes: [] },
                   ])
                 }
-                className="w-fit rounded-full border border-foreground/10 px-4 py-2 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 Add area
               </button>
@@ -2890,91 +2954,184 @@ export default function AdminPage() {
               <span className="font-medium">Hero background</span>
               <div className="space-y-4">
                 <div className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-medium">
-                      Background images
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        updateHeroBackgroundImages([
-                          ...heroBackgroundImages,
-                          "",
-                        ])
-                      }
-                      className="rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
-                    >
-                      Add image
-                    </button>
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-sm font-medium">From gallery</span>
+                      <button
+                        type="button"
+                        disabled={heroGallerySelection.length === 0}
+                        onClick={() => updateHeroGallerySelection([])}
+                        className={pillButtonClassName}
+                      >
+                        Clear
+                      </button>
+                    </div>
+                    <div className="rounded-2xl border border-foreground/10 bg-(--color-background) p-3">
+                      {(() => {
+                        const normalizedSelection = heroGallerySelection
+                          .map((src) => src.trim())
+                          .filter(Boolean);
+                        const selectedSet = new Set(normalizedSelection);
+
+                        const baseOptions = parsedGalleryItems
+                          .map((item) => ({
+                            src: item.image?.trim() ?? "",
+                            label: item.label,
+                          }))
+                          .filter((option) => option.src);
+
+                        const baseSrcSet = new Set(
+                          baseOptions.map((option) => option.src),
+                        );
+
+                        const legacyOptions = normalizedSelection
+                          .filter((src) => !baseSrcSet.has(src))
+                          .map((src) => ({ src, label: "Existing image" }));
+
+                        const options = [...baseOptions, ...legacyOptions];
+                        const selectedCount = options.filter((option) =>
+                          selectedSet.has(option.src),
+                        ).length;
+
+                        const updateSelection = (nextSelected: Set<string>) => {
+                          const ordered = options
+                            .filter((option) => nextSelected.has(option.src))
+                            .map((option) => option.src);
+                          updateHeroGallerySelection(ordered);
+                        };
+
+                        if (options.length === 0) {
+                          return (
+                            <div className="text-xs text-foreground/60">
+                              Upload images in the Gallery section first.
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div className="space-y-3">
+                            <div className="text-xs text-foreground/60">
+                              Selected: {selectedCount}
+                            </div>
+                            <div className="grid gap-2 sm:grid-cols-2">
+                              {options.map((option) => {
+                                const checked = selectedSet.has(option.src);
+                                return (
+                                  <label
+                                    key={option.src}
+                                    className="flex items-center gap-3 rounded-2xl border border-foreground/10 bg-(--color-background) p-2 text-left text-xs text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      checked={checked}
+                                      onChange={(event) => {
+                                        const nextSelected = new Set(
+                                          selectedSet,
+                                        );
+                                        if (event.target.checked) {
+                                          nextSelected.add(option.src);
+                                        } else {
+                                          nextSelected.delete(option.src);
+                                        }
+                                        updateSelection(nextSelected);
+                                      }}
+                                      className="h-4 w-4 rounded border-foreground/30 text-(--color-primary)"
+                                    />
+                                    <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
+                                      <div
+                                        role="img"
+                                        aria-label={option.label}
+                                        className="h-full w-full bg-cover bg-center bg-no-repeat"
+                                        style={{
+                                          backgroundImage: `url(${option.src})`,
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                      <div className="truncate font-medium">
+                                        {option.label}
+                                      </div>
+                                    </div>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
                   </div>
                   <div className="space-y-3">
-                    {heroBackgroundImages.length > 0 ? (
-                      heroBackgroundImages.map((image, index) => (
-                        <div
-                          key={`hero-background-${index}`}
-                          className="space-y-3 rounded-2xl border border-foreground/10 bg-(--color-background) p-4"
-                        >
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-sm font-medium">
-                              Image {index + 1}
-                            </span>
-                            <IconButton
-                              label="Remove image"
-                              onClick={() => {
-                                const nextImages = heroBackgroundImages.filter(
-                                  (_, itemIndex) => itemIndex !== index,
-                                );
-                                updateHeroBackgroundImages(nextImages);
-                                setHeroBackgroundImageFiles((prev) => {
-                                  const next: Record<number, File | null> = {};
-                                  const remainingIndices = heroBackgroundImages
-                                    .map((_, itemIndex) => itemIndex)
-                                    .filter((itemIndex) => itemIndex !== index);
-                                  remainingIndices.forEach(
-                                    (oldIndex, nextIndex) => {
-                                      const file = prev[oldIndex];
-                                      if (file) {
-                                        next[nextIndex] = file;
-                                      }
-                                    },
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-sm font-medium">
+                        Hero-only uploads
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateHeroOnlyImages([...heroOnlyImages, ""])
+                        }
+                        className={pillButtonClassName}
+                      >
+                        Add image
+                      </button>
+                    </div>
+                    <div className="grid gap-3 md:grid-cols-2">
+                      {heroOnlyImages.length > 0 ? (
+                        heroOnlyImages.map((image, index) => (
+                          <div
+                            key={`hero-only-${index}`}
+                            className="space-y-3 rounded-2xl border border-foreground/10 bg-(--color-background) p-4"
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-sm font-medium">
+                                Image {index + 1}
+                              </span>
+                              <IconButton
+                                label="Remove image"
+                                onClick={() => {
+                                  const nextImages = heroOnlyImages.filter(
+                                    (_, itemIndex) => itemIndex !== index,
                                   );
-                                  return next;
-                                });
-                              }}
-                            />
-                          </div>
-                          <div className="grid gap-3 md:grid-cols-[120px_minmax(0,1fr)]">
-                            <div className="flex h-24 w-full items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
-                              {heroBackgroundImagePreviews[index] || image ? (
-                                <div
-                                  role="img"
-                                  aria-label={`Hero background ${index + 1}`}
-                                  className="h-full w-full bg-cover bg-center bg-no-repeat"
-                                  style={{
-                                    backgroundImage: `url(${heroBackgroundImagePreviews[index] ?? image})`,
-                                  }}
-                                />
-                              ) : (
-                                <span className="text-xs text-foreground/50">
-                                  No image
-                                </span>
-                              )}
+                                  updateHeroOnlyImages(nextImages);
+                                  setHeroBackgroundImageFiles((prev) => {
+                                    const next: Record<number, File | null> =
+                                      {};
+                                    const remainingIndices = heroOnlyImages
+                                      .map((_, itemIndex) => itemIndex)
+                                      .filter(
+                                        (itemIndex) => itemIndex !== index,
+                                      );
+                                    remainingIndices.forEach(
+                                      (oldIndex, nextIndex) => {
+                                        const file = prev[oldIndex];
+                                        if (file) {
+                                          next[nextIndex] = file;
+                                        }
+                                      },
+                                    );
+                                    return next;
+                                  });
+                                }}
+                              />
                             </div>
-                            <div className="grid gap-3 md:grid-cols-2">
-                              <label className="space-y-1 text-sm">
-                                <span>Image URL</span>
-                                <input
-                                  value={image}
-                                  onChange={(event) => {
-                                    const nextImages = [
-                                      ...heroBackgroundImages,
-                                    ];
-                                    nextImages[index] = event.target.value;
-                                    updateHeroBackgroundImages(nextImages);
-                                  }}
-                                  className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
-                                />
-                              </label>
+                            <div className="grid gap-3 sm:grid-cols-[120px_minmax(0,1fr)]">
+                              <div className="flex h-24 w-full items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
+                                {heroBackgroundImagePreviews[index] || image ? (
+                                  <div
+                                    role="img"
+                                    aria-label={`Hero only ${index + 1}`}
+                                    className="h-full w-full bg-cover bg-center bg-no-repeat"
+                                    style={{
+                                      backgroundImage: `url(${heroBackgroundImagePreviews[index] ?? image})`,
+                                    }}
+                                  />
+                                ) : (
+                                  <span className="text-xs text-foreground/50">
+                                    No image
+                                  </span>
+                                )}
+                              </div>
                               <label className="space-y-1 text-sm">
                                 <span>Upload image</span>
                                 <input
@@ -2986,18 +3143,18 @@ export default function AdminPage() {
                                       [index]: event.target.files?.[0] ?? null,
                                     }))
                                   }
-                                  className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                                  className={fileInputClassName}
                                 />
                               </label>
                             </div>
                           </div>
+                        ))
+                      ) : (
+                        <div className="rounded-2xl border border-dashed border-foreground/20 px-4 py-6 text-center text-xs text-foreground/60 md:col-span-2">
+                          No hero-only images yet.
                         </div>
-                      ))
-                    ) : (
-                      <div className="rounded-2xl border border-dashed border-foreground/20 px-4 py-6 text-center text-xs text-foreground/60">
-                        No background images yet.
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4">
@@ -3046,7 +3203,7 @@ export default function AdminPage() {
                             event.target.files?.[0] ?? null,
                           )
                         }
-                        className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                        className={fileInputClassName}
                       />
                     </label>
                   </div>
@@ -3248,7 +3405,7 @@ export default function AdminPage() {
                   ]);
                   setGalleryFiles({});
                 }}
-                className="w-fit rounded-full border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-foreground/30 hover:text-foreground"
+                className={pillButtonClassName}
               >
                 Add gallery item
               </button>
@@ -3314,7 +3471,7 @@ export default function AdminPage() {
                               [index]: event.target.files?.[0] ?? null,
                             }))
                           }
-                          className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                          className={fileInputClassName}
                         />
                       </label>
                     </div>

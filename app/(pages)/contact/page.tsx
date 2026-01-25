@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
 import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
@@ -76,9 +75,9 @@ export default function ContactPage() {
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-14 py-16 sm:py-20">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
-          <div className="space-y-6">
+      <Container className="space-y-12 py-16 sm:py-20">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-start">
+          <div className="space-y-8">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
               <Link href="/" className="hover:text-(--color-foreground)">
                 Home
@@ -116,19 +115,105 @@ export default function ContactPage() {
               </a>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              {siteConfig.contact.serviceArea.map((area) => (
-                <span
-                  key={area}
-                  className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
-                >
-                  {area}
+            <form
+              action={siteConfig.integrations.formEndpoint}
+              method="post"
+              className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5"
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+                  <span>Full name</span>
+                  <input
+                    name="name"
+                    autoComplete="name"
+                    required
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                  />
+                </label>
+                <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    required
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                  />
+                </label>
+                <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+                  <span>Phone</span>
+                  <input
+                    type="tel"
+                    name="phone"
+                    autoComplete="tel"
+                    required
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                  />
+                </label>
+                <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+                  <span>Postcode</span>
+                  <input
+                    name="postcode"
+                    autoComplete="postal-code"
+                    required
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                  />
+                </label>
+                <label className="space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
+                  <span>Service</span>
+                  <select
+                    name="service"
+                    required
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                  >
+                    <option value="" disabled>
+                      Select a service
+                    </option>
+                    {siteConfig.services.map((service) => (
+                      <option key={service.slug} value={service.name}>
+                        {service.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
+                  <span>Message (optional)</span>
+                  <textarea
+                    name="message"
+                    rows={5}
+                    className="w-full resize-none rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                  />
+                </label>
+              </div>
+
+              <label className="mt-5 flex items-start gap-3 rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 text-sm text-(--color-foreground)/75">
+                <input
+                  type="checkbox"
+                  name="consent"
+                  required
+                  className="mt-1 h-4 w-4 rounded border-(--color-foreground)/30 text-(--color-primary)"
+                />
+                <span>
+                  I consent to being contacted about my enquiry. You can also
+                  call {siteConfig.contact.phone} for a faster response.
                 </span>
-              ))}
-            </div>
+              </label>
+
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                >
+                  Send quote request
+                </button>
+                <div className="text-xs text-(--color-foreground)/60">
+                  Typical response within 24 hours.
+                </div>
+              </div>
+            </form>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Contact details
@@ -152,7 +237,9 @@ export default function ContactPage() {
                     className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 font-semibold text-(--color-foreground) transition hover:border-(--color-accent)/30"
                   >
                     <span>WhatsApp</span>
-                    <span className="text-(--color-foreground)/60">Message</span>
+                    <span className="text-(--color-foreground)/60">
+                      Message
+                    </span>
                   </a>
                 ) : null}
                 <a
@@ -187,149 +274,10 @@ export default function ContactPage() {
                   {siteConfig.contact.openingHours.weekends}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <SectionHeader
-          eyebrow="Request a quote"
-          title="Tell us about your project"
-          description="Share a few details and we’ll get back to arrange a free site visit and quote."
-        />
-
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          <form
-            action={siteConfig.integrations.formEndpoint}
-            method="post"
-            className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5"
-          >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
-                <span>Full name</span>
-                <input
-                  name="name"
-                  autoComplete="name"
-                  required
-                  className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
-                />
-              </label>
-              <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
-                <span>Email</span>
-                <input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  required
-                  className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
-                />
-              </label>
-              <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
-                <span>Phone</span>
-                <input
-                  type="tel"
-                  name="phone"
-                  autoComplete="tel"
-                  required
-                  className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
-                />
-              </label>
-              <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
-                <span>Postcode</span>
-                <input
-                  name="postcode"
-                  autoComplete="postal-code"
-                  required
-                  className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
-                />
-              </label>
-              <label className="space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
-                <span>Service</span>
-                <select
-                  name="service"
-                  required
-                  className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
-                >
-                  <option value="" disabled>
-                    Select a service
-                  </option>
-                  {siteConfig.services.map((service) => (
-                    <option key={service.slug} value={service.name}>
-                      {service.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
-                <span>Message (optional)</span>
-                <textarea
-                  name="message"
-                  rows={5}
-                  className="w-full resize-none rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
-                />
-              </label>
-            </div>
-
-            <label className="mt-5 flex items-start gap-3 rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 text-sm text-(--color-foreground)/75">
-              <input
-                type="checkbox"
-                name="consent"
-                required
-                className="mt-1 h-4 w-4 rounded border-(--color-foreground)/30 text-(--color-primary)"
-              />
-              <span>
-                I consent to being contacted about my enquiry. You can also call{" "}
-                {siteConfig.contact.phone} for a faster response.
-              </span>
-            </label>
-
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
-              >
-                Send quote request
-              </button>
-              <div className="text-xs text-(--color-foreground)/60">
-                Typical response within 24 hours.
-              </div>
-            </div>
-          </form>
-
-          <div className="space-y-4">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
-                Find us
-              </div>
-              <div className="mt-4 overflow-hidden rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5">
-                <iframe
-                  title={`${siteConfig.company.tradingName} location map`}
-                  src={mapEmbedUrl}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="h-[360px] w-full"
-                  allowFullScreen
-                />
-              </div>
-              <a
-                href={mapLinkUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-flex w-fit items-center justify-center rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-4 py-2 text-xs font-semibold text-(--color-foreground)/70 transition hover:border-(--color-foreground)/25 hover:text-(--color-foreground)"
-              >
-                Open in Google Maps
-              </a>
-              <div className="mt-4 text-sm text-(--color-foreground)/70">
-                Serving {siteConfig.contact.serviceArea.join(", ")} and nearby
-                areas within {siteConfig.contact.serviceRadius} miles of{" "}
-                {siteConfig.contact.address.city}.
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
-                Prefer to call?
-              </div>
-              <div className="mt-4 space-y-3 text-sm text-(--color-foreground)/70">
+              <div className="mt-6 space-y-3 text-sm text-(--color-foreground)/70">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+                  Prefer to call?
+                </div>
                 <div className="rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3">
                   Free quotes with honest advice and no pressure.
                 </div>
@@ -344,6 +292,39 @@ export default function ContactPage() {
           </div>
         </div>
       </Container>
+
+      <div className="space-y-4 pb-12">
+        <Container>
+          <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+            Find us
+          </div>
+        </Container>
+        <div className="h-[360px] w-full bg-(--color-foreground)/5">
+          <iframe
+            title={`${siteConfig.company.tradingName} location map`}
+            src={mapEmbedUrl}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-full w-full"
+            allowFullScreen
+          />
+        </div>
+        <Container className="flex flex-col gap-3">
+          <a
+            href={mapLinkUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex w-fit items-center justify-center rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-4 py-2 text-xs font-semibold text-(--color-foreground)/70 transition hover:border-(--color-foreground)/25 hover:text-(--color-foreground)"
+          >
+            Open in Google Maps
+          </a>
+          <div className="text-sm text-(--color-foreground)/70">
+            Serving {siteConfig.contact.serviceArea.join(", ")} and nearby areas
+            within {siteConfig.contact.serviceRadius} miles of{" "}
+            {siteConfig.contact.address.city}.
+          </div>
+        </Container>
+      </div>
 
       <script
         type="application/ld+json"

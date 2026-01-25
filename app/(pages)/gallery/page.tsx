@@ -34,6 +34,24 @@ export const metadata: Metadata = {
 };
 
 export default function GalleryPage() {
+  const normalizeSrc = (src: string) => {
+    const trimmed = src.trim();
+    if (!trimmed) {
+      return "";
+    }
+    if (trimmed.startsWith("/")) {
+      return trimmed;
+    }
+    try {
+      const siteUrl = new URL(siteConfig.seo.siteUrl);
+      const url = new URL(trimmed);
+      if (url.origin === siteUrl.origin) {
+        return url.pathname;
+      }
+    } catch {}
+    return trimmed;
+  };
+
   const homeSlides = siteConfig.home.gallery.items
     .map((item) => ({ src: item.image?.trim() ?? "", alt: item.label }))
     .filter((item) => item.src);
@@ -48,16 +66,31 @@ export default function GalleryPage() {
     .filter((item) => item.src);
 
   const slides = [...homeSlides, ...serviceSlides].filter(
-    (item, index, all) =>
-      all.findIndex((other) => other.src === item.src) === index,
+    (item, index, all) => {
+      const normalized = normalizeSrc(item.src);
+      if (!normalized) {
+        return false;
+      }
+      return (
+        all.findIndex((other) => normalizeSrc(other.src) === normalized) ===
+        index
+      );
+    },
   );
+
+  const absoluteSlides = slides.map((slide) => ({
+    ...slide,
+    src: slide.src.startsWith("/")
+      ? `${siteConfig.seo.siteUrl}${slide.src}`
+      : slide.src,
+  }));
 
   const schema = {
     "@context": "https://schema.org",
     "@type": "ImageGallery",
     name: `${siteConfig.company.tradingName} project gallery`,
     url: `${siteConfig.seo.siteUrl}/gallery`,
-    associatedMedia: slides.map((slide) => ({
+    associatedMedia: absoluteSlides.map((slide) => ({
       "@type": "ImageObject",
       contentUrl: slide.src,
       name: slide.alt,
@@ -148,4 +181,3 @@ export default function GalleryPage() {
     </main>
   );
 }
-

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
+import { GalleryGrid } from "@/app/(pages)/gallery/GalleryGrid";
 import { siteConfig } from "@/config/site.config";
 
 type ServicePageProps = {
@@ -66,13 +67,12 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   const city = siteConfig.contact.address.city;
   const pageTitle = `${service.name} in ${city}`;
   const mainImage = service.gallery[0] ?? "";
-  const galleryItems =
-    service.gallery.length > 0 ? service.gallery : ["", "", ""];
-  const galleryLayout = [
-    "lg:col-span-7 lg:row-span-2",
-    "lg:col-span-5",
-    "lg:col-span-4",
-  ];
+  const gallerySlides = service.gallery
+    .map((src, index) => ({
+      src: src.trim(),
+      alt: `${service.name} example ${index + 1}`,
+    }))
+    .filter((slide) => slide.src);
 
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -250,70 +250,13 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             </div>
           </div>
         </div>
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
+        <div className="grid gap-10 md:grid-cols-2 lg:items-start">
           <div className="space-y-6">
-            {service.features.length ? (
-              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
-                  What’s included
-                </div>
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {service.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-center gap-2 text-sm text-(--color-foreground)/70"
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full bg-(--color-accent)" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-(--color-foreground)">
                 Recent {service.name} work
               </h2>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-12">
-                {galleryItems.map((image, index) => (
-                  <div
-                    key={`${service.slug}-gallery-${index}`}
-                    className={`relative aspect-4/3 min-h-52 overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 ${galleryLayout[index] ?? "lg:col-span-4"}`}
-                  >
-                    {image ? (
-                      <>
-                        <div
-                          role="img"
-                          aria-label={`${service.name} example ${index + 1}`}
-                          style={{ backgroundImage: `url(${image})` }}
-                          className="absolute inset-0 bg-cover bg-center"
-                        />
-                        <div className="absolute inset-0 bg-black/20" />
-                      </>
-                    ) : (
-                      <div className="absolute inset-0 grid grid-cols-2">
-                        <div className="bg-(--color-secondary)/15" />
-                        <div className="bg-(--color-accent)/10" />
-                      </div>
-                    )}
-                    <div
-                      className={`relative z-10 p-4 text-xs font-semibold ${
-                        image ? "text-white" : "text-(--color-foreground)"
-                      }`}
-                    >
-                      <span
-                        className={`inline-flex rounded-full border px-3 py-1 ${
-                          image
-                            ? "border-white/30 bg-white/10"
-                            : "border-(--color-foreground)/10 bg-(--color-background)"
-                        }`}
-                      >
-                        {service.name}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <GalleryGrid slides={gallerySlides} />
             </div>
             {service.faqs.length ? (
               <div className="space-y-4">
@@ -339,6 +282,28 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             ) : null}
           </div>
           <div className="space-y-6">
+            {service.priceRange || service.features.length ? (
+              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+                  Pricing & features
+                </div>
+                {service.priceRange ? (
+                  <div className="mt-4 rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 text-sm font-semibold text-(--color-foreground)">
+                    {service.priceRange}
+                  </div>
+                ) : null}
+                {service.features.length ? (
+                  <ul className="mt-4 space-y-2 text-sm text-(--color-foreground)/70">
+                    {service.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2">
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-(--color-accent)" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            ) : null}
             <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Project planning

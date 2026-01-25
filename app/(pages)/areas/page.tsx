@@ -48,7 +48,7 @@ export default function AreasPage() {
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-14 py-16 sm:py-20">
+      <Container className="space-y-12 py-16 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
           <div className="space-y-6">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
@@ -216,4 +216,3 @@ export default function AreasPage() {
     </main>
   );
 }
-

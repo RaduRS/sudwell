@@ -19,9 +19,6 @@ export function ServicesGrid() {
             description={siteConfig.home.services.description}
           />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <span className="text-sm text-(--color-foreground)/60">
-              Explore the best surface for your home.
-            </span>
             <Link
               href="/services"
               className="rounded-full border border-(--color-primary)/35 px-5 py-2 text-sm font-semibold text-(--color-primary) transition hover:bg-(--color-primary) hover:text-white"

@@ -188,9 +188,9 @@ export const siteConfig: SiteConfig = {
   },
   "branding": {
     "colors": {
-      "primary": "#1E40AF",
+      "primary": "#267b0f",
       "secondary": "#787878",
-      "accent": "#10B981",
+      "accent": "#4a8fc4",
       "background": "#ffffff",
       "foreground": "#171717"
     },
@@ -212,8 +212,7 @@ export const siteConfig: SiteConfig = {
       ],
       "priceRange": "£70-£100 per sqm",
       "gallery": [
-        "/images/gallery/block-1.jpg",
-        "/images/gallery/block-2.jpg"
+        "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png"
       ],
       "faqs": [
         {
@@ -233,7 +232,10 @@ export const siteConfig: SiteConfig = {
         "Quick install"
       ],
       "priceRange": "£50-£80 per sqm",
-      "gallery": [],
+      "gallery": [
+        "/images/uploads/gallery-1-1769345834678-flux-1024x1024--4-.png",
+        "/images/uploads/gallery-4-1769359593717-flux-2048x1024.png"
+      ],
       "faqs": []
     },
     {
@@ -247,7 +249,9 @@ export const siteConfig: SiteConfig = {
         "Clean edges"
       ],
       "priceRange": "£45-£70 per sqm",
-      "gallery": [],
+      "gallery": [
+        "/images/uploads/gallery-2-1769345834681-flux-1024x1024--3-.png"
+      ],
       "faqs": []
     },
     {
@@ -260,8 +264,11 @@ export const siteConfig: SiteConfig = {
         "Quality materials",
         "Low maintenance"
       ],
-      "gallery": [],
-      "faqs": []
+      "gallery": [
+        "/images/uploads/gallery-3-1769345834682-flux-1024x1024.png"
+      ],
+      "faqs": [],
+      "priceRange": "£45-£70 per sqm"
     }
   ],
   "areas": [
@@ -386,10 +393,13 @@ export const siteConfig: SiteConfig = {
       "subheading": "Serving {serviceArea} and nearby towns. Free quotes, professional installs, and a finish built to last years to come.",
       "primaryCtaLabel": "Call us now",
       "secondaryCtaLabel": "Get Free Quote",
-      "backgroundImage": "/images/uploads/hero-image-1769195858156-flux-2048x1024.png",
+      "backgroundImage": "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png",
       "backgroundImages": [
-        "/images/uploads/hero-image-1769195858156-flux-2048x1024.png",
-        "/images/uploads/hero-image-1-1769246951325-marshalls-registered.png"
+        "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png",
+        "/images/uploads/gallery-1-1769345834678-flux-1024x1024--4-.png",
+        "/images/uploads/gallery-2-1769345834681-flux-1024x1024--3-.png",
+        "/images/uploads/gallery-3-1769345834682-flux-1024x1024.png",
+        "/images/uploads/gallery-4-1769359593717-flux-2048x1024.png"
       ],
       "backgroundVideo": null
     },
@@ -430,23 +440,29 @@ export const siteConfig: SiteConfig = {
       "items": [
         {
           "label": "Block paving driveway",
-          "image": "/images/uploads/gallery-0-1769179599577-flux-2048x1024.png"
+          "image": "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png"
         },
         {
           "label": "Resin bound finish",
-          "image": "/images/uploads/gallery-1-1769329185598-marshalls-registered.png"
+          "image": "/images/uploads/gallery-1-1769345834678-flux-1024x1024--4-.png"
         },
         {
-          "label": "Tarmac driveway"
+          "label": "Tarmac driveway",
+          "image": "/images/uploads/gallery-2-1769345834681-flux-1024x1024--3-.png"
         },
         {
-          "label": "Patio paving"
+          "label": "Patio paving",
+          "image": "/images/uploads/gallery-3-1769345834682-flux-1024x1024.png"
+        },
+        {
+          "label": "Resin bound finish  2",
+          "image": "/images/uploads/gallery-4-1769359593717-flux-2048x1024.png"
         }
       ]
     },
     "reviews": {
       "eyebrow": "Reviews",
-      "title": "Local customers rate us highly",
+      "title": "Customers rate us highly",
       "description": "{rating} average rating from {count}+ reviews.",
       "items": [
         {
@@ -477,7 +493,7 @@ export const siteConfig: SiteConfig = {
     "cta": {
       "title": "Ready to transform your driveway?",
       "description": "Request a free quote or call us today to discuss your project.",
-      "primaryCtaLabel": "Quote now",
+      "primaryCtaLabel": "Call us now",
       "secondaryCtaLabel": "Quote now"
     }
   }

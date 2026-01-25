@@ -1,4 +1,3 @@
-import { AreasServed } from "@/components/home/AreasServed";
 import { CTASection } from "@/components/home/CTASection";
 import { Gallery } from "@/components/home/Gallery";
 import { Hero } from "@/components/home/Hero";
@@ -12,11 +11,11 @@ export default function Home() {
     <main className="bg-(--color-background) text-(--color-foreground)">
       <SchemaMarkup />
       <Hero />
+      <Reviews />
       <ServicesGrid />
       <ProcessSteps />
       <Gallery />
-      <Reviews />
-      <AreasServed />
+      {/* <AreasServed /> */}
       <CTASection />
     </main>
   );

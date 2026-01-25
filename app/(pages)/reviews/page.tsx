@@ -58,7 +58,12 @@ export default function ReviewsPage() {
       author: { "@type": "Person", name: review.name },
       datePublished: review.date,
       reviewBody: review.text,
-      reviewRating: { "@type": "Rating", ratingValue: review.rating },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: review.rating,
+        bestRating: 5,
+        worstRating: 1,
+      },
     })),
   };
 
@@ -167,4 +172,3 @@ export default function ReviewsPage() {
     </main>
   );
 }
-

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
@@ -98,7 +99,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-14 py-16 sm:py-20">
+      <Container className="space-y-12 py-16 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
           <div className="space-y-6">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
@@ -233,13 +234,14 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                     href={`/services/${service.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
                   >
-                    <div className="relative h-40 overflow-hidden">
+                    <div className="relative h-36 overflow-hidden">
                       {preview ? (
-                        <div
-                          role="img"
-                          aria-label={service.name}
-                          className="absolute inset-0 bg-cover bg-center"
-                          style={{ backgroundImage: `url(${preview})` }}
+                        <Image
+                          src={preview}
+                          alt={service.name}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                          className="object-cover object-center"
                         />
                       ) : (
                         <div className="absolute inset-0 grid grid-cols-2">
@@ -254,7 +256,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                         </div>
                       </div>
                     </div>
-                    <div className="flex h-full flex-col gap-3 p-5">
+                    <div className="flex h-full flex-col gap-2 p-4">
                       <p className="text-sm leading-relaxed text-(--color-foreground)/70">
                         {service.shortDesc}
                       </p>
@@ -289,4 +291,3 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
     </main>
   );
 }
-

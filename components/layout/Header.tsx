@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { siteConfig } from "@/config/site.config";
+import type { SiteConfig } from "@/config/site.config";
 import { Container } from "./Container";
 
-export function Header() {
+type HeaderProps = {
+  siteConfig: SiteConfig;
+};
+
+export function Header({ siteConfig }: HeaderProps) {
   const primaryCtaLabel = siteConfig.header.primaryCtaLabel.replace(
     "{phone}",
     siteConfig.contact.phone,

@@ -71,6 +71,28 @@ export async function POST(request: Request) {
         "hero-video",
       );
     }
+    const proofInsuranceLogo = formData.get("proofInsuranceLogo");
+    if (
+      proofInsuranceLogo &&
+      proofInsuranceLogo instanceof File &&
+      proofInsuranceLogo.size > 0
+    ) {
+      parsedConfig.proof.insuranceLogo = await saveFile(
+        proofInsuranceLogo,
+        "insurance",
+      );
+    }
+    const proofGuaranteeLogo = formData.get("proofGuaranteeLogo");
+    if (
+      proofGuaranteeLogo &&
+      proofGuaranteeLogo instanceof File &&
+      proofGuaranteeLogo.size > 0
+    ) {
+      parsedConfig.proof.guaranteeLogo = await saveFile(
+        proofGuaranteeLogo,
+        "guarantee",
+      );
+    }
 
     for (const [key, value] of formData.entries()) {
       if (typeof value === "string") {

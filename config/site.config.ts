@@ -51,6 +51,8 @@ export type SiteConfig = {
       accent: string;
       background: string;
       foreground: string;
+      footerBackground: string;
+      footerForeground: string;
     };
     fonts: {
       heading: string;
@@ -62,7 +64,9 @@ export type SiteConfig = {
   proof: {
     accreditations: { name: string; logo: string }[];
     insurance: string;
+    insuranceLogo?: string | null;
     guarantee: string;
+    guaranteeLogo?: string | null;
     reviewsEmbed?: string | null;
     reviewCount: number;
     averageRating: number;
@@ -192,10 +196,12 @@ export const siteConfig: SiteConfig = {
       "secondary": "#787878",
       "accent": "#4a8fc4",
       "background": "#ffffff",
-      "foreground": "#171717"
+      "foreground": "#171717",
+      "footerBackground": "#252222",
+      "footerForeground": "#ffffff"
     },
     "fonts": {
-      "heading": "Outfit",
+      "heading": "Source Sans 3",
       "body": "Poppins"
     }
   },
@@ -309,7 +315,9 @@ export const siteConfig: SiteConfig = {
       }
     ],
     "insurance": "£5 million public liability insurance",
+    "insuranceLogo": "/images/uploads/insurance-1769365120789-5million-liability.png",
     "guarantee": "10-year workmanship guarantee on all installations",
+    "guaranteeLogo": "/images/uploads/guarantee-1769366329746-10-years.png",
     "reviewsEmbed": null,
     "reviewCount": 150,
     "averageRating": 4.9

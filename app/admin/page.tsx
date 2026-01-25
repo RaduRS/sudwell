@@ -288,6 +288,15 @@ const removeAt = <T,>(items: T[], index: number) => {
   return items.filter((_, itemIndex) => itemIndex !== index);
 };
 
+const normalizeUrlInput = (value: string) => {
+  const trimmed = value.trim();
+  return trimmed
+    .replace(/^`+|`+$/g, "")
+    .replace(/^"+|"+$/g, "")
+    .replace(/^'+|'+$/g, "")
+    .trim();
+};
+
 const requiredFieldKeys = [
   "companyTradingName",
   "companyTagline",
@@ -307,6 +316,8 @@ const requiredFieldKeys = [
   "brandingAccent",
   "brandingBackground",
   "brandingForeground",
+  "brandingFooterBackground",
+  "brandingFooterForeground",
   "fontHeading",
   "fontBody",
   "proofInsurance",
@@ -377,6 +388,8 @@ const requiredFieldLabels: Record<RequiredFieldKey, string> = {
   brandingAccent: "Accent color",
   brandingBackground: "Background color",
   brandingForeground: "Foreground color",
+  brandingFooterBackground: "Footer background",
+  brandingFooterForeground: "Footer foreground",
   fontHeading: "Heading font",
   fontBody: "Body font",
   proofInsurance: "Insurance",
@@ -485,6 +498,10 @@ export default function AdminPage() {
   );
   const [isSaving, setIsSaving] = useState(false);
   const [companyLogoFile, setCompanyLogoFile] = useState<File | null>(null);
+  const [proofInsuranceLogoFile, setProofInsuranceLogoFile] =
+    useState<File | null>(null);
+  const [proofGuaranteeLogoFile, setProofGuaranteeLogoFile] =
+    useState<File | null>(null);
   const [accreditationFiles, setAccreditationFiles] = useState<
     Record<number, File | null>
   >({});
@@ -537,6 +554,20 @@ export default function AdminPage() {
     }
     return URL.createObjectURL(companyLogoFile);
   }, [companyLogoFile]);
+
+  const proofInsuranceLogoPreview = useMemo(() => {
+    if (!proofInsuranceLogoFile) {
+      return null;
+    }
+    return URL.createObjectURL(proofInsuranceLogoFile);
+  }, [proofInsuranceLogoFile]);
+
+  const proofGuaranteeLogoPreview = useMemo(() => {
+    if (!proofGuaranteeLogoFile) {
+      return null;
+    }
+    return URL.createObjectURL(proofGuaranteeLogoFile);
+  }, [proofGuaranteeLogoFile]);
 
   const accreditationPreviews = useMemo(() => {
     const next: Record<number, string> = {};
@@ -629,10 +660,14 @@ export default function AdminPage() {
     brandingAccent: siteConfig.branding.colors.accent,
     brandingBackground: siteConfig.branding.colors.background,
     brandingForeground: siteConfig.branding.colors.foreground,
+    brandingFooterBackground: siteConfig.branding.colors.footerBackground,
+    brandingFooterForeground: siteConfig.branding.colors.footerForeground,
     fontHeading: siteConfig.branding.fonts.heading,
     fontBody: siteConfig.branding.fonts.body,
     proofInsurance: siteConfig.proof.insurance,
+    proofInsuranceLogo: siteConfig.proof.insuranceLogo ?? "",
     proofGuarantee: siteConfig.proof.guarantee,
+    proofGuaranteeLogo: siteConfig.proof.guaranteeLogo ?? "",
     proofReviewsEmbed: siteConfig.proof.reviewsEmbed ?? "",
     proofReviewCount: siteConfig.proof.reviewCount.toString(),
     proofAverageRating: siteConfig.proof.averageRating.toString(),
@@ -730,6 +765,24 @@ export default function AdminPage() {
       URL.revokeObjectURL(companyLogoPreview);
     };
   }, [companyLogoPreview]);
+
+  useEffect(() => {
+    if (!proofInsuranceLogoPreview) {
+      return;
+    }
+    return () => {
+      URL.revokeObjectURL(proofInsuranceLogoPreview);
+    };
+  }, [proofInsuranceLogoPreview]);
+
+  useEffect(() => {
+    if (!proofGuaranteeLogoPreview) {
+      return;
+    }
+    return () => {
+      URL.revokeObjectURL(proofGuaranteeLogoPreview);
+    };
+  }, [proofGuaranteeLogoPreview]);
 
   useEffect(() => {
     return () => {
@@ -1036,6 +1089,8 @@ export default function AdminPage() {
           accent: form.brandingAccent.trim(),
           background: form.brandingBackground.trim(),
           foreground: form.brandingForeground.trim(),
+          footerBackground: form.brandingFooterBackground.trim(),
+          footerForeground: form.brandingFooterForeground.trim(),
         },
         fonts: {
           heading: form.fontHeading.trim(),
@@ -1047,7 +1102,9 @@ export default function AdminPage() {
       proof: {
         accreditations: parsedAccreditationsJson.value,
         insurance: form.proofInsurance.trim(),
+        insuranceLogo: form.proofInsuranceLogo.trim() || null,
         guarantee: form.proofGuarantee.trim(),
+        guaranteeLogo: form.proofGuaranteeLogo.trim() || null,
         reviewsEmbed: form.proofReviewsEmbed.trim() || null,
         reviewCount: Number(form.proofReviewCount),
         averageRating: Number(form.proofAverageRating),
@@ -1056,31 +1113,31 @@ export default function AdminPage() {
         facebook: social.facebook.enabled
           ? {
               label: social.facebook.label.trim(),
-              url: social.facebook.url.trim(),
+              url: normalizeUrlInput(social.facebook.url),
             }
           : null,
         instagram: social.instagram.enabled
           ? {
               label: social.instagram.label.trim(),
-              url: social.instagram.url.trim(),
+              url: normalizeUrlInput(social.instagram.url),
             }
           : null,
         twitter: social.twitter.enabled
           ? {
               label: social.twitter.label.trim(),
-              url: social.twitter.url.trim(),
+              url: normalizeUrlInput(social.twitter.url),
             }
           : null,
         linkedin: social.linkedin.enabled
           ? {
               label: social.linkedin.label.trim(),
-              url: social.linkedin.url.trim(),
+              url: normalizeUrlInput(social.linkedin.url),
             }
           : null,
         youtube: social.youtube.enabled
           ? {
               label: social.youtube.label.trim(),
-              url: social.youtube.url.trim(),
+              url: normalizeUrlInput(social.youtube.url),
             }
           : null,
       },
@@ -1173,6 +1230,12 @@ export default function AdminPage() {
     }
     if (heroBackgroundVideoFile) {
       payload.append("heroBackgroundVideo", heroBackgroundVideoFile);
+    }
+    if (proofInsuranceLogoFile) {
+      payload.append("proofInsuranceLogo", proofInsuranceLogoFile);
+    }
+    if (proofGuaranteeLogoFile) {
+      payload.append("proofGuaranteeLogo", proofGuaranteeLogoFile);
     }
 
     normalizedHeroBackgroundItems.forEach((item, index) => {
@@ -1640,6 +1703,36 @@ export default function AdminPage() {
               />
             </label>
             <label className="space-y-1 text-sm">
+              {requiredLabel("Footer background")}
+              <input
+                type="color"
+                data-required-field="brandingFooterBackground"
+                value={form.brandingFooterBackground}
+                onChange={(event) =>
+                  updateForm("brandingFooterBackground", event.target.value)
+                }
+                className={requiredFieldClassName(
+                  "brandingFooterBackground",
+                  "h-10 w-full rounded-lg border border-foreground/10 bg-transparent px-2",
+                )}
+              />
+            </label>
+            <label className="space-y-1 text-sm">
+              {requiredLabel("Footer foreground")}
+              <input
+                type="color"
+                data-required-field="brandingFooterForeground"
+                value={form.brandingFooterForeground}
+                onChange={(event) =>
+                  updateForm("brandingFooterForeground", event.target.value)
+                }
+                className={requiredFieldClassName(
+                  "brandingFooterForeground",
+                  "h-10 w-full rounded-lg border border-foreground/10 bg-transparent px-2",
+                )}
+              />
+            </label>
+            <label className="space-y-1 text-sm">
               {requiredLabel("Heading font")}
               <select
                 data-required-field="fontHeading"
@@ -1731,6 +1824,50 @@ export default function AdminPage() {
                 )}
               />
             </label>
+            <div className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4 text-sm md:col-span-2">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-medium">
+                  Insurance badge image
+                </span>
+                <IconButton
+                  label="Remove insurance badge image"
+                  disabled={
+                    !proofInsuranceLogoPreview && !form.proofInsuranceLogo
+                  }
+                  onClick={() => {
+                    setProofInsuranceLogoFile(null);
+                    updateForm("proofInsuranceLogo", "");
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
+                  {proofInsuranceLogoPreview || form.proofInsuranceLogo ? (
+                    <div
+                      role="img"
+                      aria-label="Insurance badge image"
+                      className="h-full w-full bg-contain bg-center bg-no-repeat"
+                      style={{
+                        backgroundImage: `url(${proofInsuranceLogoPreview ?? form.proofInsuranceLogo})`,
+                      }}
+                    />
+                  ) : (
+                    <span className="text-xs text-foreground/50">No image</span>
+                  )}
+                </div>
+                <label className="flex-1 space-y-1 text-sm">
+                  <span>Upload image</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) =>
+                      setProofInsuranceLogoFile(event.target.files?.[0] ?? null)
+                    }
+                    className={fileInputClassName}
+                  />
+                </label>
+              </div>
+            </div>
             <label className="space-y-1 text-sm md:col-span-2">
               {requiredLabel("Guarantee")}
               <input
@@ -1745,6 +1882,50 @@ export default function AdminPage() {
                 )}
               />
             </label>
+            <div className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4 text-sm md:col-span-2">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-medium">
+                  Guarantee badge image
+                </span>
+                <IconButton
+                  label="Remove guarantee badge image"
+                  disabled={
+                    !proofGuaranteeLogoPreview && !form.proofGuaranteeLogo
+                  }
+                  onClick={() => {
+                    setProofGuaranteeLogoFile(null);
+                    updateForm("proofGuaranteeLogo", "");
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-(--color-background)">
+                  {proofGuaranteeLogoPreview || form.proofGuaranteeLogo ? (
+                    <div
+                      role="img"
+                      aria-label="Guarantee badge image"
+                      className="h-full w-full bg-contain bg-center bg-no-repeat"
+                      style={{
+                        backgroundImage: `url(${proofGuaranteeLogoPreview ?? form.proofGuaranteeLogo})`,
+                      }}
+                    />
+                  ) : (
+                    <span className="text-xs text-foreground/50">No image</span>
+                  )}
+                </div>
+                <label className="flex-1 space-y-1 text-sm">
+                  <span>Upload image</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) =>
+                      setProofGuaranteeLogoFile(event.target.files?.[0] ?? null)
+                    }
+                    className={fileInputClassName}
+                  />
+                </label>
+              </div>
+            </div>
             <label className="space-y-1 text-sm md:col-span-2">
               <span>Reviews embed</span>
               <input

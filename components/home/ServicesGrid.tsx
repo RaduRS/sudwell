@@ -31,9 +31,10 @@ export function ServicesGrid() {
           {services.map((service) => {
             const preview = service.gallery[0] ?? "";
             return (
-              <div
+              <Link
                 key={service.slug}
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
+                href={`/services/${service.slug}`}
+                className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
               >
                 <div className="relative h-40 overflow-hidden">
                   {preview ? (
@@ -50,55 +51,44 @@ export function ServicesGrid() {
                     </div>
                   )}
                   <div className="absolute inset-0 bg-black/20" />
-                  <div className="relative z-10 flex h-full items-end p-5">
-                    <div className="rounded-2xl border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold text-white">
-                      {service.name}
-                    </div>
-                  </div>
                 </div>
                 <div className="flex h-full flex-col gap-4 p-5">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-(--color-secondary)/15 text-sm font-semibold text-(--color-secondary)">
-                      {service.name.charAt(0)}
-                    </div>
-                    <div className="text-lg font-semibold text-(--color-foreground)">
-                      {service.name}
-                    </div>
+                  <div className="text-lg font-semibold text-(--color-foreground)">
+                    {service.name}
                   </div>
                   <p className="text-sm leading-relaxed text-(--color-foreground)/70">
                     {service.shortDesc}
                   </p>
-                  {service.features.length ? (
-                    <div className="flex flex-wrap gap-2">
-                      {service.features.slice(0, 2).map((feature) => (
-                        <span
-                          key={feature}
-                          className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
-                        >
-                          {feature}
-                        </span>
-                      ))}
+                  <div className="mt-auto space-y-4">
+                    {service.features.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {service.features.slice(0, 2).map((feature) => (
+                          <span
+                            key={feature}
+                            className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                    <div className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-(--color-foreground) transition group-hover:text-(--color-foreground)/70">
+                      {siteConfig.home.services.ctaLabel}
+                      <svg
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="h-4 w-4 text-(--color-accent)"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
                     </div>
-                  ) : null}
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="mt-auto inline-flex w-fit items-center gap-2 text-sm font-semibold text-(--color-foreground) transition group-hover:text-(--color-foreground)/70"
-                  >
-                    {siteConfig.home.services.ctaLabel}
-                    <svg
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="h-4 w-4 text-(--color-accent)"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </Link>
+                  </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
 import { ReviewCard } from "@/components/shared/ReviewCard";
@@ -111,9 +112,19 @@ export default function ReviewsPage() {
               <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
                 {siteConfig.proof.reviewCount}+ reviews
               </div>
-              <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
-                {siteConfig.proof.guarantee}
-              </div>
+              {siteConfig.proof.guaranteeLogo ? (
+                <Image
+                  src={siteConfig.proof.guaranteeLogo}
+                  alt={siteConfig.proof.guarantee}
+                  width={160}
+                  height={48}
+                  className="h-9 w-auto object-contain opacity-90"
+                />
+              ) : (
+                <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+                  {siteConfig.proof.guarantee}
+                </div>
+              )}
             </div>
           </div>
 

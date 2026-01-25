@@ -119,30 +119,60 @@ export default function AboutPage() {
                   </div>
                 )}
               </div>
-              <div className="mt-4 space-y-2 text-sm text-(--color-foreground)/70">
-                <div className="font-semibold text-(--color-foreground)">
-                  {siteConfig.contact.address.city},{" "}
-                  {siteConfig.contact.address.county}
+              <div className="mt-5 space-y-5">
+                <div className="space-y-3">
+                  <div className="text-lg font-semibold text-(--color-foreground)">
+                    {siteConfig.contact.address.city},{" "}
+                    {siteConfig.contact.address.county}
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-4 rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3">
+                      <div className="text-sm font-semibold text-(--color-foreground)">
+                        {siteConfig.proof.insurance}
+                      </div>
+                      {siteConfig.proof.insuranceLogo ? (
+                        <Image
+                          src={siteConfig.proof.insuranceLogo}
+                          alt={siteConfig.proof.insurance}
+                          width={120}
+                          height={40}
+                          className="h-8 w-auto object-contain opacity-90"
+                        />
+                      ) : null}
+                    </div>
+                    <div className="flex items-center justify-between gap-4 rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3">
+                      <div className="text-sm font-semibold text-(--color-foreground)">
+                        {siteConfig.proof.guarantee}
+                      </div>
+                      {siteConfig.proof.guaranteeLogo ? (
+                        <Image
+                          src={siteConfig.proof.guaranteeLogo}
+                          alt={siteConfig.proof.guarantee}
+                          width={120}
+                          height={40}
+                          className="h-8 w-auto object-contain opacity-90"
+                        />
+                      ) : null}
+                    </div>
+                  </div>
                 </div>
-                <div>{siteConfig.proof.insurance}</div>
-                <div>{siteConfig.proof.guarantee}</div>
-              </div>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
-                  {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
-                </div>
-                <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
-                  {siteConfig.proof.reviewCount}+ reviews
+                <div className="flex flex-wrap gap-3">
+                  <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+                    {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
+                  </div>
+                  <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+                    {siteConfig.proof.reviewCount}+ reviews
+                  </div>
                 </div>
               </div>
             </div>
 
             {siteConfig.proof.accreditations.length ? (
               <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-(--color-foreground)/60">
                   Accreditations
                 </div>
-                <div className="mt-4 grid gap-3">
+                <div className="mt-4 space-y-3">
                   {siteConfig.proof.accreditations.map((item) => (
                     <div
                       key={item.name}

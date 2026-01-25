@@ -22,7 +22,7 @@ export function GalleryGrid({ slides }: GalleryGridProps) {
 
   if (!normalizedSlides.length) {
     return (
-      <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-8 text-sm text-(--color-foreground)/70 shadow-sm ring-1 ring-(--color-foreground)/5">
+      <div className="rounded-xl border border-(--color-foreground)/10 bg-(--color-background) p-8 text-sm text-(--color-foreground)/70 shadow-sm ring-1 ring-(--color-foreground)/5">
         No gallery images yet.
       </div>
     );
@@ -40,16 +40,18 @@ export function GalleryGrid({ slides }: GalleryGridProps) {
               setIndex(slideIndex);
               setOpen(true);
             }}
-            className="group relative aspect-4/3 overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
+            className="group relative aspect-4/3 cursor-pointer rounded-xl bg-(--color-background) shadow-lg shadow-black/10 ring-1 ring-black/5 transition-shadow duration-150 hover:shadow-xl hover:shadow-black/15"
           >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="object-cover object-center transition duration-500 group-hover:scale-[1.02]"
-            />
-            <div className="absolute inset-0 bg-black/10 opacity-0 transition group-hover:opacity-100" />
+            <div className="absolute inset-0 overflow-hidden rounded-xl">
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover object-center transition-transform duration-150 ease-out will-change-transform group-hover:scale-[1.15]"
+              />
+              <div className="absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+            </div>
           </button>
         ))}
       </div>
@@ -65,4 +67,3 @@ export function GalleryGrid({ slides }: GalleryGridProps) {
     </>
   );
 }
-

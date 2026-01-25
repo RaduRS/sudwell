@@ -23,6 +23,7 @@ import {
 } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { getSiteConfig } from "@/config/site-config.server";
 import { siteConfig } from "@/config/site.config";
 import "./globals.css";
 import "yet-another-react-lightbox/styles.css";
@@ -189,11 +190,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export const dynamic = "force-dynamic";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteConfig = await getSiteConfig();
   const themeStyles = {
     "--color-primary": siteConfig.branding.colors.primary,
     "--color-secondary": siteConfig.branding.colors.secondary,
@@ -202,6 +206,10 @@ export default function RootLayout({
     "--font-heading": resolveFontFamily(siteConfig.branding.fonts.heading),
     "--background": siteConfig.branding.colors.background,
     "--foreground": siteConfig.branding.colors.foreground,
+    "--footer-background": siteConfig.branding.colors.footerBackground,
+    "--footer-foreground": siteConfig.branding.colors.footerForeground,
+    "--color-footer-background": siteConfig.branding.colors.footerBackground,
+    "--color-footer-foreground": siteConfig.branding.colors.footerForeground,
   } as CSSProperties;
 
   return (
@@ -210,9 +218,9 @@ export default function RootLayout({
         style={themeStyles}
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${figtree.variable} ${poppins.variable} ${montserrat.variable} ${raleway.variable} ${nunito.variable} ${workSans.variable} ${lora.variable} ${merriweather.variable} ${rubik.variable} ${spaceGrotesk.variable} ${outfit.variable} ${sourceSans3.variable} ${manrope.variable} ${plusJakartaSans.variable} ${dmSans.variable} ${playfairDisplay.variable} bg-(--color-background) text-(--color-foreground) antialiased`}
       >
-        <Header />
+        <Header siteConfig={siteConfig} />
         {children}
-        <Footer />
+        <Footer siteConfig={siteConfig} />
       </body>
     </html>
   );

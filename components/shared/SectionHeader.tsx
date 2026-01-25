@@ -16,7 +16,7 @@ export function SectionHeader({
           {eyebrow}
         </div>
       ) : null}
-      <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-(--color-foreground) sm:text-4xl lg:text-5xl">
+      <h2 className="max-w-4xl text-3xl font-semibold tracking-tight text-(--color-foreground) sm:text-4xl lg:text-5xl">
         {title}
       </h2>
       {description ? (

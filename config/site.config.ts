@@ -488,8 +488,8 @@ export const siteConfig: SiteConfig = {
         {
           "name": "Amira K.",
           "date": "Nov 2025",
-          "rating": 5,
-          "text": "Fast installation and very professional. The resin surface looks premium."
+          "rating": 4.5,
+          "text": "Fast installation and very professional. The resin surface looks premium and it will last a long time for sure."
         }
       ]
     },

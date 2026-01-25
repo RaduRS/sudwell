@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { siteConfig } from "@/config/site.config";
-import type { Area, Service } from "@/config/site.config";
+import type { Area, Service, SiteConfig } from "@/config/site.config";
 import { Container } from "@/components/layout/Container";
 
 type SocialKey = "facebook" | "instagram" | "twitter" | "linkedin" | "youtube";
@@ -17,6 +17,8 @@ type SocialState = {
 type NavigationItem = { href: string; label: string };
 
 type GalleryItem = { label: string; image?: string };
+
+type ReviewItem = SiteConfig["home"]["reviews"]["items"][number];
 
 type Accreditation = { name: string; logo: string };
 
@@ -880,6 +882,13 @@ export default function AdminPage() {
       siteConfig.home.gallery.items,
     ).value;
   }, [jsonFields.galleryItems]);
+
+  const parsedReviewItemsList = useMemo(() => {
+    return parseJson<ReviewItem[]>(
+      jsonFields.reviewItems,
+      siteConfig.home.reviews.items,
+    ).value;
+  }, [jsonFields.reviewItems]);
 
   const isRequiredFieldInvalid = (key: RequiredFieldKey, value: string) => {
     const trimmed = value.trim();
@@ -3706,17 +3715,139 @@ export default function AdminPage() {
               />
             </label>
           </div>
-          <label className="hidden">
-            <textarea
-              ref={(element) => {
-                jsonFieldRefs.current.reviewItems = element;
-              }}
-              value={jsonFields.reviewItems}
-              onChange={(event) =>
-                updateJsonField("reviewItems", event.target.value)
-              }
-            />
-          </label>
+          <div className="space-y-3 text-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-medium">Review items</span>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => toggleRawJson("reviewItems")}
+                  className={pillButtonClassName}
+                >
+                  {isRawJsonVisible("reviewItems")
+                    ? "Hide raw JSON"
+                    : "Show raw JSON"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setJsonValue("reviewItems", [
+                      ...parsedReviewItemsList,
+                      { name: "", date: "", rating: 5, text: "" },
+                    ])
+                  }
+                  className={pillButtonClassName}
+                >
+                  Add review
+                </button>
+              </div>
+            </div>
+            <div className="grid gap-3 md:grid-cols-2">
+              {parsedReviewItemsList.map((review, index) => (
+                <div
+                  key={`${review.name}-${review.date}-${index}`}
+                  className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4"
+                >
+                  <div className="flex justify-end">
+                    <IconButton
+                      label="Remove review"
+                      onClick={() =>
+                        setJsonValue(
+                          "reviewItems",
+                          removeAt(parsedReviewItemsList, index),
+                        )
+                      }
+                      className="-m-1"
+                    />
+                  </div>
+                  <div className="grid gap-2 md:grid-cols-2">
+                    <label className="space-y-1 text-sm">
+                      <span>Name</span>
+                      <input
+                        value={review.name}
+                        onChange={(event) =>
+                          setJsonValue(
+                            "reviewItems",
+                            replaceAt(parsedReviewItemsList, index, {
+                              ...review,
+                              name: event.target.value,
+                            }),
+                          )
+                        }
+                        className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                      />
+                    </label>
+                    <label className="space-y-1 text-sm">
+                      <span>Date</span>
+                      <input
+                        value={review.date}
+                        onChange={(event) =>
+                          setJsonValue(
+                            "reviewItems",
+                            replaceAt(parsedReviewItemsList, index, {
+                              ...review,
+                              date: event.target.value,
+                            }),
+                          )
+                        }
+                        className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                      />
+                    </label>
+                  </div>
+                  <label className="space-y-1 text-sm">
+                    <span>Rating</span>
+                    <input
+                      type="number"
+                      min={0}
+                      max={5}
+                      step={0.1}
+                      value={Number.isFinite(review.rating) ? review.rating : 0}
+                      onChange={(event) =>
+                        setJsonValue(
+                          "reviewItems",
+                          replaceAt(parsedReviewItemsList, index, {
+                            ...review,
+                            rating: Number(event.target.value),
+                          }),
+                        )
+                      }
+                      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                    />
+                  </label>
+                  <label className="space-y-1 text-sm">
+                    <span>Text</span>
+                    <textarea
+                      rows={3}
+                      value={review.text}
+                      onChange={(event) =>
+                        setJsonValue(
+                          "reviewItems",
+                          replaceAt(parsedReviewItemsList, index, {
+                            ...review,
+                            text: event.target.value,
+                          }),
+                        )
+                      }
+                      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
+            {isRawJsonVisible("reviewItems") ? (
+              <textarea
+                ref={(element) => {
+                  jsonFieldRefs.current.reviewItems = element;
+                }}
+                rows={4}
+                value={jsonFields.reviewItems}
+                onChange={(event) =>
+                  updateJsonField("reviewItems", event.target.value)
+                }
+                className={jsonFieldClassName("reviewItems")}
+              />
+            ) : null}
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <label className="space-y-1 text-sm">
               {requiredLabel("Areas eyebrow")}

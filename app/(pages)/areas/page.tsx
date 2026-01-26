@@ -1,5 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import {
+  ChevronRight,
+  MapPin,
+  MapPinned,
+  Navigation,
+  Phone,
+  Star,
+} from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { siteConfig } from "@/config/site.config";
 
@@ -29,6 +37,10 @@ export default function AreasPage() {
   const description = siteConfig.home.areas.description
     .replace("{radius}", siteConfig.contact.serviceRadius.toString())
     .replace("{city}", siteConfig.contact.address.city);
+  const serviceAreaNames = siteConfig.areas
+    .map((area) => area.name)
+    .filter(Boolean)
+    .join(", ");
 
   const schema = {
     "@context": "https://schema.org",
@@ -47,7 +59,7 @@ export default function AreasPage() {
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-12 py-16 sm:py-20">
+      <Container className="space-y-12 py-16 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
           <div className="space-y-6">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
@@ -57,10 +69,23 @@ export default function AreasPage() {
               <span>/</span>
               <span className="text-(--color-foreground)">Areas</span>
             </nav>
-            <div className="space-y-4">
-              <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--color-secondary)">
-                Areas Served
+            <div className="flex flex-wrap gap-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                <Star
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5 text-amber-500"
+                  fill="currentColor"
+                />
+                {siteConfig.proof.averageRating.toFixed(1)} average rating
               </div>
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                {siteConfig.proof.reviewCount}+ reviews
+              </div>
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                {siteConfig.contact.serviceRadius} miles service radius
+              </div>
+            </div>
+            <div className="space-y-4">
               <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
                 Areas we serve
               </h1>
@@ -71,32 +96,24 @@ export default function AreasPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <a
                 href={`tel:${siteConfig.contact.phoneFormatted}`}
-                className="w-fit rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
+                <Phone aria-hidden="true" className="h-4 w-4" />
                 Call {siteConfig.contact.phone}
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
+                <ChevronRight aria-hidden="true" className="h-4 w-4" />
               </Link>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                {siteConfig.contact.serviceRadius} mile radius
-              </div>
-              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
-              </div>
-              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                {siteConfig.proof.reviewCount}+ reviews
-              </div>
             </div>
           </div>
           <div className="space-y-4">
             <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+                <MapPin aria-hidden="true" className="h-4 w-4" />
                 Based in
               </div>
               <div className="mt-3 space-y-2 text-sm text-(--color-foreground)/75">
@@ -111,7 +128,7 @@ export default function AreasPage() {
                 <div>
                   Serving{" "}
                   <span className="font-semibold text-(--color-foreground)">
-                    {siteConfig.contact.serviceArea.join(", ")}
+                    {serviceAreaNames}
                   </span>{" "}
                   and surrounding areas.
                 </div>
@@ -119,9 +136,10 @@ export default function AreasPage() {
               <div className="mt-5 flex flex-col gap-3">
                 <Link
                   href="/services"
-                  className="inline-flex w-fit items-center justify-center rounded-full border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-5 py-2.5 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-foreground)/10"
+                  className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-5 py-2.5 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-foreground)/10"
                 >
                   Browse services
+                  <ChevronRight aria-hidden="true" className="h-4 w-4" />
                 </Link>
               </div>
             </div>
@@ -145,7 +163,8 @@ export default function AreasPage() {
                     streets.
                   </div>
                 </div>
-                <div className="rounded-2xl border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-3 py-1 text-xs font-semibold text-(--color-secondary)">
+                <div className="inline-flex items-center gap-1.5 rounded-2xl border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-3 py-1 text-xs font-semibold text-(--color-secondary)">
+                  <MapPinned aria-hidden="true" className="h-3.5 w-3.5" />
                   Area
                 </div>
               </div>
@@ -154,8 +173,9 @@ export default function AreasPage() {
                   {area.postcodes.map((postcode) => (
                     <span
                       key={`${area.slug}-${postcode}`}
-                      className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
                     >
+                      <Navigation aria-hidden="true" className="h-3.5 w-3.5" />
                       {postcode}
                     </span>
                   ))}
@@ -163,17 +183,7 @@ export default function AreasPage() {
               ) : null}
               <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-(--color-primary) transition group-hover:text-(--color-primary)/80">
                 View {area.name}
-                <svg
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="h-4 w-4"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <ChevronRight aria-hidden="true" className="h-4 w-4" />
               </div>
             </Link>
           ))}

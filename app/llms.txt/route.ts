@@ -5,9 +5,10 @@ export async function GET() {
     `# ${siteConfig.company.tradingName}`,
     "",
     "## Summary",
-    `${siteConfig.company.tradingName} provides driveway and paving services in the UK, serving ${siteConfig.contact.serviceArea.join(
-      ", ",
-    )} and nearby areas.`,
+    `${siteConfig.company.tradingName} provides driveway and paving services in the UK, serving ${siteConfig.areas
+      .map((area) => area.name)
+      .filter(Boolean)
+      .join(", ")} and nearby areas.`,
     "",
     "## Services",
     ...siteConfig.services.map((service) => `- ${service.name}: ${service.shortDesc}`),

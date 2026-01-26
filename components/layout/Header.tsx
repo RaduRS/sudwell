@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ChevronRight, Menu, MessageCircle, Phone, X } from "lucide-react";
 import type { SiteConfig } from "@/config/site.config";
 import { Container } from "./Container";
 
@@ -21,6 +21,9 @@ export function Header({ siteConfig }: HeaderProps) {
     "{phone}",
     siteConfig.contact.phone,
   );
+  const whatsappHref = siteConfig.contact.whatsapp
+    ? `https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, "")}`
+    : null;
   const logo = siteConfig.company.logo;
   const isActiveHref = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -92,10 +95,22 @@ export function Header({ siteConfig }: HeaderProps) {
           })}
         </nav>
         <div className="flex items-center gap-3">
+          {whatsappHref ? (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Message on WhatsApp"
+              className="hidden h-11 w-11 items-center justify-center rounded-full border border-(--color-foreground)/15 bg-(--color-background) text-(--color-foreground) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:bg-(--color-foreground)/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:inline-flex"
+            >
+              <MessageCircle aria-hidden="true" className="h-5 w-5" />
+            </a>
+          ) : null}
           <a
             href={`tel:${siteConfig.contact.phoneFormatted}`}
-            className="rounded-full bg-(--color-primary) px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:px-5 sm:py-2.5"
+            className="inline-flex items-center gap-2 rounded-full bg-(--color-primary) px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:px-5 sm:py-2.5"
           >
+            <Phone aria-hidden="true" className="h-4 w-4" />
             {primaryCtaLabel}
           </a>
           <button
@@ -195,33 +210,38 @@ export function Header({ siteConfig }: HeaderProps) {
                     }`}
                   >
                     <span>{item.label}</span>
-                    <svg
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                    <ChevronRight
+                      aria-hidden="true"
                       className={`h-5 w-5 ${
                         isActive
                           ? "text-white/90"
                           : "text-(--color-foreground)/40"
                       }`}
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                    />
                   </Link>
                 );
               })}
             </nav>
             <div className="mt-5 rounded-3xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 p-5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
-                Call now
+                Contact now
               </div>
+              {whatsappHref ? (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-(--color-foreground)/15 bg-(--color-background) px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-foreground)/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                >
+                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                  WhatsApp
+                </a>
+              ) : null}
               <a
                 href={`tel:${siteConfig.contact.phoneFormatted}`}
-                className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
+                <Phone aria-hidden="true" className="h-4 w-4" />
                 {primaryCtaLabel}
               </a>
             </div>

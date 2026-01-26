@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Check, ChevronRight, Phone, Star } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { GalleryGrid } from "@/app/(pages)/gallery/GalleryGrid";
 import { siteConfig } from "@/config/site.config";
@@ -151,7 +152,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   const stats = [
     {
       label: "Average rating",
-      value: `${siteConfig.proof.averageRating.toFixed(1)} ★`,
+      value: siteConfig.proof.averageRating.toFixed(1),
     },
     {
       label: "Reviews",
@@ -165,7 +166,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-12 py-14 sm:py-20">
+      <Container className="space-y-12 py-14 sm:py-16">
         <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
           <Link href="/" className="hover:text-(--color-foreground)">
             Home
@@ -203,11 +204,6 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
                   {pageTitle}
                 </h1>
-                {service.priceRange ? (
-                  <span className="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-semibold">
-                    {service.priceRange}
-                  </span>
-                ) : null}
               </div>
               <p className="max-w-3xl text-base leading-relaxed text-white/85 sm:text-lg">
                 {service.longDesc || service.shortDesc}
@@ -216,8 +212,15 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 {stats.map((item) => (
                   <div
                     key={item.label}
-                    className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold text-white"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/20 px-3 py-1.5 text-[11px] font-semibold text-white"
                   >
+                    {item.label === "Average rating" ? (
+                      <Star
+                        aria-hidden="true"
+                        className="h-3.5 w-3.5 text-amber-300"
+                        fill="currentColor"
+                      />
+                    ) : null}
                     {item.value} {item.label.toLowerCase()}
                   </div>
                 ))}
@@ -225,15 +228,17 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               <div className="flex flex-wrap items-center gap-3">
                 <a
                   href={`tel:${siteConfig.contact.phoneFormatted}`}
-                  className="w-fit rounded-full bg-white px-6 py-3 text-sm font-semibold text-(--color-primary) shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-(--color-primary) shadow-md transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 >
+                  <Phone aria-hidden="true" className="h-4 w-4" />
                   Call {siteConfig.contact.phone}
                 </a>
                 <a
                   href="/contact"
-                  className="w-fit rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-white/15 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 >
                   Request a free quote
+                  <ChevronRight aria-hidden="true" className="h-4 w-4" />
                 </a>
               </div>
             </div>
@@ -285,7 +290,10 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   <ul className="mt-4 space-y-2 text-sm text-(--color-foreground)/70">
                     {service.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
-                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-(--color-accent)" />
+                        <Check
+                          aria-hidden="true"
+                          className="mt-0.5 h-4 w-4 shrink-0 text-(--color-accent)"
+                        />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -305,7 +313,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                       <span className="flex h-9 w-9 items-center justify-center rounded-full border border-(--color-accent)/30 bg-(--color-accent)/10 text-xs font-semibold text-(--color-accent)">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <div>
+                      <div className="space-y-0.5">
                         <div className="text-sm font-semibold text-(--color-foreground)">
                           {step.title}
                         </div>
@@ -331,15 +339,17 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               <div className="mt-4 flex flex-col gap-3">
                 <a
                   href={`tel:${siteConfig.contact.phoneFormatted}`}
-                  className="w-fit rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                  className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
                 >
+                  <Phone aria-hidden="true" className="h-4 w-4" />
                   Call {siteConfig.contact.phone}
                 </a>
                 <a
                   href="/contact"
-                  className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                  className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
                 >
                   Request a free quote
+                  <ChevronRight aria-hidden="true" className="h-4 w-4" />
                 </a>
               </div>
             </div>

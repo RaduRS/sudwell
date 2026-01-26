@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Check, ChevronRight } from "lucide-react";
 import { siteConfig } from "@/config/site.config";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
@@ -21,9 +22,10 @@ export function ServicesGrid() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href="/services"
-              className="rounded-full border border-(--color-primary)/35 px-5 py-2 text-sm font-semibold text-(--color-primary) transition hover:bg-(--color-primary) hover:text-white"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-(--color-primary)/35 px-5 py-2 text-sm font-semibold text-(--color-primary) transition hover:bg-(--color-primary) hover:text-white"
             >
               View all services
+              <ChevronRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -65,8 +67,9 @@ export function ServicesGrid() {
                         {service.features.slice(0, 2).map((feature) => (
                           <span
                             key={feature}
-                            className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
+                            className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
                           >
+                            <Check aria-hidden="true" className="h-3.5 w-3.5" />
                             {feature}
                           </span>
                         ))}
@@ -74,17 +77,7 @@ export function ServicesGrid() {
                     ) : null}
                     <div className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-primary)/35 px-5 py-2 text-sm font-semibold text-(--color-primary) transition group-hover:bg-(--color-primary) group-hover:text-white">
                       {siteConfig.home.services.ctaLabel}
-                      <svg
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="h-4 w-4"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <ChevronRight aria-hidden="true" className="h-4 w-4" />
                     </div>
                   </div>
                 </div>

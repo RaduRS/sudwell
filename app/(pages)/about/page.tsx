@@ -1,15 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import {
+  ChevronRight,
+  ClipboardCheck,
+  MapPin,
+  Phone,
+  ShieldCheck,
+  Sparkles,
+  Star,
+} from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
   title: `About ${siteConfig.company.tradingName} | Driveway & Paving Specialists`,
-  description: `Learn about ${siteConfig.company.tradingName}, a trusted local driveway and paving team serving ${siteConfig.contact.serviceArea.join(
-    ", ",
-  )}. Call ${siteConfig.contact.phone} for a free quote.`,
+  description: `Learn about ${siteConfig.company.tradingName}, a trusted local driveway and paving team serving ${siteConfig.areas
+    .map((area) => area.name)
+    .filter(Boolean)
+    .join(", ")}. Call ${siteConfig.contact.phone} for a free quote.`,
   alternates: {
     canonical: `${siteConfig.seo.siteUrl}/about`,
   },
@@ -30,10 +40,6 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const foundedLabel = siteConfig.company.founded
-    ? `Established ${siteConfig.company.founded}`
-    : "Local specialists";
-
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -50,10 +56,15 @@ export default function AboutPage() {
       siteConfig.social.youtube?.url,
     ].filter(Boolean),
   };
+  const values = siteConfig.about.values;
+  const howWeWork = siteConfig.about.howWeWorkSteps;
+  const serviceAreaNames = siteConfig.areas
+    .map((area) => area.name)
+    .filter(Boolean);
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-14 py-16 sm:py-20">
+      <Container className="space-y-14 py-16 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
           <div className="space-y-6">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
@@ -63,35 +74,8 @@ export default function AboutPage() {
               <span>/</span>
               <span className="text-(--color-foreground)">About</span>
             </nav>
-            <div className="space-y-4">
-              <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--color-secondary)">
-                {foundedLabel}
-              </div>
-              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-                About {siteConfig.company.tradingName}
-              </h1>
-              <p className="max-w-2xl text-base leading-relaxed text-(--color-foreground)/70 sm:text-lg">
-                We’re a local team specialising in driveway installations,
-                paving, and patios. Every project is planned for drainage,
-                durability, and a clean finish that lifts curb appeal.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <a
-                href={`tel:${siteConfig.contact.phoneFormatted}`}
-                className="w-fit rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
-              >
-                Call {siteConfig.contact.phone}
-              </a>
-              <Link
-                href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
-              >
-                Request a free quote
-              </Link>
-            </div>
             <div className="flex flex-wrap gap-2">
-              {siteConfig.contact.serviceArea.map((area) => (
+              {serviceAreaNames.map((area) => (
                 <span
                   key={area}
                   className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
@@ -100,15 +84,42 @@ export default function AboutPage() {
                 </span>
               ))}
             </div>
+            <div className="space-y-4">
+              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+                About {siteConfig.company.tradingName}
+              </h1>
+              <p className="max-w-2xl text-base leading-relaxed text-(--color-foreground)/70 sm:text-lg">
+                {siteConfig.about.heroDescription}
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <a
+                href={`tel:${siteConfig.contact.phoneFormatted}`}
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+              >
+                <Phone aria-hidden="true" className="h-4 w-4" />
+                Call {siteConfig.contact.phone}
+              </a>
+              <Link
+                href="/contact"
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+              >
+                Request a free quote
+                <ChevronRight aria-hidden="true" className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
 
           <div className="space-y-4">
             <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="space-y-5">
                 <div className="space-y-3">
-                  <div className="text-lg font-semibold text-(--color-foreground)">
-                    {siteConfig.contact.address.city},{" "}
-                    {siteConfig.contact.address.county}
+                  <div className="flex items-center gap-2 text-lg font-semibold text-(--color-foreground)">
+                    <MapPin aria-hidden="true" className="h-5 w-5" />
+                    <span>
+                      {siteConfig.contact.address.city},{" "}
+                      {siteConfig.contact.address.county}
+                    </span>
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between gap-4 rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3">
@@ -142,8 +153,13 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                    {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
+                  <div className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                    <Star
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5 text-amber-500"
+                      fill="currentColor"
+                    />
+                    {siteConfig.proof.averageRating.toFixed(1)} average rating
                   </div>
                   <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                     {siteConfig.proof.reviewCount}+ reviews
@@ -183,37 +199,113 @@ export default function AboutPage() {
         </div>
 
         <SectionHeader
-          eyebrow="What we stand for"
-          title="Quality work, clear communication, tidy installs"
-          description="A simple approach that keeps your project on track from quote to completion."
+          eyebrow={siteConfig.about.standForEyebrow}
+          title={siteConfig.about.standForTitle}
+          description={siteConfig.about.standForDescription}
         />
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
+          {values.map((item, index) => {
+            const icon =
+              index === 0 ? (
+                <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+              ) : index === 1 ? (
+                <ClipboardCheck className="h-5 w-5" aria-hidden="true" />
+              ) : (
+                <Sparkles className="h-5 w-5" aria-hidden="true" />
+              );
+
+            return (
+              <div
+                key={`${item.title}-${index}`}
+                className="group rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:border-(--color-foreground)/15 hover:bg-(--color-secondary)/6 hover:shadow-md sm:p-7"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 text-(--color-foreground) transition group-hover:bg-(--color-primary)/12 group-hover:text-(--color-primary)">
+                    {icon}
+                  </div>
+                  <div className="min-w-0 text-base font-semibold tracking-tight text-(--color-foreground)">
+                    {item.title}
+                  </div>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-(--color-foreground)/70">
+                  {item.description}
+                </p>
+
+                {item.bullets.length ? (
+                  <ul className="mt-5 space-y-2 text-sm text-(--color-foreground)/75">
+                    {item.bullets.map((bullet) => (
+                      <li key={bullet} className="flex items-start gap-3">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-(--color-primary)/70" />
+                        <span className="leading-relaxed">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
-            <div className="text-sm font-semibold text-(--color-foreground)">
-              Built to last
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+              {siteConfig.about.howWeWorkTitle}
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-(--color-foreground)/70">
-              Proper sub-base preparation and neat detailing for long-term
-              durability.
-            </p>
+            <ol className="mt-5 divide-y divide-(--color-foreground)/10">
+              {howWeWork.map((step, index) => (
+                <li
+                  key={`${step.title}-${index}`}
+                  className="py-4 first:pt-0 last:pb-0"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-(--color-foreground)/15 bg-(--color-background) text-xs font-semibold text-(--color-foreground)">
+                      {index + 1}
+                    </div>
+                    <div className="text-sm font-semibold text-(--color-foreground)">
+                      {step.title}
+                    </div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-(--color-foreground)/70">
+                    {step.description}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
           <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
-            <div className="text-sm font-semibold text-(--color-foreground)">
-              Clear quotes
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+              {siteConfig.about.quoteTitle}
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-(--color-foreground)/70">
-              Transparent pricing and realistic timelines, with no surprises.
+            <p className="mt-4 text-sm leading-relaxed text-(--color-foreground)/70">
+              {siteConfig.about.quoteDescription}
             </p>
-          </div>
-          <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
-            <div className="text-sm font-semibold text-(--color-foreground)">
-              Clean finish
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={`tel:${siteConfig.contact.phoneFormatted}`}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+              >
+                <Phone aria-hidden="true" className="h-4 w-4" />
+                Call {siteConfig.contact.phone}
+              </a>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+              >
+                Request a free quote
+                <ChevronRight aria-hidden="true" className="h-4 w-4" />
+              </Link>
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-(--color-foreground)/70">
-              Respectful, tidy workmanship and a finish designed to lift curb
-              appeal.
-            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {serviceAreaNames.map((area) => (
+                <span
+                  key={`about-coverage-${area}`}
+                  className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
+                >
+                  {area}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </Container>

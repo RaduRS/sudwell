@@ -107,6 +107,17 @@ export type SiteConfig = {
     termsLabel: string;
     copyrightLabel: string;
   };
+  about: {
+    heroDescription: string;
+    standForEyebrow: string;
+    standForTitle: string;
+    standForDescription: string;
+    values: { title: string; description: string; bullets: string[] }[];
+    howWeWorkTitle: string;
+    howWeWorkSteps: { title: string; description: string }[];
+    quoteTitle: string;
+    quoteDescription: string;
+  };
   home: {
     hero: {
       title: string;
@@ -193,8 +204,8 @@ export const siteConfig: SiteConfig = {
   "branding": {
     "colors": {
       "primary": "#267b0f",
-      "secondary": "#12d9a7",
-      "accent": "#819cb1",
+      "secondary": "#6bd912",
+      "accent": "#4cb4d6",
       "background": "#ffffff",
       "foreground": "#171717",
       "footerBackground": "#252222",
@@ -301,6 +312,13 @@ export const siteConfig: SiteConfig = {
       "postcodes": [
         "RG12"
       ]
+    },
+    {
+      "slug": "maidenhead",
+      "name": "Maidenhead",
+      "postcodes": [
+        "SL6"
+      ]
     }
   ],
   "proof": {
@@ -394,6 +412,55 @@ export const siteConfig: SiteConfig = {
     "privacyLabel": "Privacy Policy",
     "termsLabel": "Terms",
     "copyrightLabel": "© {year} {tradingName}. All rights reserved."
+  },
+  "about": {
+    "heroDescription": "We’re a local team specialising in driveway installations, paving, and patios. Every project is planned for drainage, durability, and a clean finish that lifts curb appeal.",
+    "standForEyebrow": "What we stand for",
+    "standForTitle": "Quality work, clear communication, tidy installs",
+    "standForDescription": "A simple approach that keeps your project on track from quote to completion.",
+    "values": [
+      {
+        "title": "Built to last",
+        "description": "Proper sub-base preparation and neat detailing for long-term durability.",
+        "bullets": [
+          "Strong groundworks, with drainage awareness from day one.",
+          "Clean edge restraints and levels that stay true."
+        ]
+      },
+      {
+        "title": "Clear quotes",
+        "description": "Transparent pricing and realistic timelines, with no surprises.",
+        "bullets": [
+          "A clear breakdown of what’s included before we start.",
+          "Straight answers on options, budgets, and lead times."
+        ]
+      },
+      {
+        "title": "Clean finish",
+        "description": "Respectful, tidy workmanship and a finish designed to lift curb appeal.",
+        "bullets": [
+          "Careful cuts, consistent joins, and neat detailing.",
+          "We keep the site tidy and leave it presentable."
+        ]
+      }
+    ],
+    "howWeWorkTitle": "How we work",
+    "howWeWorkSteps": [
+      {
+        "title": "Quick chat & site check",
+        "description": "We listen to what you need, measure up, and highlight any drainage or access considerations."
+      },
+      {
+        "title": "Quote with options",
+        "description": "You get a clear quote and recommendations on finishes, edging, and layout—tailored to your home."
+      },
+      {
+        "title": "Install & handover",
+        "description": "We keep you updated, work tidily, and walk you through the finished job before we wrap up."
+      }
+    ],
+    "quoteTitle": "Get a quote",
+    "quoteDescription": "Share your rough measurements, a couple of photos, and the finish you like—we’ll come back with a clear quote and a couple of options."
   },
   "home": {
     "hero": {

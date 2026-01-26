@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ChevronRight, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site.config";
 import { Container } from "@/components/layout/Container";
 import { TrustBadges } from "@/components/shared/TrustBadges";
@@ -9,8 +10,12 @@ export function Hero() {
   const title = siteConfig.home.hero.title
     .replace("{tradingName}", siteConfig.company.tradingName)
     .replace("{tagline}", siteConfig.company.tagline);
+  const serviceAreaNames = siteConfig.areas
+    .map((area) => area.name)
+    .filter(Boolean)
+    .join(", ");
   const subheading = siteConfig.home.hero.subheading
-    .replace("{serviceArea}", siteConfig.contact.serviceArea.join(", "))
+    .replace("{serviceArea}", serviceAreaNames)
     .replace("{city}", siteConfig.contact.address.city);
   const backgroundVideo = siteConfig.home.hero.backgroundVideo ?? "";
   const backgroundImages = useMemo(() => {
@@ -138,23 +143,25 @@ export function Hero() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <a
               href={`tel:${siteConfig.contact.phoneFormatted}`}
-              className={`rounded-full bg-(--color-primary) px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:text-base ${
+              className={`inline-flex items-center justify-center gap-2 rounded-full bg-(--color-primary) px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:text-base ${
                 hasBackground
                   ? "shadow-lg shadow-black/20 ring-1 ring-white/20"
                   : ""
               }`}
             >
+              <Phone aria-hidden="true" className="h-4 w-4" />
               {siteConfig.home.hero.primaryCtaLabel}
             </a>
             <a
               href="#quote"
-              className={`rounded-full px-7 py-3.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:text-base ${
+              className={`inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:text-base ${
                 hasBackground
                   ? "bg-white/95 text-(--color-primary) shadow-lg shadow-black/10 ring-1 ring-(--color-secondary)/35 hover:bg-white"
                   : "border border-(--color-primary) text-(--color-primary) hover:bg-(--color-primary) hover:text-white"
               }`}
             >
               {siteConfig.home.hero.secondaryCtaLabel}
+              <ChevronRight aria-hidden="true" className="h-4 w-4" />
             </a>
           </div>
           <TrustBadges />

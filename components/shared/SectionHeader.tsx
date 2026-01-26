@@ -12,7 +12,7 @@ export function SectionHeader({
   return (
     <div className="space-y-4">
       {eyebrow ? (
-        <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--color-secondary)">
+        <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--color-foreground)">
           {eyebrow}
         </div>
       ) : null}

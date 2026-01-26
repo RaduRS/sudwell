@@ -14,5 +14,14 @@ export async function getSiteConfig(): Promise<SiteConfig> {
 
   const jsonStart = startIndex + marker.length;
   const jsonText = currentFile.slice(jsonStart, endIndex + 1).trim();
-  return JSON.parse(jsonText) as SiteConfig;
+  try {
+    return JSON.parse(jsonText) as SiteConfig;
+  } catch {
+    try {
+      const evaluated = Function(`"use strict"; return (${jsonText});`)();
+      return evaluated as SiteConfig;
+    } catch {
+      throw new Error("Failed to parse site config.");
+    }
+  }
 }

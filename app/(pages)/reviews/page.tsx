@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
+import { ChevronRight, Phone, Star } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { getReviewId, ReviewCard } from "@/components/shared/ReviewCard";
 import { siteConfig } from "@/config/site.config";
@@ -65,7 +65,7 @@ export default function ReviewsPage() {
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-14 py-16 sm:py-20">
+      <Container className="space-y-14 py-16 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
           <div className="space-y-6">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
@@ -75,10 +75,23 @@ export default function ReviewsPage() {
               <span>/</span>
               <span className="text-(--color-foreground)">Reviews</span>
             </nav>
-            <div className="space-y-4">
-              <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--color-secondary)">
-                Reviews
+            <div className="flex flex-wrap gap-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                <Star
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5 text-amber-500"
+                  fill="currentColor"
+                />
+                {siteConfig.proof.averageRating.toFixed(1)} average rating
               </div>
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                {siteConfig.proof.reviewCount}+ reviews
+              </div>
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                {siteConfig.contact.serviceRadius} miles service radius
+              </div>
+            </div>
+            <div className="space-y-4">
               <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
                 Customer reviews
               </h1>
@@ -89,37 +102,18 @@ export default function ReviewsPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <a
                 href={`tel:${siteConfig.contact.phoneFormatted}`}
-                className="w-fit rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
+                <Phone aria-hidden="true" className="h-4 w-4" />
                 Call {siteConfig.contact.phone}
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
+                <ChevronRight aria-hidden="true" className="h-4 w-4" />
               </Link>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
-              </div>
-              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                {siteConfig.proof.reviewCount}+ reviews
-              </div>
-              {siteConfig.proof.guaranteeLogo ? (
-                <Image
-                  src={siteConfig.proof.guaranteeLogo}
-                  alt={siteConfig.proof.guarantee}
-                  width={160}
-                  height={48}
-                  className="h-9 w-auto object-contain opacity-90"
-                />
-              ) : (
-                <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                  {siteConfig.proof.guarantee}
-                </div>
-              )}
             </div>
           </div>
 

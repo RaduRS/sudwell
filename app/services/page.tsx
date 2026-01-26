@@ -1,21 +1,24 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Check, ChevronRight, Phone, Star } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
   title: `Driveway & Paving Services | ${siteConfig.company.tradingName}`,
-  description: `Explore driveway and paving services across ${siteConfig.contact.serviceArea.join(
-    ", ",
-  )}. Call ${siteConfig.contact.phone} for a free quote.`,
+  description: `Explore driveway and paving services across ${siteConfig.areas
+    .map((area) => area.name)
+    .filter(Boolean)
+    .join(", ")}. Call ${siteConfig.contact.phone} for a free quote.`,
   alternates: {
     canonical: `${siteConfig.seo.siteUrl}/services`,
   },
   openGraph: {
     title: `Driveway & Paving Services | ${siteConfig.company.tradingName}`,
-    description: `Explore driveway and paving services across ${siteConfig.contact.serviceArea.join(
-      ", ",
-    )}.`,
+    description: `Explore driveway and paving services across ${siteConfig.areas
+      .map((area) => area.name)
+      .filter(Boolean)
+      .join(", ")}.`,
     url: `${siteConfig.seo.siteUrl}/services`,
     siteName: siteConfig.company.tradingName,
     type: "website",
@@ -24,9 +27,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `Driveway & Paving Services | ${siteConfig.company.tradingName}`,
-    description: `Explore driveway and paving services across ${siteConfig.contact.serviceArea.join(
-      ", ",
-    )}.`,
+    description: `Explore driveway and paving services across ${siteConfig.areas
+      .map((area) => area.name)
+      .filter(Boolean)
+      .join(", ")}.`,
     images: ["/images/og-image.jpg"],
   },
 };
@@ -51,7 +55,7 @@ export default function ServicesPage() {
   const highlights = [
     {
       label: "Average rating",
-      value: `${siteConfig.proof.averageRating.toFixed(1)} ★`,
+      value: siteConfig.proof.averageRating.toFixed(1),
     },
     {
       label: "Reviews",
@@ -66,7 +70,7 @@ export default function ServicesPage() {
 
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
-      <Container className="space-y-14 py-16 sm:py-20">
+      <Container className="space-y-14 py-16 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
           <div className="space-y-6">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
@@ -76,10 +80,24 @@ export default function ServicesPage() {
               <span>/</span>
               <span className="text-(--color-foreground)">Services</span>
             </nav>
+            <div className="flex flex-wrap gap-3">
+              {highlights.map((item) => (
+                <div
+                  key={item.label}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
+                >
+                  {item.label === "Average rating" ? (
+                    <Star
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5 text-amber-500"
+                      fill="currentColor"
+                    />
+                  ) : null}
+                  {item.value} {item.label.toLowerCase()}
+                </div>
+              ))}
+            </div>
             <div className="space-y-4">
-              <div className="inline-flex w-fit items-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--color-secondary)">
-                Services
-              </div>
               <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
                 Our Driveway & Paving Services
               </h1>
@@ -91,26 +109,18 @@ export default function ServicesPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <a
                 href={`tel:${siteConfig.contact.phoneFormatted}`}
-                className="w-fit rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
+                <Phone aria-hidden="true" className="h-4 w-4" />
                 Call {siteConfig.contact.phone}
               </a>
               <a
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
+                <ChevronRight aria-hidden="true" className="h-4 w-4" />
               </a>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {highlights.map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
-                >
-                  {item.value} {item.label.toLowerCase()}
-                </div>
-              ))}
             </div>
           </div>
           <div className="space-y-4">
@@ -147,7 +157,7 @@ export default function ServicesPage() {
                     <span className="flex h-9 w-9 items-center justify-center rounded-full border border-(--color-accent)/30 bg-(--color-accent)/10 text-xs font-semibold text-(--color-accent)">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <div>
+                    <div className="space-y-0.5">
                       <div className="text-sm font-semibold text-(--color-foreground)">
                         {step.title}
                       </div>
@@ -206,8 +216,9 @@ export default function ServicesPage() {
                         {service.features.slice(0, 3).map((feature) => (
                           <span
                             key={feature}
-                            className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
+                            className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
                           >
+                            <Check aria-hidden="true" className="h-3.5 w-3.5" />
                             {feature}
                           </span>
                         ))}
@@ -215,17 +226,7 @@ export default function ServicesPage() {
                     ) : null}
                     <span className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-primary)/35 px-5 py-2 text-sm font-semibold text-(--color-primary) transition group-hover:bg-(--color-primary) group-hover:text-white">
                       Learn more
-                      <svg
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="h-4 w-4"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <ChevronRight aria-hidden="true" className="h-4 w-4" />
                     </span>
                   </div>
                 </div>

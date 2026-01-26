@@ -22,6 +22,10 @@ type ReviewItem = SiteConfig["home"]["reviews"]["items"][number];
 
 type Accreditation = { name: string; logo: string };
 
+type AboutValue = SiteConfig["about"]["values"][number];
+
+type AboutHowWeWorkStep = SiteConfig["about"]["howWeWorkSteps"][number];
+
 const socialKeys: SocialKey[] = [
   "facebook",
   "instagram",
@@ -451,7 +455,6 @@ const numericRequiredFields = new Set<RequiredFieldKey>([
 const requiredFieldSet = new Set<RequiredFieldKey>(requiredFieldKeys);
 
 type JsonFieldKey =
-  | "serviceArea"
   | "services"
   | "areas"
   | "accreditations"
@@ -459,10 +462,11 @@ type JsonFieldKey =
   | "keywords"
   | "processSteps"
   | "galleryItems"
-  | "reviewItems";
+  | "reviewItems"
+  | "aboutValues"
+  | "aboutHowWeWorkSteps";
 
 const jsonFieldLabels: Record<JsonFieldKey, string> = {
-  serviceArea: "Service area",
   services: "Services",
   areas: "Areas",
   accreditations: "Accreditations",
@@ -471,6 +475,8 @@ const jsonFieldLabels: Record<JsonFieldKey, string> = {
   processSteps: "Process steps",
   galleryItems: "Gallery items",
   reviewItems: "Review items",
+  aboutValues: "About values",
+  aboutHowWeWorkSteps: "About steps",
 };
 
 type SectionKey =
@@ -483,6 +489,7 @@ type SectionKey =
   | "integrations"
   | "navigation"
   | "headerFooter"
+  | "about"
   | "services"
   | "areas"
   | "homeHero"
@@ -526,6 +533,7 @@ export default function AdminPage() {
       integrations: true,
       navigation: true,
       headerFooter: true,
+      about: true,
       services: true,
       areas: true,
       homeHero: true,
@@ -539,7 +547,6 @@ export default function AdminPage() {
   );
   const [showRawJson, setShowRawJson] = useState<Record<JsonFieldKey, boolean>>(
     {
-      serviceArea: false,
       services: false,
       areas: false,
       accreditations: false,
@@ -548,6 +555,8 @@ export default function AdminPage() {
       processSteps: false,
       galleryItems: false,
       reviewItems: false,
+      aboutValues: false,
+      aboutHowWeWorkSteps: false,
     },
   );
   const companyLogoPreview = useMemo(() => {
@@ -693,6 +702,13 @@ export default function AdminPage() {
     footerPrivacyLabel: siteConfig.footer.privacyLabel,
     footerTermsLabel: siteConfig.footer.termsLabel,
     footerCopyrightLabel: siteConfig.footer.copyrightLabel,
+    aboutHeroDescription: siteConfig.about.heroDescription,
+    aboutStandForEyebrow: siteConfig.about.standForEyebrow,
+    aboutStandForTitle: siteConfig.about.standForTitle,
+    aboutStandForDescription: siteConfig.about.standForDescription,
+    aboutHowWeWorkTitle: siteConfig.about.howWeWorkTitle,
+    aboutQuoteTitle: siteConfig.about.quoteTitle,
+    aboutQuoteDescription: siteConfig.about.quoteDescription,
     homeHeroTitle: siteConfig.home.hero.title,
     homeHeroSubheading: siteConfig.home.hero.subheading,
     homeHeroPrimaryCtaLabel: siteConfig.home.hero.primaryCtaLabel,
@@ -738,7 +754,6 @@ export default function AdminPage() {
   }));
 
   const [jsonFields, setJsonFields] = useState<Record<JsonFieldKey, string>>({
-    serviceArea: JSON.stringify(siteConfig.contact.serviceArea, null, 2),
     services: JSON.stringify(siteConfig.services, null, 2),
     areas: JSON.stringify(siteConfig.areas, null, 2),
     accreditations: JSON.stringify(siteConfig.proof.accreditations, null, 2),
@@ -747,6 +762,12 @@ export default function AdminPage() {
     processSteps: JSON.stringify(siteConfig.home.process.steps, null, 2),
     galleryItems: JSON.stringify(siteConfig.home.gallery.items, null, 2),
     reviewItems: JSON.stringify(siteConfig.home.reviews.items, null, 2),
+    aboutValues: JSON.stringify(siteConfig.about.values, null, 2),
+    aboutHowWeWorkSteps: JSON.stringify(
+      siteConfig.about.howWeWorkSteps,
+      null,
+      2,
+    ),
   });
 
   const [invalidJsonFields, setInvalidJsonFields] = useState<JsonFieldKey[]>(
@@ -842,13 +863,6 @@ export default function AdminPage() {
     syncHeroBackgroundFields(heroGallerySelection, next);
   };
 
-  const parsedServiceArea = useMemo(() => {
-    return parseJson<string[]>(
-      jsonFields.serviceArea,
-      siteConfig.contact.serviceArea,
-    ).value;
-  }, [jsonFields.serviceArea]);
-
   const parsedServicesList = useMemo(() => {
     return parseJson<Service[]>(jsonFields.services, siteConfig.services).value;
   }, [jsonFields.services]);
@@ -889,6 +903,20 @@ export default function AdminPage() {
       siteConfig.home.reviews.items,
     ).value;
   }, [jsonFields.reviewItems]);
+
+  const parsedAboutValuesList = useMemo(() => {
+    return parseJson<AboutValue[]>(
+      jsonFields.aboutValues,
+      siteConfig.about.values,
+    ).value;
+  }, [jsonFields.aboutValues]);
+
+  const parsedAboutHowWeWorkStepsList = useMemo(() => {
+    return parseJson<AboutHowWeWorkStep[]>(
+      jsonFields.aboutHowWeWorkSteps,
+      siteConfig.about.howWeWorkSteps,
+    ).value;
+  }, [jsonFields.aboutHowWeWorkSteps]);
 
   const isRequiredFieldInvalid = (key: RequiredFieldKey, value: string) => {
     const trimmed = value.trim();
@@ -986,10 +1014,6 @@ export default function AdminPage() {
       return;
     }
 
-    const parsedServiceArea = parseJson<string[]>(
-      jsonFields.serviceArea,
-      siteConfig.contact.serviceArea,
-    );
     const parsedServices = parseJson(jsonFields.services, siteConfig.services);
     const parsedAreas = parseJson(jsonFields.areas, siteConfig.areas);
     const parsedAccreditationsJson = parseJson(
@@ -1016,9 +1040,16 @@ export default function AdminPage() {
       jsonFields.reviewItems,
       siteConfig.home.reviews.items,
     );
+    const parsedAboutValues = parseJson(
+      jsonFields.aboutValues,
+      siteConfig.about.values,
+    );
+    const parsedAboutHowWeWorkSteps = parseJson(
+      jsonFields.aboutHowWeWorkSteps,
+      siteConfig.about.howWeWorkSteps,
+    );
 
     const invalidFields: JsonFieldKey[] = [];
-    if (parsedServiceArea.error) invalidFields.push("serviceArea");
     if (parsedServices.error) invalidFields.push("services");
     if (parsedAreas.error) invalidFields.push("areas");
     if (parsedAccreditationsJson.error) invalidFields.push("accreditations");
@@ -1027,6 +1058,9 @@ export default function AdminPage() {
     if (parsedProcessSteps.error) invalidFields.push("processSteps");
     if (parsedGalleryItemsJson.error) invalidFields.push("galleryItems");
     if (parsedReviewItems.error) invalidFields.push("reviewItems");
+    if (parsedAboutValues.error) invalidFields.push("aboutValues");
+    if (parsedAboutHowWeWorkSteps.error)
+      invalidFields.push("aboutHowWeWorkSteps");
 
     const jsonError = invalidFields.length > 0;
     setInvalidJsonFields(invalidFields);
@@ -1061,6 +1095,10 @@ export default function AdminPage() {
       (item) => item.image,
     );
 
+    const derivedServiceArea = (parsedAreas.value as Area[])
+      .map((area) => area.name)
+      .filter(Boolean);
+
     const updatedConfig = {
       ...siteConfig,
       company: {
@@ -1089,7 +1127,7 @@ export default function AdminPage() {
           weekends: form.openingWeekends.trim(),
         },
         serviceRadius: Number(form.serviceRadius),
-        serviceArea: parsedServiceArea.value,
+        serviceArea: derivedServiceArea,
       },
       branding: {
         colors: {
@@ -1178,6 +1216,17 @@ export default function AdminPage() {
         privacyLabel: form.footerPrivacyLabel.trim(),
         termsLabel: form.footerTermsLabel.trim(),
         copyrightLabel: form.footerCopyrightLabel.trim(),
+      },
+      about: {
+        heroDescription: form.aboutHeroDescription.trim(),
+        standForEyebrow: form.aboutStandForEyebrow.trim(),
+        standForTitle: form.aboutStandForTitle.trim(),
+        standForDescription: form.aboutStandForDescription.trim(),
+        values: parsedAboutValues.value,
+        howWeWorkTitle: form.aboutHowWeWorkTitle.trim(),
+        howWeWorkSteps: parsedAboutHowWeWorkSteps.value,
+        quoteTitle: form.aboutQuoteTitle.trim(),
+        quoteDescription: form.aboutQuoteDescription.trim(),
       },
       home: {
         hero: {
@@ -1590,43 +1639,6 @@ export default function AdminPage() {
                 )}
               />
             </label>
-          </div>
-          <div className="space-y-3 text-sm">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              {requiredLabel("Service area")}
-              <button
-                type="button"
-                onClick={() => toggleRawJson("serviceArea")}
-                className={pillButtonClassName}
-              >
-                {isRawJsonVisible("serviceArea")
-                  ? "Hide raw JSON"
-                  : "Show raw JSON"}
-              </button>
-            </div>
-            <label className="space-y-1 text-sm">
-              <span className="text-sm font-medium">
-                Service area (comma separated)
-              </span>
-              <CommaSeparatedEditor
-                items={parsedServiceArea}
-                onChange={(next) => setJsonValue("serviceArea", next)}
-                placeholder="Town or district, another town"
-              />
-            </label>
-            {isRawJsonVisible("serviceArea") ? (
-              <textarea
-                ref={(element) => {
-                  jsonFieldRefs.current.serviceArea = element;
-                }}
-                rows={4}
-                value={jsonFields.serviceArea}
-                onChange={(event) =>
-                  updateJsonField("serviceArea", event.target.value)
-                }
-                className={jsonFieldClassName("serviceArea")}
-              />
-            ) : null}
           </div>
         </Section>
 
@@ -2576,6 +2588,302 @@ export default function AdminPage() {
                   "footerCopyrightLabel",
                   "w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2",
                 )}
+              />
+            </label>
+          </div>
+        </Section>
+
+        <Section
+          title="About"
+          isOpen={openSections.about}
+          onToggle={() => toggleSection("about")}
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="space-y-1 text-sm md:col-span-2">
+              <span>Hero description</span>
+              <textarea
+                rows={3}
+                value={form.aboutHeroDescription}
+                onChange={(event) =>
+                  updateForm("aboutHeroDescription", event.target.value)
+                }
+                className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+              />
+            </label>
+            <label className="space-y-1 text-sm">
+              <span>Stand for eyebrow</span>
+              <input
+                value={form.aboutStandForEyebrow}
+                onChange={(event) =>
+                  updateForm("aboutStandForEyebrow", event.target.value)
+                }
+                className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+              />
+            </label>
+            <label className="space-y-1 text-sm">
+              <span>Stand for title</span>
+              <input
+                value={form.aboutStandForTitle}
+                onChange={(event) =>
+                  updateForm("aboutStandForTitle", event.target.value)
+                }
+                className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+              />
+            </label>
+            <label className="space-y-1 text-sm md:col-span-2">
+              <span>Stand for description</span>
+              <textarea
+                rows={2}
+                value={form.aboutStandForDescription}
+                onChange={(event) =>
+                  updateForm("aboutStandForDescription", event.target.value)
+                }
+                className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+              />
+            </label>
+          </div>
+
+          <div className="mt-6 space-y-3 text-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-medium">About values</span>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => toggleRawJson("aboutValues")}
+                  className={pillButtonClassName}
+                >
+                  {isRawJsonVisible("aboutValues")
+                    ? "Hide raw JSON"
+                    : "Show raw JSON"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setJsonValue("aboutValues", [
+                      ...parsedAboutValuesList,
+                      { title: "", description: "", bullets: [] },
+                    ])
+                  }
+                  className={pillButtonClassName}
+                >
+                  Add value
+                </button>
+              </div>
+            </div>
+            <div className="grid gap-3 md:grid-cols-2">
+              {parsedAboutValuesList.map((value, index) => (
+                <div
+                  key={`${value.title}-${index}`}
+                  className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4"
+                >
+                  <div className="flex justify-end">
+                    <IconButton
+                      label="Remove value"
+                      onClick={() =>
+                        setJsonValue(
+                          "aboutValues",
+                          removeAt(parsedAboutValuesList, index),
+                        )
+                      }
+                      className="-m-1"
+                    />
+                  </div>
+                  <label className="space-y-1 text-sm">
+                    <span>Title</span>
+                    <input
+                      value={value.title}
+                      onChange={(event) =>
+                        setJsonValue(
+                          "aboutValues",
+                          replaceAt(parsedAboutValuesList, index, {
+                            ...value,
+                            title: event.target.value,
+                          }),
+                        )
+                      }
+                      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                    />
+                  </label>
+                  <label className="space-y-1 text-sm">
+                    <span>Description</span>
+                    <textarea
+                      rows={2}
+                      value={value.description}
+                      onChange={(event) =>
+                        setJsonValue(
+                          "aboutValues",
+                          replaceAt(parsedAboutValuesList, index, {
+                            ...value,
+                            description: event.target.value,
+                          }),
+                        )
+                      }
+                      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                    />
+                  </label>
+                  <label className="space-y-1 text-sm">
+                    <span>Bullets (one per line)</span>
+                    <textarea
+                      rows={3}
+                      value={value.bullets.join("\n")}
+                      onChange={(event) =>
+                        setJsonValue(
+                          "aboutValues",
+                          replaceAt(parsedAboutValuesList, index, {
+                            ...value,
+                            bullets: event.target.value
+                              .split("\n")
+                              .map((item) => item.trim())
+                              .filter(Boolean),
+                          }),
+                        )
+                      }
+                      className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
+            {isRawJsonVisible("aboutValues") ? (
+              <textarea
+                ref={(element) => {
+                  jsonFieldRefs.current.aboutValues = element;
+                }}
+                rows={4}
+                value={jsonFields.aboutValues}
+                onChange={(event) =>
+                  updateJsonField("aboutValues", event.target.value)
+                }
+                className={jsonFieldClassName("aboutValues")}
+              />
+            ) : null}
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <label className="space-y-1 text-sm">
+              <span>How we work title</span>
+              <input
+                value={form.aboutHowWeWorkTitle}
+                onChange={(event) =>
+                  updateForm("aboutHowWeWorkTitle", event.target.value)
+                }
+                className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+              />
+            </label>
+            <div className="space-y-3 text-sm md:col-span-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-medium">How we work steps</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => toggleRawJson("aboutHowWeWorkSteps")}
+                    className={pillButtonClassName}
+                  >
+                    {isRawJsonVisible("aboutHowWeWorkSteps")
+                      ? "Hide raw JSON"
+                      : "Show raw JSON"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setJsonValue("aboutHowWeWorkSteps", [
+                        ...parsedAboutHowWeWorkStepsList,
+                        { title: "", description: "" },
+                      ])
+                    }
+                    className={pillButtonClassName}
+                  >
+                    Add step
+                  </button>
+                </div>
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                {parsedAboutHowWeWorkStepsList.map((step, index) => (
+                  <div
+                    key={`${step.title}-${index}`}
+                    className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4"
+                  >
+                    <div className="flex justify-end">
+                      <IconButton
+                        label="Remove step"
+                        onClick={() =>
+                          setJsonValue(
+                            "aboutHowWeWorkSteps",
+                            removeAt(parsedAboutHowWeWorkStepsList, index),
+                          )
+                        }
+                        className="-m-1"
+                      />
+                    </div>
+                    <label className="space-y-1 text-sm">
+                      <span>Title</span>
+                      <input
+                        value={step.title}
+                        onChange={(event) =>
+                          setJsonValue(
+                            "aboutHowWeWorkSteps",
+                            replaceAt(parsedAboutHowWeWorkStepsList, index, {
+                              ...step,
+                              title: event.target.value,
+                            }),
+                          )
+                        }
+                        className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                      />
+                    </label>
+                    <label className="space-y-1 text-sm">
+                      <span>Description</span>
+                      <textarea
+                        rows={3}
+                        value={step.description}
+                        onChange={(event) =>
+                          setJsonValue(
+                            "aboutHowWeWorkSteps",
+                            replaceAt(parsedAboutHowWeWorkStepsList, index, {
+                              ...step,
+                              description: event.target.value,
+                            }),
+                          )
+                        }
+                        className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+                      />
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {isRawJsonVisible("aboutHowWeWorkSteps") ? (
+                <textarea
+                  ref={(element) => {
+                    jsonFieldRefs.current.aboutHowWeWorkSteps = element;
+                  }}
+                  rows={4}
+                  value={jsonFields.aboutHowWeWorkSteps}
+                  onChange={(event) =>
+                    updateJsonField("aboutHowWeWorkSteps", event.target.value)
+                  }
+                  className={jsonFieldClassName("aboutHowWeWorkSteps")}
+                />
+              ) : null}
+            </div>
+            <label className="space-y-1 text-sm">
+              <span>Quote title</span>
+              <input
+                value={form.aboutQuoteTitle}
+                onChange={(event) =>
+                  updateForm("aboutQuoteTitle", event.target.value)
+                }
+                className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
+              />
+            </label>
+            <label className="space-y-1 text-sm md:col-span-2">
+              <span>Quote description</span>
+              <textarea
+                rows={2}
+                value={form.aboutQuoteDescription}
+                onChange={(event) =>
+                  updateForm("aboutQuoteDescription", event.target.value)
+                }
+                className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
               />
             </label>
           </div>

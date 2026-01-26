@@ -96,6 +96,14 @@ export function Footer({ siteConfig }: FooterProps) {
             >
               {siteConfig.footer.termsLabel}
             </Link>
+            {siteConfig.cookies.enabled ? (
+              <Link
+                href="/cookies"
+                className="hover:text-(--color-footer-foreground)"
+              >
+                {siteConfig.footer.cookiesLabel}
+              </Link>
+            ) : null}
             {siteConfig.company.registeredNumber ? (
               <span>
                 {siteConfig.company.legalName} | Company No.{" "}

@@ -95,6 +95,9 @@ export type SiteConfig = {
     emailProvider: "resend";
     resendFromEmail: string;
   };
+  cookies: {
+    enabled: boolean;
+  };
   navigation: { href: string; label: string }[];
   header: {
     primaryCtaLabel: string;
@@ -105,6 +108,7 @@ export type SiteConfig = {
     socialLabel: string;
     privacyLabel: string;
     termsLabel: string;
+    cookiesLabel: string;
     copyrightLabel: string;
   };
   about: {
@@ -376,6 +380,9 @@ export const siteConfig: SiteConfig = {
     "emailProvider": "resend",
     "resendFromEmail": "quotes@abcdriveways.co.uk"
   },
+  "cookies": {
+    "enabled": false
+  },
   "navigation": [
     {
       "href": "/services",
@@ -411,6 +418,7 @@ export const siteConfig: SiteConfig = {
     "socialLabel": "Social",
     "privacyLabel": "Privacy Policy",
     "termsLabel": "Terms",
+    "cookiesLabel": "Cookies",
     "copyrightLabel": "© {year} {tradingName}. All rights reserved."
   },
   "about": {

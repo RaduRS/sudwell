@@ -41,6 +41,15 @@ export default function AreasPage() {
     .map((area) => area.name)
     .filter(Boolean)
     .join(", ");
+  const addressLines = [
+    siteConfig.contact.address.street,
+    siteConfig.contact.address.city,
+    siteConfig.contact.address.county,
+    siteConfig.contact.address.postcode,
+    siteConfig.contact.address.country,
+  ].filter(Boolean);
+  const mapQuery = encodeURIComponent(addressLines.join(", "));
+  const mapEmbedUrl = `https://www.google.com/maps?q=${mapQuery}&z=11&output=embed`;
 
   const schema = {
     "@context": "https://schema.org",
@@ -187,6 +196,41 @@ export default function AreasPage() {
               </div>
             </Link>
           ))}
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+              Coverage map
+            </div>
+            <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+              {siteConfig.contact.serviceRadius} mile radius from{" "}
+              {siteConfig.contact.address.city}
+            </div>
+          </div>
+          <div className="overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="h-[260px] w-full bg-(--color-foreground)/5 sm:h-[360px]">
+              <iframe
+                title={`${siteConfig.company.tradingName} service coverage map`}
+                src={mapEmbedUrl}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full w-full"
+                allowFullScreen
+              />
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {siteConfig.areas.map((area) => (
+              <Link
+                key={`${area.slug}-pill`}
+                href={`/areas/${area.slug}`}
+                className="inline-flex items-center rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80 transition hover:bg-(--color-foreground)/5"
+              >
+                {area.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </Container>
       <script

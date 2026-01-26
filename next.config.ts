@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.facebook.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https:",
+  "connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://www.facebook.com",
   "frame-src https://www.google.com",
 ].join("; ");
 

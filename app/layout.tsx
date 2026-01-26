@@ -23,6 +23,8 @@ import {
 } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { CookieBanner } from "@/components/shared/CookieBanner";
+import { TrackingScripts } from "@/components/shared/TrackingScripts";
 import { getSiteConfig } from "@/config/site-config.server";
 import { siteConfig } from "@/config/site.config";
 import "./globals.css";
@@ -221,6 +223,16 @@ export default async function RootLayout({
         <Header siteConfig={siteConfig} />
         {children}
         <Footer siteConfig={siteConfig} />
+        <CookieBanner
+          enabled={siteConfig.cookies.enabled}
+          googleAnalyticsId={siteConfig.integrations.googleAnalyticsId ?? null}
+          facebookPixelId={siteConfig.integrations.facebookPixel ?? null}
+        />
+        <TrackingScripts
+          enabled={siteConfig.cookies.enabled}
+          googleAnalyticsId={siteConfig.integrations.googleAnalyticsId ?? null}
+          facebookPixelId={siteConfig.integrations.facebookPixel ?? null}
+        />
       </body>
     </html>
   );

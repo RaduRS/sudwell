@@ -345,6 +345,7 @@ const requiredFieldKeys = [
   "footerSocialLabel",
   "footerPrivacyLabel",
   "footerTermsLabel",
+  "footerCookiesLabel",
   "footerCopyrightLabel",
   "homeHeroTitle",
   "homeHeroSubheading",
@@ -417,6 +418,7 @@ const requiredFieldLabels: Record<RequiredFieldKey, string> = {
   footerSocialLabel: "Social label",
   footerPrivacyLabel: "Privacy label",
   footerTermsLabel: "Terms label",
+  footerCookiesLabel: "Cookies label",
   footerCopyrightLabel: "Copyright label",
   homeHeroTitle: "Hero title",
   homeHeroSubheading: "Hero subheading",
@@ -701,6 +703,7 @@ export default function AdminPage() {
     footerSocialLabel: siteConfig.footer.socialLabel,
     footerPrivacyLabel: siteConfig.footer.privacyLabel,
     footerTermsLabel: siteConfig.footer.termsLabel,
+    footerCookiesLabel: siteConfig.footer.cookiesLabel ?? "Cookies",
     footerCopyrightLabel: siteConfig.footer.copyrightLabel,
     aboutHeroDescription: siteConfig.about.heroDescription,
     aboutStandForEyebrow: siteConfig.about.standForEyebrow,
@@ -744,6 +747,10 @@ export default function AdminPage() {
     homeCtaPrimaryCtaLabel: siteConfig.home.cta.primaryCtaLabel,
     homeCtaSecondaryCtaLabel: siteConfig.home.cta.secondaryCtaLabel,
   });
+
+  const [cookiesEnabled, setCookiesEnabled] = useState(
+    siteConfig.cookies?.enabled ?? false,
+  );
 
   const [social, setSocial] = useState<Record<SocialKey, SocialState>>(() => ({
     facebook: getSocialState("facebook"),
@@ -1205,6 +1212,9 @@ export default function AdminPage() {
         emailProvider: form.integrationsEmailProvider,
         resendFromEmail: form.integrationsResendFromEmail.trim(),
       },
+      cookies: {
+        enabled: cookiesEnabled,
+      },
       navigation: parsedNavigation.value,
       header: {
         primaryCtaLabel: form.headerPrimaryCtaLabel.trim(),
@@ -1215,6 +1225,7 @@ export default function AdminPage() {
         socialLabel: form.footerSocialLabel.trim(),
         privacyLabel: form.footerPrivacyLabel.trim(),
         termsLabel: form.footerTermsLabel.trim(),
+        cookiesLabel: form.footerCookiesLabel.trim(),
         copyrightLabel: form.footerCopyrightLabel.trim(),
       },
       about: {
@@ -2356,6 +2367,14 @@ export default function AdminPage() {
                 className="w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2"
               />
             </label>
+            <label className="flex items-center gap-2 text-sm md:col-span-2">
+              <input
+                type="checkbox"
+                checked={cookiesEnabled}
+                onChange={(event) => setCookiesEnabled(event.target.checked)}
+              />
+              <span>Enable cookies notice and Cookies link</span>
+            </label>
             <label className="space-y-1 text-sm">
               {requiredLabel("Email provider")}
               <select
@@ -2572,6 +2591,20 @@ export default function AdminPage() {
                 }
                 className={requiredFieldClassName(
                   "footerTermsLabel",
+                  "w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2",
+                )}
+              />
+            </label>
+            <label className="space-y-1 text-sm">
+              {requiredLabel("Cookies label")}
+              <input
+                data-required-field="footerCookiesLabel"
+                value={form.footerCookiesLabel}
+                onChange={(event) =>
+                  updateForm("footerCookiesLabel", event.target.value)
+                }
+                className={requiredFieldClassName(
+                  "footerCookiesLabel",
                   "w-full rounded-lg border border-foreground/10 bg-transparent px-3 py-2",
                 )}
               />

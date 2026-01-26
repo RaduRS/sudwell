@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChevronRight, Navigation, Phone, Star } from "lucide-react";
@@ -65,6 +64,16 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
   }
 
   const postcodes = area.postcodes?.filter(Boolean) ?? [];
+  const mapQuery = encodeURIComponent(
+    [
+      area.name,
+      siteConfig.contact.address.county,
+      siteConfig.contact.address.country,
+    ]
+      .filter(Boolean)
+      .join(", "),
+  );
+  const mapEmbedUrl = `https://www.google.com/maps?q=${mapQuery}&z=12&output=embed`;
   const pageTitle = `Driveway & paving in ${area.name}`;
   const serviceHighlights = siteConfig.services.slice(0, 6);
   const localBusinessSchema = {
@@ -115,9 +124,6 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
               <span className="text-(--color-foreground)">{area.name}</span>
             </nav>
             <div className="flex flex-wrap gap-3">
-              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
-                {siteConfig.contact.serviceRadius} mile radius
-              </div>
               <div className="inline-flex items-center gap-1.5 rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                 <Star
                   aria-hidden="true"
@@ -128,6 +134,9 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
               </div>
               <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                 {siteConfig.proof.reviewCount}+ reviews
+              </div>
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
+                {siteConfig.contact.serviceRadius} miles service radius
               </div>
             </div>
             <div className="space-y-4">
@@ -231,54 +240,20 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           </div>
         </div>
 
-        <div className="space-y-10">
-          <div className="space-y-4">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
-              Explore services
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {siteConfig.services.map((service) => {
-                const preview = service.gallery[0] ?? "";
-                return (
-                  <Link
-                    key={service.slug}
-                    href={`/services/${service.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5 transition-shadow hover:shadow-lg"
-                  >
-                    <div className="relative h-36 overflow-hidden">
-                      {preview ? (
-                        <Image
-                          src={preview}
-                          alt={service.name}
-                          fill
-                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                          className="object-cover object-center"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 grid grid-cols-2">
-                          <div className="bg-(--color-secondary)/12" />
-                          <div className="bg-(--color-accent)/10" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/15" />
-                      <div className="relative z-10 flex h-full items-end px-5 py-4">
-                        <div className="rounded-2xl border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold text-white">
-                          {service.name}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex h-full flex-col gap-2 p-4">
-                      <p className="text-sm leading-relaxed text-(--color-foreground)/70">
-                        {service.shortDesc}
-                      </p>
-                      <div className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-(--color-primary) transition group-hover:text-(--color-primary)/80">
-                        Learn more
-                        <ChevronRight aria-hidden="true" className="h-4 w-4" />
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+        <div className="space-y-4">
+          <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
+            Coverage map
+          </div>
+          <div className="overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="h-[260px] w-full bg-(--color-foreground)/5 sm:h-[360px]">
+              <iframe
+                title={`${siteConfig.company.tradingName} coverage map for ${area.name}`}
+                src={mapEmbedUrl}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full w-full"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>

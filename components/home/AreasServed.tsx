@@ -15,7 +15,7 @@ export function AreasServed() {
           title={siteConfig.home.areas.title}
           description={description}
         />
-        <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+        <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
           <div className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
             Service areas
           </div>

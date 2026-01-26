@@ -2,8 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
-import { ReviewCard } from "@/components/shared/ReviewCard";
-import { SectionHeader } from "@/components/shared/SectionHeader";
+import { getReviewId, ReviewCard } from "@/components/shared/ReviewCard";
 import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
@@ -88,7 +87,7 @@ export default function ReviewsPage() {
                 Customer reviews
               </h1>
               <p className="max-w-2xl text-base leading-relaxed text-(--color-foreground)/70 sm:text-lg">
-                {description}
+                Recent customer feedback from local projects.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -100,7 +99,7 @@ export default function ReviewsPage() {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
@@ -129,7 +128,7 @@ export default function ReviewsPage() {
           </div>
 
           <div className="space-y-4">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Why customers choose us
               </div>
@@ -147,7 +146,7 @@ export default function ReviewsPage() {
             </div>
 
             {siteConfig.proof.reviewsEmbed ? (
-              <div className="overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) shadow-sm ring-1 ring-(--color-foreground)/5">
+              <div className="overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5">
                 <div className="border-b border-(--color-foreground)/10 p-6">
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                     Verified reviews
@@ -164,15 +163,13 @@ export default function ReviewsPage() {
           </div>
         </div>
 
-        <SectionHeader
-          eyebrow={siteConfig.home.reviews.eyebrow}
-          title={siteConfig.home.reviews.title}
-          description="Recent customer feedback from local projects."
-        />
-
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review) => (
-            <ReviewCard key={`${review.name}-${review.date}`} {...review} />
+            <ReviewCard
+              key={`${review.name}-${review.date}`}
+              id={getReviewId(review.name, review.date)}
+              {...review}
+            />
           ))}
         </div>
       </Container>

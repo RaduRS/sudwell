@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
 import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
@@ -78,7 +77,7 @@ export default function AreasPage() {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
@@ -96,7 +95,7 @@ export default function AreasPage() {
             </div>
           </div>
           <div className="space-y-4">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Based in
               </div>
@@ -118,12 +117,6 @@ export default function AreasPage() {
                 </div>
               </div>
               <div className="mt-5 flex flex-col gap-3">
-                <a
-                  href={`tel:${siteConfig.contact.phoneFormatted}`}
-                  className="inline-flex w-fit items-center justify-center rounded-full border border-(--color-primary)/35 bg-(--color-primary)/10 px-5 py-2.5 text-sm font-semibold text-(--color-primary) transition hover:bg-(--color-primary) hover:text-white"
-                >
-                  Call now
-                </a>
                 <Link
                   href="/services"
                   className="inline-flex w-fit items-center justify-center rounded-full border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-5 py-2.5 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-foreground)/10"
@@ -132,38 +125,15 @@ export default function AreasPage() {
                 </Link>
               </div>
             </div>
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
-                Quick links
-              </div>
-              <div className="mt-4 grid gap-2 text-sm font-semibold">
-                {siteConfig.areas.slice(0, 6).map((area) => (
-                  <Link
-                    key={area.slug}
-                    href={`/areas/${area.slug}`}
-                    className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 transition hover:border-(--color-accent)/30 hover:bg-(--color-foreground)/5"
-                  >
-                    <span>{area.name}</span>
-                    <span className="text-(--color-foreground)/50">View</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
-
-        <SectionHeader
-          eyebrow={siteConfig.home.areas.eyebrow}
-          title={siteConfig.home.areas.title}
-          description="Choose an area to see local coverage details and postcode information."
-        />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {siteConfig.areas.map((area) => (
             <Link
               key={area.slug}
               href={`/areas/${area.slug}`}
-              className="group flex h-full flex-col rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
+              className="group flex h-full flex-col rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5 transition-shadow hover:shadow-lg"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">

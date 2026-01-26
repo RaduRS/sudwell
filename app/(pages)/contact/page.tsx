@@ -109,7 +109,7 @@ export default function ContactPage() {
               </a>
               <a
                 href={`mailto:${siteConfig.contact.email}`}
-                className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Email us
               </a>
@@ -118,7 +118,7 @@ export default function ContactPage() {
             <form
               action={siteConfig.integrations.formEndpoint}
               method="post"
-              className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5"
+              className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5"
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
@@ -127,7 +127,7 @@ export default function ContactPage() {
                     name="name"
                     autoComplete="name"
                     required
-                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-white px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
                   />
                 </label>
                 <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
@@ -137,7 +137,7 @@ export default function ContactPage() {
                     name="email"
                     autoComplete="email"
                     required
-                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-white px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
                   />
                 </label>
                 <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
@@ -147,7 +147,7 @@ export default function ContactPage() {
                     name="phone"
                     autoComplete="tel"
                     required
-                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-white px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
                   />
                 </label>
                 <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
@@ -156,7 +156,7 @@ export default function ContactPage() {
                     name="postcode"
                     autoComplete="postal-code"
                     required
-                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-white px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
                   />
                 </label>
                 <label className="space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
@@ -164,7 +164,7 @@ export default function ContactPage() {
                   <select
                     name="service"
                     required
-                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                    className="w-full rounded-2xl border border-(--color-foreground)/10 bg-white px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
                   >
                     <option value="" disabled>
                       Select a service
@@ -181,7 +181,7 @@ export default function ContactPage() {
                   <textarea
                     name="message"
                     rows={5}
-                    className="w-full resize-none rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
+                    className="w-full resize-none rounded-2xl border border-(--color-foreground)/10 bg-white px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25"
                   />
                 </label>
               </div>
@@ -214,14 +214,14 @@ export default function ContactPage() {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Contact details
               </div>
               <div className="mt-4 space-y-3 text-sm text-(--color-foreground)/75">
                 <a
                   href={`tel:${siteConfig.contact.phoneFormatted}`}
-                  className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 font-semibold text-(--color-foreground) transition hover:border-(--color-accent)/30"
+                  className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 px-4 py-3 font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/10 hover:shadow-sm"
                 >
                   <span>{siteConfig.contact.phone}</span>
                   <span className="text-(--color-foreground)/60">Call</span>
@@ -234,7 +234,7 @@ export default function ContactPage() {
                     )}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 font-semibold text-(--color-foreground) transition hover:border-(--color-accent)/30"
+                    className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 px-4 py-3 font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/10 hover:shadow-sm"
                   >
                     <span>WhatsApp</span>
                     <span className="text-(--color-foreground)/60">
@@ -244,7 +244,7 @@ export default function ContactPage() {
                 ) : null}
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 font-semibold text-(--color-foreground) transition hover:border-(--color-accent)/30"
+                  className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 px-4 py-3 font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/10 hover:shadow-sm"
                 >
                   <span className="truncate">{siteConfig.contact.email}</span>
                   <span className="text-(--color-foreground)/60">Email</span>
@@ -262,7 +262,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Opening hours
               </div>

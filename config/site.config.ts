@@ -158,7 +158,7 @@ export type SiteConfig = {
 
 export const siteConfig: SiteConfig = {
   "company": {
-    "tradingName": "ABC Driveways",
+    "tradingName": "Buffola Driveway",
     "legalName": "ABC Driveways Ltd",
     "logo": "/images/uploads/logo-1769175098817-logo.jpg",
     "tagline": "Professional Driveway & Paving Specialists",
@@ -193,16 +193,16 @@ export const siteConfig: SiteConfig = {
   "branding": {
     "colors": {
       "primary": "#267b0f",
-      "secondary": "#787878",
-      "accent": "#4a8fc4",
+      "secondary": "#12d9a7",
+      "accent": "#0091ff",
       "background": "#ffffff",
       "foreground": "#171717",
       "footerBackground": "#252222",
       "footerForeground": "#ffffff"
     },
     "fonts": {
-      "heading": "Source Sans 3",
-      "body": "Poppins"
+      "heading": "Lora",
+      "body": "Nunito"
     }
   },
   "services": [

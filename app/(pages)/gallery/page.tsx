@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
 import { siteConfig } from "@/config/site.config";
 import { GalleryGrid } from "./GalleryGrid";
 
@@ -129,7 +128,7 @@ export default function GalleryPage() {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
@@ -147,7 +146,7 @@ export default function GalleryPage() {
           </div>
 
           <div className="space-y-4">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 What you’ll see
               </div>
@@ -165,12 +164,6 @@ export default function GalleryPage() {
             </div>
           </div>
         </div>
-
-        <SectionHeader
-          eyebrow={siteConfig.home.gallery.eyebrow}
-          title={siteConfig.home.gallery.title}
-          description="Browse the gallery and tap an image to navigate left or right."
-        />
 
         <GalleryGrid slides={slides} />
       </Container>

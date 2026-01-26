@@ -135,7 +135,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
@@ -152,7 +152,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
               </div>
             </div>
             {postcodes.length ? (
-              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                   Postcode areas
                 </div>
@@ -171,7 +171,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
           </div>
 
           <div className="space-y-4">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Get a quote
               </div>
@@ -192,7 +192,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-5 py-2.5 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                    className="inline-flex items-center justify-center rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-5 py-2.5 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
                   >
                     Request a free quote
                   </Link>
@@ -200,7 +200,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Popular services
               </div>
@@ -209,7 +209,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                   <Link
                     key={service.slug}
                     href={`/services/${service.slug}`}
-                    className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3 transition hover:border-(--color-accent)/30 hover:bg-(--color-foreground)/5"
+                    className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 px-4 py-3 transition hover:bg-(--color-secondary)/10 hover:shadow-sm"
                   >
                     <span>{service.name}</span>
                     <span className="text-(--color-foreground)/50">View</span>
@@ -232,7 +232,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                   <Link
                     key={service.slug}
                     href={`/services/${service.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
+                    className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5 transition-shadow hover:shadow-lg"
                   >
                     <div className="relative h-36 overflow-hidden">
                       {preview ? (

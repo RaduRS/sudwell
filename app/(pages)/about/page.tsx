@@ -85,7 +85,7 @@ export default function AboutPage() {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
@@ -103,7 +103,7 @@ export default function AboutPage() {
           </div>
 
           <div className="space-y-4">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="flex items-center gap-3">
                 {siteConfig.company.logo ? (
                   <Image
@@ -168,7 +168,7 @@ export default function AboutPage() {
             </div>
 
             {siteConfig.proof.accreditations.length ? (
-              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
                 <div className="text-xs font-semibold uppercase tracking-[0.3em] text-(--color-foreground)/60">
                   Accreditations
                 </div>
@@ -205,7 +205,7 @@ export default function AboutPage() {
         />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
+          <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
             <div className="text-sm font-semibold text-(--color-foreground)">
               Built to last
             </div>
@@ -214,7 +214,7 @@ export default function AboutPage() {
               durability.
             </p>
           </div>
-          <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
+          <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
             <div className="text-sm font-semibold text-(--color-foreground)">
               Clear quotes
             </div>
@@ -222,7 +222,7 @@ export default function AboutPage() {
               Transparent pricing and realistic timelines, with no surprises.
             </p>
           </div>
-          <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
+          <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-7 shadow-sm ring-1 ring-(--color-foreground)/5">
             <div className="text-sm font-semibold text-(--color-foreground)">
               Clean finish
             </div>

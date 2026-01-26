@@ -34,7 +34,7 @@ export function ServicesGrid() {
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
+                className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5 transition-shadow hover:shadow-lg"
               >
                 <div className="relative h-40 overflow-hidden">
                   {preview ? (

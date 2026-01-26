@@ -267,7 +267,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   {service.faqs.map((faq, index) => (
                     <div
                       key={`${faq.q}-${index}`}
-                      className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-5 shadow-sm ring-1 ring-(--color-foreground)/5"
+                      className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-5 shadow-sm ring-1 ring-(--color-foreground)/5"
                     >
                       <div className="text-sm font-semibold text-(--color-foreground)">
                         {faq.q}
@@ -283,7 +283,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           </div>
           <div className="space-y-6">
             {service.priceRange || service.features.length ? (
-              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                   Pricing & features
                 </div>
@@ -304,7 +304,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 ) : null}
               </div>
             ) : null}
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Project planning
               </div>
@@ -328,7 +328,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   ))}
               </div>
             </div>
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Get a free quote
               </div>
@@ -348,7 +348,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </a>
                 <a
                   href="/contact"
-                  className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                  className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
                 >
                   Request a free quote
                 </a>

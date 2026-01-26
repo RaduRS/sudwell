@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
 import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
@@ -98,7 +97,7 @@ export default function ServicesPage() {
               </a>
               <a
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/40 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/25"
+                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </a>
@@ -148,7 +147,7 @@ export default function ServicesPage() {
                 </div>
               </div>
             </div>
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 How we deliver
               </div>
@@ -172,18 +171,13 @@ export default function ServicesPage() {
             </div>
           </div>
         </div>
-        <SectionHeader
-          eyebrow="Services"
-          title="Choose the right surface for your property"
-          description="Every install is planned for drainage, durability, and curb appeal."
-        />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {siteConfig.services.map((service) => {
             const preview = service.gallery[0] ?? "";
             return (
               <div
                 key={service.slug}
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:-translate-y-1 hover:border-(--color-accent)/30 hover:shadow-md"
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5 transition-shadow hover:shadow-lg"
               >
                 <div className="relative h-44 overflow-hidden">
                   {preview ? (
@@ -215,35 +209,37 @@ export default function ServicesPage() {
                   <p className="text-sm leading-relaxed text-(--color-foreground)/70">
                     {service.shortDesc}
                   </p>
-                  {service.features.length ? (
-                    <div className="flex flex-wrap gap-2">
-                      {service.features.slice(0, 3).map((feature) => (
-                        <span
-                          key={feature}
-                          className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
-                        >
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-(--color-primary) transition hover:text-(--color-primary)/80"
-                  >
-                    Learn more
-                    <svg
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="h-4 w-4"
+                  <div className="mt-auto space-y-4">
+                    {service.features.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {service.features.slice(0, 3).map((feature) => (
+                          <span
+                            key={feature}
+                            className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-(--color-primary) transition hover:text-(--color-primary)/80"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </Link>
+                      Learn more
+                      <svg
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="h-4 w-4"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
               </div>
             );

@@ -166,7 +166,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
       <Container className="space-y-12 py-14 sm:py-20">
-        <nav className="flex flex-wrap items-center gap-2 text-sm text-(--color-foreground)/60">
+        <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
           <Link href="/" className="hover:text-(--color-foreground)">
             Home
           </Link>
@@ -231,20 +231,9 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </a>
                 <a
                   href="/contact"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-white/80"
+                  className="w-fit rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-white/15 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 >
                   Request a free quote
-                  <svg
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="h-4 w-4"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
                 </a>
               </div>
             </div>
@@ -348,7 +337,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </a>
                 <a
                   href="/contact"
-                  className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                  className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
                 >
                   Request a free quote
                 </a>

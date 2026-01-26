@@ -5,7 +5,7 @@ export function CTASection() {
   return (
     <section
       id="quote"
-      className="bg-(--color-foreground)/5 py-12 text-(--color-foreground) sm:py-16 pt-0!"
+      className="bg-(--color-foreground)/5 py-12 text-(--color-foreground) sm:py-16"
     >
       <Container>
         <div className="flex flex-col gap-6 rounded-3xl bg-(--color-primary) px-6 py-10 text-white shadow-xl shadow-black/10 ring-1 ring-white/20 sm:px-10 sm:py-12 lg:flex-row lg:items-center lg:justify-between">

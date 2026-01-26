@@ -28,10 +28,6 @@ export const metadata: Metadata = {
 };
 
 export default function ReviewsPage() {
-  const description = siteConfig.home.reviews.description
-    .replace("{rating}", siteConfig.proof.averageRating.toString())
-    .replace("{count}", siteConfig.proof.reviewCount.toString());
-
   const reviews = siteConfig.home.reviews.items;
 
   const schema = {
@@ -87,7 +83,7 @@ export default function ReviewsPage() {
                 Customer reviews
               </h1>
               <p className="max-w-2xl text-base leading-relaxed text-(--color-foreground)/70 sm:text-lg">
-                Recent customer feedback from local projects.
+                Recent customer feedback from local projects..
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -99,16 +95,16 @@ export default function ReviewsPage() {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
             </div>
             <div className="flex flex-wrap gap-3">
-              <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                 {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
               </div>
-              <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                 {siteConfig.proof.reviewCount}+ reviews
               </div>
               {siteConfig.proof.guaranteeLogo ? (
@@ -120,7 +116,7 @@ export default function ReviewsPage() {
                   className="h-9 w-auto object-contain opacity-90"
                 />
               ) : (
-                <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+                <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                   {siteConfig.proof.guarantee}
                 </div>
               )}

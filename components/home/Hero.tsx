@@ -25,6 +25,7 @@ export function Hero() {
       : [];
   }, []);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [parallaxY, setParallaxY] = useState(0);
   const activeImage = backgroundImages[activeIndex] ?? "";
   const hasBackground = Boolean(activeImage || backgroundVideo);
   const hasCarousel = backgroundImages.length > 1 && !backgroundVideo;
@@ -38,6 +39,37 @@ export function Hero() {
     return () => window.clearInterval(interval);
   }, [backgroundImages.length, hasCarousel]);
 
+  useEffect(() => {
+    const reduceMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    )?.matches;
+    if (reduceMotion) {
+      return;
+    }
+
+    let rafId = 0;
+
+    const update = () => {
+      rafId = 0;
+      const next = Math.max(0, Math.min(56, window.scrollY * 0.12));
+      setParallaxY(next);
+    };
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(update);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, []);
+
   return (
     <section
       className={`relative overflow-hidden py-24 sm:py-32 ${
@@ -45,16 +77,28 @@ export function Hero() {
       }`}
     >
       {backgroundVideo ? (
-        <video
-          src={backgroundVideo}
-          className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
+        <div
+          className="absolute inset-0 h-full w-full will-change-transform"
+          style={{
+            transform: `translate3d(0, ${parallaxY}px, 0) scale(1.06)`,
+          }}
+        >
+          <video
+            src={backgroundVideo}
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        </div>
       ) : activeImage ? (
-        <div className="absolute inset-0 h-full w-full">
+        <div
+          className="absolute inset-0 h-full w-full will-change-transform"
+          style={{
+            transform: `translate3d(0, ${parallaxY}px, 0) scale(1.06)`,
+          }}
+        >
           {backgroundImages.map((image, index) => (
             <div
               key={`${image}-${index}`}

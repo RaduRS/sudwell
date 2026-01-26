@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site.config";
 
 export function ProcessSteps() {
   return (
-    <section className="bg-(--color-accent)/5 py-16 sm:py-24">
+    <section className="accent-surface bg-(--color-accent)/5 py-16 sm:py-24">
       <Container className="space-y-10">
         <SectionHeader
           eyebrow={siteConfig.home.process.eyebrow}
@@ -15,7 +15,7 @@ export function ProcessSteps() {
           {siteConfig.home.process.steps.map((step, index) => (
             <div
               key={step.title}
-              className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-background) p-7 shadow-sm ring-1 ring-(--color-foreground)/5"
+              className="rounded-3xl border border-(--color-foreground) bg-(--color-accent)/10 p-7 shadow-sm ring-1 ring-(--color-foreground)/5"
             >
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-(--color-accent)/30 bg-(--color-accent)/10 text-sm font-semibold text-(--color-accent)">

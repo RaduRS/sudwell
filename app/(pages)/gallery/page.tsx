@@ -128,7 +128,7 @@ export default function GalleryPage() {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
@@ -137,7 +137,7 @@ export default function GalleryPage() {
               {siteConfig.contact.serviceArea.map((area) => (
                 <span
                   key={area}
-                  className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
+                  className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
                 >
                   {area}
                 </span>

@@ -34,11 +34,8 @@ export function Gallery() {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const scrollTrackRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const [scrollRatio, setScrollRatio] = useState(0);
-  const [thumbRatio, setThumbRatio] = useState(1);
 
   useEffect(() => {
     const el = scrollerRef.current;
@@ -50,19 +47,9 @@ export function Gallery() {
       const maxScrollLeft = el.scrollWidth - el.clientWidth;
       const nextCanScrollLeft = el.scrollLeft > 4;
       const nextCanScrollRight = el.scrollLeft < maxScrollLeft - 4;
-      const nextScrollRatio =
-        maxScrollLeft <= 0
-          ? 0
-          : Math.max(0, Math.min(1, el.scrollLeft / maxScrollLeft));
-      const nextThumbRatio =
-        el.scrollWidth <= 0
-          ? 1
-          : Math.max(0.12, Math.min(1, el.clientWidth / el.scrollWidth));
 
       setCanScrollLeft(nextCanScrollLeft);
       setCanScrollRight(nextCanScrollRight);
-      setScrollRatio(nextScrollRatio);
-      setThumbRatio(nextThumbRatio);
     };
 
     update();
@@ -83,22 +70,6 @@ export function Gallery() {
 
     el.scrollBy({
       left: direction * el.clientWidth * 0.9,
-      behavior: "smooth",
-    });
-  };
-
-  const scrollToRatio = (ratio: number) => {
-    const el = scrollerRef.current;
-    if (!el) {
-      return;
-    }
-    const maxScrollLeft = el.scrollWidth - el.clientWidth;
-    if (maxScrollLeft <= 0) {
-      return;
-    }
-
-    el.scrollTo({
-      left: Math.max(0, Math.min(maxScrollLeft, ratio * maxScrollLeft)),
       behavior: "smooth",
     });
   };
@@ -241,33 +212,6 @@ export function Gallery() {
             </button>
           </div>
         </div>
-        {canScrollLeft || canScrollRight ? (
-          <div className="pt-4">
-            <div
-              ref={scrollTrackRef}
-              role="presentation"
-              onClick={(event) => {
-                const rect = scrollTrackRef.current?.getBoundingClientRect();
-                if (!rect) {
-                  return;
-                }
-
-                const x = event.clientX - rect.left;
-                const ratio = rect.width <= 0 ? 0 : x / rect.width;
-                scrollToRatio(ratio);
-              }}
-              className="relative h-2 w-full cursor-pointer rounded-full bg-(--color-foreground)/10"
-            >
-              <div
-                className="absolute inset-y-0 rounded-full bg-(--color-foreground)/35"
-                style={{
-                  width: `${thumbRatio * 100}%`,
-                  left: `${(thumbRatio >= 1 ? 0 : scrollRatio * (100 - thumbRatio * 100)).toFixed(4)}%`,
-                }}
-              />
-            </div>
-          </div>
-        ) : null}
       </Container>
       {slides.length ? (
         <Lightbox

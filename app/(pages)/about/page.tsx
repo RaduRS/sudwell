@@ -85,7 +85,7 @@ export default function AboutPage() {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
@@ -94,7 +94,7 @@ export default function AboutPage() {
               {siteConfig.contact.serviceArea.map((area) => (
                 <span
                   key={area}
-                  className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
+                  className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
                 >
                   {area}
                 </span>
@@ -104,22 +104,7 @@ export default function AboutPage() {
 
           <div className="space-y-4">
             <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
-              <div className="flex items-center gap-3">
-                {siteConfig.company.logo ? (
-                  <Image
-                    src={siteConfig.company.logo}
-                    alt={siteConfig.company.tradingName}
-                    width={160}
-                    height={48}
-                    className="h-10 w-auto"
-                  />
-                ) : (
-                  <div className="text-lg font-semibold text-(--color-foreground)">
-                    {siteConfig.company.tradingName}
-                  </div>
-                )}
-              </div>
-              <div className="mt-5 space-y-5">
+              <div className="space-y-5">
                 <div className="space-y-3">
                   <div className="text-lg font-semibold text-(--color-foreground)">
                     {siteConfig.contact.address.city},{" "}
@@ -157,44 +142,43 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+                  <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                     {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
                   </div>
-                  <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+                  <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                     {siteConfig.proof.reviewCount}+ reviews
                   </div>
                 </div>
+                {siteConfig.proof.accreditations.length ? (
+                  <div className="space-y-3">
+                    <div className="text-xs font-semibold uppercase tracking-[0.3em] text-(--color-foreground)/60">
+                      Accreditations
+                    </div>
+                    <div className="space-y-3">
+                      {siteConfig.proof.accreditations.map((item) => (
+                        <div
+                          key={item.name}
+                          className="flex items-center justify-between gap-4 rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3"
+                        >
+                          <div className="text-sm font-semibold text-(--color-foreground)">
+                            {item.name}
+                          </div>
+                          {item.logo ? (
+                            <Image
+                              src={item.logo}
+                              alt={item.name}
+                              width={120}
+                              height={40}
+                              className="h-8 w-auto opacity-90"
+                            />
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
-
-            {siteConfig.proof.accreditations.length ? (
-              <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
-                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-(--color-foreground)/60">
-                  Accreditations
-                </div>
-                <div className="mt-4 space-y-3">
-                  {siteConfig.proof.accreditations.map((item) => (
-                    <div
-                      key={item.name}
-                      className="flex items-center justify-between gap-4 rounded-2xl border border-(--color-foreground)/10 bg-(--color-background) px-4 py-3"
-                    >
-                      <div className="text-sm font-semibold text-(--color-foreground)">
-                        {item.name}
-                      </div>
-                      {item.logo ? (
-                        <Image
-                          src={item.logo}
-                          alt={item.name}
-                          width={120}
-                          height={40}
-                          className="h-8 w-auto opacity-90"
-                        />
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
           </div>
         </div>
 

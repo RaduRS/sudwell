@@ -72,12 +72,12 @@ export function ServicesGrid() {
                         ))}
                       </div>
                     ) : null}
-                    <div className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-(--color-foreground) transition group-hover:text-(--color-foreground)/70">
+                    <div className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-primary)/35 px-5 py-2 text-sm font-semibold text-(--color-primary) transition group-hover:bg-(--color-primary) group-hover:text-white">
                       {siteConfig.home.services.ctaLabel}
                       <svg
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        className="h-4 w-4 text-(--color-accent)"
+                        className="h-4 w-4"
                       >
                         <path
                           fillRule="evenodd"

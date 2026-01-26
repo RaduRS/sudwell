@@ -97,7 +97,7 @@ export default function ServicesPage() {
               </a>
               <a
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </a>
@@ -106,20 +106,10 @@ export default function ServicesPage() {
               {highlights.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)"
+                  className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
                 >
                   {item.value} {item.label.toLowerCase()}
                 </div>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {siteConfig.contact.serviceArea.map((area) => (
-                <span
-                  key={area}
-                  className="rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
-                >
-                  {area}
-                </span>
               ))}
             </div>
           </div>
@@ -175,9 +165,10 @@ export default function ServicesPage() {
           {siteConfig.services.map((service) => {
             const preview = service.gallery[0] ?? "";
             return (
-              <div
+              <Link
                 key={service.slug}
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5 transition-shadow hover:shadow-lg"
+                href={`/services/${service.slug}`}
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 shadow-sm ring-1 ring-(--color-foreground)/5 transition-shadow hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 <div className="relative h-44 overflow-hidden">
                   {preview ? (
@@ -222,10 +213,7 @@ export default function ServicesPage() {
                         ))}
                       </div>
                     ) : null}
-                    <Link
-                      href={`/services/${service.slug}`}
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-(--color-primary) transition hover:text-(--color-primary)/80"
-                    >
+                    <span className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-(--color-primary)/35 px-5 py-2 text-sm font-semibold text-(--color-primary) transition group-hover:bg-(--color-primary) group-hover:text-white">
                       Learn more
                       <svg
                         viewBox="0 0 20 20"
@@ -238,10 +226,10 @@ export default function ServicesPage() {
                           clipRule="evenodd"
                         />
                       </svg>
-                    </Link>
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

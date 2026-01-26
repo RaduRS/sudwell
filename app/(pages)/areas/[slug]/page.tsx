@@ -135,19 +135,19 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
               </a>
               <Link
                 href="/contact"
-                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                className="w-fit rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
               >
                 Request a free quote
               </Link>
             </div>
             <div className="flex flex-wrap gap-3">
-              <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                 {siteConfig.contact.serviceRadius} mile radius
               </div>
-              <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                 {siteConfig.proof.averageRating.toFixed(1)} ★ average rating
               </div>
-              <div className="rounded-full border border-(--color-secondary)/25 bg-(--color-secondary)/10 px-4 py-2 text-xs font-semibold text-(--color-foreground)">
+              <div className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80">
                 {siteConfig.proof.reviewCount}+ reviews
               </div>
             </div>
@@ -160,7 +160,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                   {postcodes.map((postcode) => (
                     <span
                       key={`${area.slug}-${postcode}`}
-                      className="rounded-full border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-3 py-1 text-xs font-semibold text-(--color-foreground)/70"
+                      className="rounded-full border border-(--color-foreground)/15 bg-transparent px-4 py-2 text-xs font-semibold text-(--color-foreground)/80"
                     >
                       {postcode}
                     </span>
@@ -192,7 +192,7 @@ export default async function AreaDetailPage({ params }: AreaPageProps) {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-5 py-2.5 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+                    className="inline-flex items-center justify-center rounded-full border border-(--color-secondary)/35 bg-(--color-secondary)/12 px-5 py-2.5 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/18 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
                   >
                     Request a free quote
                   </Link>

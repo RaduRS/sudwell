@@ -35,7 +35,6 @@ export default function ContactPage() {
   ].filter(Boolean);
   const addressQuery = encodeURIComponent(addressLines.join(", "));
   const mapEmbedUrl = `https://www.google.com/maps?q=${addressQuery}&output=embed`;
-  const mapLinkUrl = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
 
   const schema = {
     "@context": "https://schema.org",
@@ -98,21 +97,6 @@ export default function ContactPage() {
                 {siteConfig.contact.serviceRadius} miles around{" "}
                 {siteConfig.contact.address.city}.
               </p>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <a
-                href={`tel:${siteConfig.contact.phoneFormatted}`}
-                className="w-fit rounded-full bg-(--color-primary) px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
-              >
-                Call {siteConfig.contact.phone}
-              </a>
-              <a
-                href={`mailto:${siteConfig.contact.email}`}
-                className="w-fit rounded-full border border-(--color-secondary)/55 bg-(--color-secondary)/15 px-6 py-3 text-sm font-semibold text-(--color-foreground) shadow-sm transition hover:bg-(--color-secondary)/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
-              >
-                Email us
-              </a>
             </div>
 
             <form
@@ -219,13 +203,6 @@ export default function ContactPage() {
                 Contact details
               </div>
               <div className="mt-4 space-y-3 text-sm text-(--color-foreground)/75">
-                <a
-                  href={`tel:${siteConfig.contact.phoneFormatted}`}
-                  className="flex items-center justify-between rounded-2xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 px-4 py-3 font-semibold text-(--color-foreground) transition hover:bg-(--color-secondary)/10 hover:shadow-sm"
-                >
-                  <span>{siteConfig.contact.phone}</span>
-                  <span className="text-(--color-foreground)/60">Call</span>
-                </a>
                 {siteConfig.contact.whatsapp ? (
                   <a
                     href={`https://wa.me/${siteConfig.contact.whatsapp.replace(
@@ -293,7 +270,7 @@ export default function ContactPage() {
         </div>
       </Container>
 
-      <div className="space-y-4 pb-12">
+      <div className="space-y-4">
         <Container>
           <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
             Find us
@@ -309,21 +286,6 @@ export default function ContactPage() {
             allowFullScreen
           />
         </div>
-        <Container className="flex flex-col gap-3">
-          <a
-            href={mapLinkUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex w-fit items-center justify-center rounded-full border border-(--color-foreground)/10 bg-(--color-background) px-4 py-2 text-xs font-semibold text-(--color-foreground)/70 transition hover:border-(--color-foreground)/25 hover:text-(--color-foreground)"
-          >
-            Open in Google Maps
-          </a>
-          <div className="text-sm text-(--color-foreground)/70">
-            Serving {siteConfig.contact.serviceArea.join(", ")} and nearby areas
-            within {siteConfig.contact.serviceRadius} miles of{" "}
-            {siteConfig.contact.address.city}.
-          </div>
-        </Container>
       </div>
 
       <script

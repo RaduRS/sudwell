@@ -28,6 +28,9 @@ export function Footer({ siteConfig }: FooterProps) {
           <p className="text-sm text-(--color-footer-foreground)/75">
             {siteConfig.company.tagline}
           </p>
+          <div className="inline-flex items-center rounded-full border border-(--color-footer-foreground)/15 bg-(--color-footer-foreground)/10 px-3 py-1 text-xs font-semibold tracking-wide text-(--color-footer-foreground)/80">
+            Demo preview (concept only).
+          </div>
         </div>
         <div className="space-y-3">
           <div className="text-sm font-semibold text-(--color-footer-foreground)">

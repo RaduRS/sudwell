@@ -10,11 +10,13 @@ import { Container } from "./Container";
 
 type HeaderProps = {
   siteConfig: SiteConfig;
+  showDemoBanner: boolean;
 };
 
-export function Header({ siteConfig }: HeaderProps) {
+export function Header({ siteConfig, showDemoBanner }: HeaderProps) {
   const pathname = usePathname() ?? "/";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [demoBannerVisible, setDemoBannerVisible] = useState(showDemoBanner);
   const menuPanelId = useId();
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const primaryCtaLabel = siteConfig.header.primaryCtaLabel.replace(
@@ -56,6 +58,31 @@ export function Header({ siteConfig }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-(--color-background) shadow-sm">
+      {demoBannerVisible ? (
+        <div className="border-b border-(--color-foreground)/10 bg-(--color-foreground)/5">
+          <Container className="flex items-center justify-between gap-3 py-2">
+            <div className="min-w-0 text-xs font-semibold tracking-wide text-(--color-foreground)/75">
+              Demo preview (concept only).
+            </div>
+            <button
+              type="button"
+              aria-label="Dismiss demo preview banner"
+              onClick={() => {
+                try {
+                  document.cookie =
+                    "demoPreviewDismissed=1; Max-Age=2592000; Path=/; SameSite=Lax";
+                } catch {
+                  // ignore
+                }
+                setDemoBannerVisible(false);
+              }}
+              className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-(--color-foreground)/15 bg-(--color-background) text-(--color-foreground) shadow-sm ring-1 ring-(--color-foreground)/5 transition hover:bg-(--color-foreground)/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40"
+            >
+              <X aria-hidden="true" className="h-4 w-4" />
+            </button>
+          </Container>
+        </div>
+      ) : null}
       <Container className="flex items-center justify-between py-3">
         <Link
           href="/"

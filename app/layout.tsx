@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import { cookies } from "next/headers";
 import {
   DM_Sans,
   Geist,
@@ -200,6 +201,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const siteConfig = await getSiteConfig();
+  const cookieStore = await cookies();
+  const demoPreviewDismissed =
+    cookieStore.get("demoPreviewDismissed")?.value === "1";
   const themeStyles = {
     "--color-primary": siteConfig.branding.colors.primary,
     "--color-secondary": siteConfig.branding.colors.secondary,
@@ -215,14 +219,19 @@ export default async function RootLayout({
   } as CSSProperties;
 
   return (
-    <html lang="en" className="overflow-x-hidden">
+    <html lang="en">
       <body
         style={themeStyles}
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${figtree.variable} ${poppins.variable} ${montserrat.variable} ${raleway.variable} ${nunito.variable} ${workSans.variable} ${lora.variable} ${merriweather.variable} ${rubik.variable} ${spaceGrotesk.variable} ${outfit.variable} ${sourceSans3.variable} ${manrope.variable} ${plusJakartaSans.variable} ${dmSans.variable} ${playfairDisplay.variable} overflow-x-hidden bg-(--color-background) text-(--color-foreground) antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${figtree.variable} ${poppins.variable} ${montserrat.variable} ${raleway.variable} ${nunito.variable} ${workSans.variable} ${lora.variable} ${merriweather.variable} ${rubik.variable} ${spaceGrotesk.variable} ${outfit.variable} ${sourceSans3.variable} ${manrope.variable} ${plusJakartaSans.variable} ${dmSans.variable} ${playfairDisplay.variable} bg-(--color-background) text-(--color-foreground) antialiased`}
       >
-        <Header siteConfig={siteConfig} />
-        {children}
-        <Footer siteConfig={siteConfig} />
+        <Header
+          siteConfig={siteConfig}
+          showDemoBanner={!demoPreviewDismissed}
+        />
+        <div className="overflow-x-hidden">
+          {children}
+          <Footer siteConfig={siteConfig} />
+        </div>
         <CookieBanner
           enabled={siteConfig.cookies.enabled}
           googleAnalyticsId={siteConfig.integrations.googleAnalyticsId ?? null}

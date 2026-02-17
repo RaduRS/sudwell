@@ -46,7 +46,7 @@ export function QuoteRequestForm({
 
   return (
     <form
-      className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5"
+      className="w-full max-w-full overflow-x-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5"
       onSubmit={async (event) => {
         event.preventDefault();
 
@@ -104,8 +104,8 @@ export function QuoteRequestForm({
         </div>
       ) : null}
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2">
+        <label className="min-w-0 space-y-2 text-sm font-semibold text-(--color-foreground)">
           <span className="block pb-0.5 pl-1">Full name</span>
           <div className="relative">
             <User
@@ -121,7 +121,7 @@ export function QuoteRequestForm({
             />
           </div>
         </label>
-        <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+        <label className="min-w-0 space-y-2 text-sm font-semibold text-(--color-foreground)">
           <span className="block pb-0.5 pl-1">Email</span>
           <div className="relative">
             <Mail
@@ -138,7 +138,7 @@ export function QuoteRequestForm({
             />
           </div>
         </label>
-        <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+        <label className="min-w-0 space-y-2 text-sm font-semibold text-(--color-foreground)">
           <span className="block pb-0.5 pl-1">Phone</span>
           <div className="relative">
             <Phone
@@ -155,7 +155,7 @@ export function QuoteRequestForm({
             />
           </div>
         </label>
-        <label className="space-y-2 text-sm font-semibold text-(--color-foreground)">
+        <label className="min-w-0 space-y-2 text-sm font-semibold text-(--color-foreground)">
           <span className="block pb-0.5 pl-1">Postcode</span>
           <input
             name="postcode"
@@ -165,7 +165,7 @@ export function QuoteRequestForm({
             className="w-full rounded-2xl border border-(--color-foreground)/10 bg-white px-4 py-3 text-sm font-medium text-(--color-foreground) shadow-sm outline-none transition focus:border-(--color-primary)/40 focus:ring-2 focus:ring-(--color-primary)/25 disabled:cursor-not-allowed disabled:opacity-70"
           />
         </label>
-        <label className="space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
+        <label className="min-w-0 space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
           <span className="block pb-0.5 pl-1">Service</span>
           <div className="relative">
             <ChevronDown
@@ -190,7 +190,7 @@ export function QuoteRequestForm({
             </select>
           </div>
         </label>
-        <label className="space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
+        <label className="min-w-0 space-y-2 text-sm font-semibold text-(--color-foreground) sm:col-span-2">
           <span className="block pb-0.5 pl-1">Message (optional)</span>
           <textarea
             name="message"
@@ -201,15 +201,15 @@ export function QuoteRequestForm({
         </label>
       </div>
 
-      <label className="mt-5 flex items-start gap-3 rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 text-sm text-(--color-foreground)/75">
+      <label className="mt-5 flex min-w-0 items-start gap-3 rounded-2xl border border-(--color-foreground)/10 bg-(--color-foreground)/5 px-4 py-3 text-sm text-(--color-foreground)/75">
         <input
           type="checkbox"
           name="consent"
           required
           disabled={isSubmitting}
-          className="mt-1 h-4 w-4 rounded border-(--color-foreground)/30 text-(--color-primary) disabled:cursor-not-allowed"
+          className="mt-1 h-4 w-4 shrink-0 rounded border-(--color-foreground)/30 text-(--color-primary) disabled:cursor-not-allowed"
         />
-        <span>
+        <span className="min-w-0 break-words">
           I consent to being contacted about my enquiry. You can also call {phone}{" "}
           for a faster response.
         </span>
@@ -231,4 +231,3 @@ export function QuoteRequestForm({
     </form>
   );
 }
-

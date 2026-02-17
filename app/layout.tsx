@@ -164,7 +164,7 @@ const resolveFontFamily = (value: string) => {
   };
 
   return fontMap[normalized] ?? value;
-};
+};//
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.seo.siteUrl),

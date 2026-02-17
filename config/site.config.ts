@@ -173,24 +173,24 @@ export type SiteConfig = {
 
 export const siteConfig: SiteConfig = {
   "company": {
-    "tradingName": "ABC Driveways",
-    "legalName": "ABC Driveways Ltd",
-    "logo": "/images/uploads/logo-1769175098817-logo.jpg",
-    "tagline": "Professional Driveway & Paving Specialists",
+    "tradingName": "SUDwell",
+    "legalName": "SUDwell",
+    "logo": "/images/uploads/logo-1771328716969-screenshot-2026-02-17-at-11.44.54.jpg",
+    "tagline": "The Resin Bonded Slab Company",
     "founded": 2010,
-    "registeredNumber": "12345678",
+    "registeredNumber": "0683117",
     "vatNumber": "GB123456789"
   },
   "contact": {
-    "phone": "01234 567890",
-    "phoneFormatted": "+441234567890",
-    "whatsapp": "+441234567890",
-    "email": "info@abcdriveways.co.uk",
+    "phone": "01424 830 494",
+    "phoneFormatted": "01424830494",
+    "whatsapp": "01424 830 494",
+    "email": "info@theresinbondedslabcompany.co.uk",
     "address": {
-      "street": "377 Oxford Rd",
-      "city": "Reading",
-      "county": "Berkshire",
-      "postcode": "RG30 1HA",
+      "street": "39 High Street",
+      "city": "Battle",
+      "county": "East Sussex",
+      "postcode": "TN33 0EE",
       "country": "United Kingdom"
     },
     "openingHours": {
@@ -199,94 +199,132 @@ export const siteConfig: SiteConfig = {
     },
     "serviceRadius": 30,
     "serviceArea": [
-      "Reading",
-      "Wokingham",
-      "Bracknell",
-      "Maidenhead"
+      "Battle",
+      "Hastings",
+      "Bexhill-on-Sea",
+      "Eastbourne",
+      "Lewes",
+      "Rye"
     ]
   },
   "branding": {
     "colors": {
-      "primary": "#160f7b",
-      "secondary": "#c83771",
-      "accent": "#4cb4d6",
+      "primary": "#ff6a02",
+      "secondary": "#000000",
+      "accent": "#88c9f4",
       "background": "#ffffff",
       "foreground": "#171717",
       "footerBackground": "#252222",
       "footerForeground": "#ffffff"
     },
     "fonts": {
-      "heading": "Source Sans 3",
+      "heading": "Outfit",
       "body": "Manrope"
     }
   },
   "services": [
     {
       "slug": "block-paving",
-      "name": "Block Paving",
-      "shortDesc": "Beautiful, durable block paving driveways in a range of colours and patterns.",
-      "longDesc": "Our block paving service includes full excavation, sub-base preparation, edge restraints, and a long-lasting finish tailored to your property.",
+      "name": "Resin Bound Gravel Kits",
+      "shortDesc": "DIY-friendly resin bound kits for driveways, paths, and patios.",
+      "longDesc": "Resin bound surfaces are created by mixing resin and decorative aggregates, then trowelling the mix onto a suitable base to achieve a smooth, seamless and porous finish. Our kits are designed for DIYers and professionals, with UV-stable resin, carefully selected aggregates, and guidance to help you achieve a durable, low-maintenance, SuDS compliant surface when installed correctly.",
       "features": [
-        "10-year guarantee",
-        "Choice of colours",
-        "Drainage included"
+        "UV-stable resin + decorative aggregates",
+        "Smooth, seamless, permeable finish",
+        "Detailed installation guide"
       ],
       "priceRange": "£70-£100 per sqm",
       "gallery": [
-        "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png"
+        "/images/uploads/gallery-5-1771329866370-kitsvsq2.webp"
       ],
       "faqs": [
         {
-          "q": "How long does block paving last?",
-          "a": "With proper care, 20+ years."
+          "q": "What is a resin bound driveway?",
+          "a": "A resin bound driveway is made by mixing clear resin with decorative aggregates and trowelling it onto a base to create a smooth, porous finish."
+        },
+        {
+          "q": "What’s the difference between resin bound and resin bonded?",
+          "a": "Resin bound mixes resin and aggregate before application for a smooth, durable, permeable finish. Resin bonded applies resin first and then scatters aggregate on top, leaving a textured, non-permeable surface."
+        },
+        {
+          "q": "How much area does one DIY resin kit cover?",
+          "a": "Coverage depends on depth: up to 15mm depth is approx. 1m²; up to 18mm depth is approx. 0.8m²."
+        },
+        {
+          "q": "How long does resin take to cure?",
+          "a": "Curing time depends on weather and thickness. It typically cures within 24–48 hours. Light foot traffic is often possible after 12–16 hours, and vehicle traffic is typically 48–72 hours."
+        },
+        {
+          "q": "Can I install a resin bound driveway myself?",
+          "a": "Yes. With the right tools and preparation, competent DIYers can achieve professional results using a resin bound kit and step-by-step guidance."
+        },
+        {
+          "q": "How long does a resin bound surface last?",
+          "a": "When properly installed and maintained, a resin bound surface can last 15 to 25 years or longer, depending on usage and environmental conditions."
+        },
+        {
+          "q": "What weather is best for installing resin bound driveways?",
+          "a": "Install in dry, mild weather. Ideal temperature is 10°C to 25°C and avoid installing during rain or extreme cold."
         }
       ]
     },
     {
       "slug": "resin-bound",
-      "name": "Resin Bound Driveways",
-      "shortDesc": "Smooth, permeable resin surfaces with a premium finish.",
-      "longDesc": "Resin bound driveways are SuDS-compliant, low maintenance, and available in a wide range of colours to match your home.",
+      "name": "Permeable Resin Paving Slabs",
+      "shortDesc": "Permeable resin paving slabs for gardens and walkways.",
+      "longDesc": "Fully permeable resin bound paving slabs made in a range of colours using natural aggregates. A great alternative to non-porous concrete slabs for hard-landscaping projects such as patios and pathways, plus rooftop gardens, landscaped podiums and terraces.",
       "features": [
-        "SuDS compliant",
-        "No planning permission needed",
-        "Quick install"
+        "Fully permeable, SuDS compliant",
+        "Eco-friendly alternative to concrete",
+        "Natural aggregate finishes"
       ],
       "priceRange": "£50-£80 per sqm",
       "gallery": [
-        "/images/uploads/gallery-1-1769345834678-flux-1024x1024--4-.png",
-        "/images/uploads/gallery-4-1769359593717-flux-2048x1024.png"
+        "/images/uploads/gallery-3-1771329866368-patio3sq.webp"
       ],
-      "faqs": []
+      "faqs": [
+        {
+          "q": "Where can resin bound paving slabs be used?",
+          "a": "They can be used for garden paths and patios, plus rooftop gardens, landscaped podiums, and terraces."
+        },
+        {
+          "q": "Are resin bound paving slabs permeable?",
+          "a": "Yes. Their permeable surface allows water to flow through, helping prevent surface water build-up and supporting SuDS compliance."
+        },
+        {
+          "q": "What are the slab dimensions?",
+          "a": "Typical paving slab dimensions are 460 x 460 x 40mm."
+        }
+      ]
     },
     {
-      "slug": "tarmac",
-      "name": "Tarmac Driveways",
-      "shortDesc": "Durable, cost-effective tarmac for busy driveways.",
-      "longDesc": "Our tarmac installations use a strong sub-base and smooth finish for long-term durability and kerb appeal.",
+      "slug": "rubber",
+      "name": "Rubber Safety Slabs",
+      "shortDesc": "Rubber safety slabs for playgrounds, parks, and high-use areas.",
+      "longDesc": "A durable, practical surface option designed for impact absorption and everyday use. Rubber safety slabs are popular for playgrounds and public spaces where safety, resilience, and easy maintenance matter.",
       "features": [
-        "Fast installation",
-        "Durable surface",
-        "Clean edges"
+        "Ideal for playgrounds and parks",
+        "Durable and practical finish",
+        "Designed for high-use areas"
       ],
       "priceRange": "£45-£70 per sqm",
       "gallery": [
-        "/images/uploads/gallery-2-1769345834681-flux-1024x1024--3-.png"
+        "/images/uploads/gallery-0-1771329675790-play1sq.webp"
       ],
       "faqs": []
     },
     {
       "slug": "patios",
-      "name": "Patios & Paving",
-      "shortDesc": "Stylish patios designed for entertaining and relaxation.",
-      "longDesc": "We create patios with high-quality paving, neat joints, and excellent drainage for year-round use.",
+      "name": "Trade, DIY & Installation Support",
+      "shortDesc": "Support for DIY, trade, and larger commercial resin surfacing projects.",
+      "longDesc": "We work with landscapers, contractors, and architects to provide premium resin solutions. Whether you're a first-time DIYer or an experienced installer, our team can help you choose the right approach, prep correctly, and achieve a flawless finish.",
       "features": [
-        "Design options",
-        "Quality materials",
-        "Low maintenance"
+        "Support from resin specialists",
+        "Options for DIY, trade, and commercial",
+        "Guides and installation tips"
       ],
       "gallery": [
-        "/images/uploads/gallery-3-1769345834682-flux-1024x1024.png"
+        "/images/uploads/gallery-3-1771329866368-patio3sq.webp"
       ],
       "faqs": [],
       "priceRange": "£45-£70 per sqm"
@@ -294,34 +332,50 @@ export const siteConfig: SiteConfig = {
   ],
   "areas": [
     {
-      "slug": "reading",
-      "name": "Reading",
+      "slug": "battle",
+      "name": "Battle",
       "postcodes": [
-        "RG1",
-        "RG2",
-        "RG4"
+        "TN33"
       ]
     },
     {
-      "slug": "wokingham",
-      "name": "Wokingham",
+      "slug": "hastings",
+      "name": "Hastings",
       "postcodes": [
-        "RG40",
-        "RG41"
+        "TN34",
+        "TN35"
       ]
     },
     {
-      "slug": "bracknell",
-      "name": "Bracknell",
+      "slug": "bexhill-on-sea",
+      "name": "Bexhill-on-Sea",
       "postcodes": [
-        "RG12"
+        "TN39",
+        "TN40"
       ]
     },
     {
-      "slug": "maidenhead",
-      "name": "Maidenhead",
+      "slug": "eastbourne",
+      "name": "Eastbourne",
       "postcodes": [
-        "SL6"
+        "BN20",
+        "BN21",
+        "BN22",
+        "BN23"
+      ]
+    },
+    {
+      "slug": "lewes",
+      "name": "Lewes",
+      "postcodes": [
+        "BN7"
+      ]
+    },
+    {
+      "slug": "rye",
+      "name": "Rye",
+      "postcodes": [
+        "TN31"
       ]
     }
   ],
@@ -359,17 +413,22 @@ export const siteConfig: SiteConfig = {
   },
   "seo": {
     "siteUrl": "https://abc-driveways.co.uk",
-    "baseTitle": "ABC Driveways | Professional Driveway & Paving in Reading, Berkshire",
-    "baseDescription": "Expert driveway installation and paving services in Reading. Block paving, resin, tarmac. 10-year guarantee. Free quotes. Call 01234 567890.",
+    "baseTitle": "Resin Driveway | Resin Bound Paving & DIY Kits | Suppliers | SUDwell",
+    "baseDescription": "Premium resin bound driveway kits and permeable paving solutions for driveways, paths, patios, gardens, and walkways. Durable, eco-friendly, and low maintenance resin bound gravel surfaces with a smooth, seamless finish for DIY and trade.",
     "keywords": [
-      "driveways Reading",
-      "block paving Berkshire",
-      "resin bound driveways",
-      "tarmac driveways Reading",
-      "patio installers Berkshire"
+      "resin bound driveway kits",
+      "resin bound gravel",
+      "resin driveway kit",
+      "SuDS compliant surfacing",
+      "permeable paving solutions",
+      "permeable resin slabs",
+      "rubber safety slabs",
+      "resin bound patios",
+      "resin bound paths",
+      "SUDwell"
     ],
     "googleBusinessProfile": null,
-    "offerCatalogName": "Driveway & Paving Services"
+    "offerCatalogName": "Resin Bound Products"
   },
   "integrations": {
     "mapsProvider": "googleEmbed",
@@ -385,28 +444,32 @@ export const siteConfig: SiteConfig = {
   },
   "navigation": [
     {
-      "href": "/services",
-      "label": "Services"
+      "href": "/",
+      "label": "Home"
     },
     {
-      "href": "/areas",
-      "label": "Areas"
+      "href": "/services",
+      "label": "Products"
     },
     {
       "href": "/gallery",
       "label": "Gallery"
     },
     {
+      "href": "/about",
+      "label": "Guides"
+    },
+    {
       "href": "/reviews",
       "label": "Reviews"
     },
     {
-      "href": "/about",
-      "label": "About"
+      "href": "/areas",
+      "label": "Areas"
     },
     {
       "href": "/contact",
-      "label": "Contact"
+      "label": "Contact us"
     }
   ],
   "header": {
@@ -422,124 +485,143 @@ export const siteConfig: SiteConfig = {
     "copyrightLabel": "© {year} {tradingName}. All rights reserved."
   },
   "about": {
-    "heroDescription": "We’re a local team specialising in driveway installations, paving, and patios. Every project is planned for drainage, durability, and a clean finish that lifts curb appeal.",
-    "standForEyebrow": "What we stand for",
-    "standForTitle": "Quality work, clear communication, tidy installs",
-    "standForDescription": "A simple approach that keeps your project on track from quote to completion.",
+    "heroDescription": "At The Resin Bonded Slab Company, we offer high-quality resin bound driveway kits that bring beauty, durability, and eco-friendly benefits to your outdoor spaces. Whether you're a DIY enthusiast or a professional landscaper, our easy-to-use kits and permeable paving solutions provide everything you need for an ideal finish.",
+    "standForEyebrow": "Why choose resin bound",
+    "standForTitle": "Durable, eco-friendly, and low maintenance",
+    "standForDescription": "A smooth, seamless finish with permeable drainage designed to look great and perform for years when installed correctly.",
     "values": [
       {
-        "title": "Built to last",
-        "description": "Proper sub-base preparation and neat detailing for long-term durability.",
+        "title": "Eco-friendly",
+        "description": "Permeable resin bound gravel that helps reduce surface water runoff.",
         "bullets": [
-          "Strong groundworks, with drainage awareness from day one.",
-          "Clean edge restraints and levels that stay true."
+          "Permeable surfacing designed to let water drain naturally.",
+          "Supports Sustainable Urban Drainage Systems (SuDS)."
         ]
       },
       {
-        "title": "Clear quotes",
-        "description": "Transparent pricing and realistic timelines, with no surprises.",
+        "title": "Durable",
+        "description": "Designed to withstand heavy traffic and stay in great condition for years.",
         "bullets": [
-          "A clear breakdown of what’s included before we start.",
-          "Straight answers on options, budgets, and lead times."
+          "A smooth, hard-wearing finish for driveways, paths, and patios.",
+          "A long-lasting surface when installed and maintained properly."
         ]
       },
       {
-        "title": "Clean finish",
-        "description": "Respectful, tidy workmanship and a finish designed to lift curb appeal.",
+        "title": "Low maintenance",
+        "description": "A seamless finish that’s easier to keep looking sharp.",
         "bullets": [
-          "Careful cuts, consistent joins, and neat detailing.",
-          "We keep the site tidy and leave it presentable."
+          "Regular sweeping keeps debris under control.",
+          "Occasional pressure washing helps freshen up the surface."
         ]
       }
     ],
-    "howWeWorkTitle": "How we work",
+    "howWeWorkTitle": "How to install a resin bound surface",
     "howWeWorkSteps": [
       {
-        "title": "Quick chat & site check",
-        "description": "We listen to what you need, measure up, and highlight any drainage or access considerations."
+        "title": "Prepare the base",
+        "description": "Make sure the base is strong enough, dry, and free from dust and weeds. Sweeping is essential. Priming is recommended for new or old concrete."
       },
       {
-        "title": "Quote with options",
-        "description": "You get a clear quote and recommendations on finishes, edging, and layout—tailored to your home."
+        "title": "Mix resin + aggregate",
+        "description": "Mix resin parts until uniform, then mix thoroughly with the aggregate until all stone is coated and wet-looking. Use a powerful drill and paddle designed for mortar mixes."
       },
       {
-        "title": "Install & handover",
-        "description": "We keep you updated, work tidily, and walk you through the finished job before we wrap up."
+        "title": "Lay and float",
+        "description": "Tip, level, and float the mixture until you are happy with the finish. Work quickly, as resin starts to cure soon after mixing."
       }
     ],
-    "quoteTitle": "Get a quote",
-    "quoteDescription": "Share your rough measurements, a couple of photos, and the finish you like—we’ll come back with a clear quote and a couple of options."
+    "quoteTitle": "Work with us",
+    "quoteDescription": "We work with landscapers, contractors, and architects to provide premium resin solutions. If you’d like help choosing the right product or approach, contact our team for professional support."
   },
   "home": {
     "hero": {
       "title": "{tradingName} - {tagline}",
-      "subheading": "Serving {serviceArea} and nearby towns. Free quotes, professional installs, and a finish built to last years to come.",
+      "subheading": "Durable, Eco-friendly, and Beautiful Resin Bound Gravel Kits and Surfaces. With over 15 years experience and 100,000 m² sold, we are the UKs leading supplier.",
       "primaryCtaLabel": "Call us now",
       "secondaryCtaLabel": "Get Free Quote",
-      "backgroundImage": "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png",
+      "backgroundImage": "/images/uploads/gallery-0-1771329675790-play1sq.webp",
       "backgroundImages": [
-        "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png",
-        "/images/uploads/gallery-1-1769345834678-flux-1024x1024--4-.png",
-        "/images/uploads/gallery-2-1769345834681-flux-1024x1024--3-.png",
-        "/images/uploads/gallery-3-1769345834682-flux-1024x1024.png",
-        "/images/uploads/gallery-4-1769359593717-flux-2048x1024.png"
+        "/images/uploads/gallery-0-1771329675790-play1sq.webp",
+        "/images/uploads/gallery-1-1771329866365-gym2sq.webp",
+        "/images/uploads/gallery-2-1771329866367-gymsq.webp",
+        "/images/uploads/gallery-3-1771329866368-patio3sq.webp"
       ],
       "backgroundVideo": null
     },
     "services": {
-      "eyebrow": "Services",
-      "title": "Driveway & Paving services built to last",
-      "description": "Choose from premium driveway installations, resurfacing, and patio builds tailored to your property.",
+      "eyebrow": "Products",
+      "title": "Explore our resin bound kits",
+      "description": "Resin bound gravel kits for driveways, paths, and patios, plus permeable paving slabs and rubber safety slabs for specialist projects.",
       "ctaLabel": "Learn more",
       "featuredCount": 4
     },
     "process": {
-      "eyebrow": "Process",
-      "title": "How we work",
-      "description": "A simple, reliable process that keeps your project on track.",
+      "eyebrow": "Guides",
+      "title": "How to install resin bound surfacing",
+      "description": "A simple, practical process to help you achieve a flawless resin bound finish.",
       "steps": [
         {
-          "title": "Free site visit",
-          "desc": "We assess your space and discuss materials."
+          "title": "Prepare the base",
+          "desc": "Ensure the area is dry, clean, and structurally sound before you start."
         },
         {
-          "title": "Detailed quote",
-          "desc": "Transparent pricing with clear timelines."
+          "title": "Mix resin + aggregate",
+          "desc": "Mix resin thoroughly, then combine with aggregate until fully coated."
         },
         {
-          "title": "Professional install",
-          "desc": "Skilled team delivers a clean finish."
+          "title": "Lay and finish",
+          "desc": "Level and float the material for a smooth, seamless finish."
         },
         {
-          "title": "Aftercare",
-          "desc": "Guidance to keep your driveway looking new."
+          "title": "Cure and maintain",
+          "desc": "Allow the surface to cure fully, then keep it tidy with simple maintenance."
         }
       ]
     },
     "gallery": {
       "eyebrow": "Gallery",
-      "title": "Recent driveway transformations",
-      "description": "Showcase of premium finishes, clean edges, and durable installations.",
+      "title": "Recent resin bound projects and products",
+      "description": "A selection of finishes, kits, and surfaces designed for durability and curb appeal.",
       "items": [
         {
-          "label": "Block paving driveway",
-          "image": "/images/uploads/gallery-0-1769345834670-flux-1024x1024--2-.png"
+          "label": "Playground Rubber Tiles",
+          "image": "/images/uploads/gallery-0-1771329675790-play1sq.webp"
         },
         {
-          "label": "Resin bound finish",
-          "image": "/images/uploads/gallery-1-1769345834678-flux-1024x1024--4-.png"
+          "label": "Rubber Gym Tiles",
+          "image": "/images/uploads/gallery-1-1771329866365-gym2sq.webp"
         },
         {
-          "label": "Tarmac driveway",
-          "image": "/images/uploads/gallery-2-1769345834681-flux-1024x1024--3-.png"
+          "label": "Rubber Gym Flooring",
+          "image": "/images/uploads/gallery-2-1771329866367-gymsq.webp"
         },
         {
-          "label": "Patio paving",
-          "image": "/images/uploads/gallery-3-1769345834682-flux-1024x1024.png"
+          "label": "Resin Bound Paving Slabs",
+          "image": "/images/uploads/gallery-3-1771329866368-patio3sq.webp"
         },
         {
-          "label": "Resin bound finish  2",
-          "image": "/images/uploads/gallery-4-1769359593717-flux-2048x1024.png"
+          "label": "Resin Bound DIY Kits",
+          "image": "/images/uploads/gallery-5-1771329866370-kitsvsq2.webp"
+        },
+        {
+          "label": "Resin Bound Driveway Materials",
+          "image": "/images/uploads/gallery-5-1771332626537-bulksq.webp"
+        },
+        {
+          "label": "Resin Bound",
+          "image": "/images/uploads/gallery-6-1771332681828-slider2-4.webp"
+        },
+        {
+          "label": "Resin Bound",
+          "image": "/images/uploads/gallery-7-1771332681830-slider2-5.webp"
+        },
+        {
+          "label": "Resin Bound",
+          "image": "/images/uploads/gallery-8-1771332681832-slider2-6.webp"
+        },
+        {
+          "label": "Resin Bound",
+          "image": "/images/uploads/gallery-9-1771332681833-slider2-7.webp"
         }
       ]
     },
@@ -549,22 +631,28 @@ export const siteConfig: SiteConfig = {
       "description": "{rating} average rating from {count}+ reviews.",
       "items": [
         {
-          "name": "Sarah M.",
+          "name": "Harry Perkins",
           "date": "Jan 2026",
           "rating": 5,
-          "text": "The team were punctual, tidy, and the driveway looks fantastic. Highly recommended."
+          "text": "I have seen one of these properties advertised here and it is really outstanding, i know the owner and regularly visit the house, the driveway still looks spectacular and doesn't seem to have changed at all being it was laid some years ago."
         },
         {
-          "name": "David P.",
+          "name": "Emma Reeves",
           "date": "Dec 2025",
           "rating": 4.9,
-          "text": "Clear quote, great finish, and the new patio has transformed our garden."
+          "text": "We are absolutely delighted with our new driveway. Roy and his team worked very hard for 4 days and gave us the driveway we have wanted for years. We can without doubt recommend the resin bonded slab company as a very good company, tidy, polite and very kind. Our new driveway is even better than we had possibly hoped for. We are 100% satisfied and cant recommend them enough."
         },
         {
-          "name": "Amira K.",
+          "name": "David Edwards",
           "date": "Nov 2025",
           "rating": 4.5,
-          "text": "Fast installation and very professional. The resin surface looks premium and it will last a long time for sure."
+          "text": "The service provided by SUDwell™ couldn't have been more professional, we are very happy with their high quality finish."
+        },
+        {
+          "name": "Michael Smith",
+          "date": "Oct 2025",
+          "rating": 5,
+          "text": "I would highly recommend SUDwell™, they built me a whole new driveway and everyone that has come to visit has complimented us on it. Very happy."
         }
       ]
     },
@@ -574,8 +662,8 @@ export const siteConfig: SiteConfig = {
       "description": "We cover {radius} miles around {city}."
     },
     "cta": {
-      "title": "Ready to transform your driveway?",
-      "description": "Request a free quote or call us today to discuss your project.",
+      "title": "Ready to transform your outdoors?",
+      "description": "Contact our team for help choosing the right resin bound solution for your project.",
       "primaryCtaLabel": "Call us now",
       "secondaryCtaLabel": "Quote now"
     }

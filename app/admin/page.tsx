@@ -3946,7 +3946,7 @@ export default function AdminPage() {
                 const preview = galleryPreviews[index] ?? item.image;
                 return (
                   <div
-                    key={`${item.label}-${index}`}
+                    key={`gallery-item-${index}`}
                     className="space-y-3 rounded-2xl border border-foreground/10 bg-foreground/5 p-4 text-sm"
                   >
                     <div className="flex justify-end">

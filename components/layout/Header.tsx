@@ -143,7 +143,7 @@ export function Header({ siteConfig }: HeaderProps) {
         </div>
       </Container>
       <div
-        className={`fixed inset-0 z-[60] lg:hidden ${
+        className={`fixed inset-0 z-[60] overflow-hidden lg:hidden ${
           menuOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
         aria-hidden={!menuOpen}

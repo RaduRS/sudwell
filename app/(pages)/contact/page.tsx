@@ -77,8 +77,8 @@ export default function ContactPage() {
   return (
     <main className="bg-(--color-background) text-(--color-foreground)">
       <Container className="space-y-12 py-16 sm:py-16">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-start">
-          <div className="space-y-8">
+        <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-start">
+          <div className="min-w-0 space-y-8">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
               <Link href="/" className="hover:text-(--color-foreground)">
                 Home
@@ -108,8 +108,8 @@ export default function ContactPage() {
             />
           </div>
 
-          <div className="space-y-6">
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+          <div className="min-w-0 space-y-6">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-4 shadow-sm ring-1 ring-(--color-foreground)/5 sm:p-6">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 Contact details
               </div>
@@ -161,7 +161,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5">
+            <div className="rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-4 shadow-sm ring-1 ring-(--color-foreground)/5 sm:p-6">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-(--color-foreground)/60">
                 <Clock aria-hidden="true" className="h-4 w-4" />
                 Opening hours

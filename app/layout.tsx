@@ -215,10 +215,10 @@ export default async function RootLayout({
   } as CSSProperties;
 
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <body
         style={themeStyles}
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${figtree.variable} ${poppins.variable} ${montserrat.variable} ${raleway.variable} ${nunito.variable} ${workSans.variable} ${lora.variable} ${merriweather.variable} ${rubik.variable} ${spaceGrotesk.variable} ${outfit.variable} ${sourceSans3.variable} ${manrope.variable} ${plusJakartaSans.variable} ${dmSans.variable} ${playfairDisplay.variable} bg-(--color-background) text-(--color-foreground) antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${figtree.variable} ${poppins.variable} ${montserrat.variable} ${raleway.variable} ${nunito.variable} ${workSans.variable} ${lora.variable} ${merriweather.variable} ${rubik.variable} ${spaceGrotesk.variable} ${outfit.variable} ${sourceSans3.variable} ${manrope.variable} ${plusJakartaSans.variable} ${dmSans.variable} ${playfairDisplay.variable} overflow-x-hidden bg-(--color-background) text-(--color-foreground) antialiased`}
       >
         <Header siteConfig={siteConfig} />
         {children}

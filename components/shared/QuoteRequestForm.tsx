@@ -30,7 +30,9 @@ export function QuoteRequestForm({
   phone,
   services,
 }: QuoteRequestFormProps) {
-  const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
+  const [submitState, setSubmitState] = useState<SubmitState>({
+    status: "idle",
+  });
 
   const isSubmitting = submitState.status === "submitting";
 
@@ -46,7 +48,7 @@ export function QuoteRequestForm({
 
   return (
     <form
-      className="w-full max-w-full overflow-x-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-6 shadow-sm ring-1 ring-(--color-foreground)/5"
+      className="w-full max-w-full overflow-x-hidden rounded-3xl border border-(--color-foreground)/10 bg-(--color-secondary)/6 p-4 shadow-sm ring-1 ring-(--color-foreground)/5 sm:p-6"
       onSubmit={async (event) => {
         event.preventDefault();
 
@@ -70,15 +72,18 @@ export function QuoteRequestForm({
             }),
           });
 
-          const payload = (await response.json().catch(() => null)) as
-            | { mode?: "demo" | "sent"; message?: string; error?: string }
-            | null;
+          const payload = (await response.json().catch(() => null)) as {
+            mode?: "demo" | "sent";
+            message?: string;
+            error?: string;
+          } | null;
 
           if (!response.ok) {
             setSubmitState({
               status: "error",
               message:
-                payload?.error ?? "Sorry, something went wrong. Please try again.",
+                payload?.error ??
+                "Sorry, something went wrong. Please try again.",
             });
             return;
           }
@@ -210,8 +215,8 @@ export function QuoteRequestForm({
           className="mt-1 h-4 w-4 shrink-0 rounded border-(--color-foreground)/30 text-(--color-primary) disabled:cursor-not-allowed"
         />
         <span className="min-w-0 break-words">
-          I consent to being contacted about my enquiry. You can also call {phone}{" "}
-          for a faster response.
+          I consent to being contacted about my enquiry. You can also call{" "}
+          {phone} for a faster response.
         </span>
       </label>
 

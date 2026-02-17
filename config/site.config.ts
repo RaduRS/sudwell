@@ -207,8 +207,8 @@ export const siteConfig: SiteConfig = {
   },
   "branding": {
     "colors": {
-      "primary": "#267b0f",
-      "secondary": "#6bd912",
+      "primary": "#160f7b",
+      "secondary": "#c83771",
       "accent": "#4cb4d6",
       "background": "#ffffff",
       "foreground": "#171717",

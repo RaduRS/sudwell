@@ -153,7 +153,7 @@ export function Hero() {
               {siteConfig.home.hero.primaryCtaLabel}
             </a>
             <a
-              href="#quote"
+              href="/contact"
               className={`inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)/40 sm:text-base ${
                 hasBackground
                   ? "bg-white/95 text-(--color-primary) shadow-lg shadow-black/10 ring-1 ring-(--color-secondary)/35 hover:bg-white"
